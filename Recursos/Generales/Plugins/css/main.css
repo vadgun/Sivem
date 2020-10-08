@@ -315,10 +315,10 @@ iframe {
     -moz-transition: all 0.4s;
     transition: all 0.4s;
     background: #6a7dfe;
-    background: -webkit-linear-gradient(left, #B6E85F, #FCFF69);
-    background: -o-linear-gradient(left, #B6E85F, #FCFF69);
-    background: -moz-linear-gradient(left, #B6E85F, #FCFF69);
-    background: linear-gradient(left, #B6E85F, #FCFF69);
+    background: -webkit-linear-gradient(left, #7474bf, #348ac7);
+    background: -o-linear-gradient(left, #7474bf, #348ac7);
+    background: -moz-linear-gradient(left, #7474bf, #348ac7);
+    background: linear-gradient(left, #7474bf, #348ac7);
 }
 
 .focus-input100::after {
@@ -441,7 +441,7 @@ iframe {
 .login100-form-btn {
     font-family: Poppins-Medium;
     font-size: 15px;
-    color: #000;
+    color: #FFF;
     line-height: 1.2;
     text-transform: uppercase;
     display: -webkit-box;
