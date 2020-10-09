@@ -57,3 +57,16 @@
       position: fixed;
       top:95vh;
   }
+
+  .centrado {
+    display: flex;
+    justify-content: center;
+}
+
+.textocentrado{
+  text-align: center;
+}
+
+.textomayus{
+  text-transform: uppercase;
+}

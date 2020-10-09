@@ -39,6 +39,11 @@ func main() {
 
 	app.Get("/vallasmoviles", admoncontroller.VallasMoviles)
 
+	//A L T A S
+	app.Get("/guardarclientes", admoncontroller.GuardaClientes)
+
+	
+
 	app.Run(iris.Addr(":8080"))
 
 }

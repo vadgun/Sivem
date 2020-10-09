@@ -25,8 +25,347 @@
         
       </div>
     <div class="main">
-        Clientes
+        <div class="container">
+            <div class="centrado">
+                <h1 class="display-4">Clientes</h1>
+            </div>
+        </div>
+        <hr>
+        <div class="container">
+            <div class="centrado">
+                <div class="col-6">
+                    <input type="text" class="form-control" id="buscadorcliente" name="buscadorcliente" value=""  placeholder="Busca clientes">
+                </div>
+                <div class="col-4">
+                    <a class="btn btn-info btn-large padd" href="Javascript:BuscaClientes();" role="button">Buscar</a>&nbsp;
+                </div>
+                <div class="col-2">
+					<a class="btn btn-warning btn" href="#" role="button" data-toggle="modal" data-target="#ModalClientes">+ Nuevo Cliente +</a>
+                </div>
+            </div>
+        </div>
+
+        <br>
+        <div class="fluid-container" id="clientescontainer">
+
+            <table class="table table-hover table-bordered table-lg" style="margin: auto; width: 90% !important; font-size:14px;">
+                <thead>
+                    <th width="5%" class="textocentrado">
+                        #
+                      </th>
+                  <th width="30%" class="textocentrado">
+                    Nombre
+                  </th>
+                  <th width="25%" class="textocentrado">
+                    Empresa
+                  </th>
+                  <th width="15%" class="textocentrado">
+                    Puesto
+                  </th>
+                  <th width="15%" class="textocentrado">
+                    Teléfono
+                    </th>	
+                  <th width="10%" class="textocentrado">
+                    Acciones
+                  </th>
+                  </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            1
+                        </td>
+                    <td>
+                        JOSE ROBERTO CAMACHO CHRISTY
+                    </td>
+                    <td>
+                        COCA COLA FEMSA S.A. DE C.V.
+                    </td>
+                    <td>
+                        GERENTE GENERAL
+                    </td>
+                    <td>
+                        9513468312
+                    </td>
+                    <td class="textocentrado">
+                        <button class="btn btn-success" title="Editar Cliente" onclick="EditarCliente();">
+                            <img src="Recursos/Generales/Plugins/icons/build/svg/pencilwhite.svg" height="15" alt="Editar Cliente"/>
+                        </button>
+                        <button class="btn btn-danger" title="Eliminar Cliente" onclick="EliminarCliente();">
+                            <img src="Recursos/Generales/Plugins/icons/build/svg/trashcanwhite.svg" height="15" alt="Eliminar Cliente"/>
+                        </button>
+                    </td>
+                    </tr>
+                    <tr>
+
+                        <td>
+                            2
+                        </td>
+                    <td>
+                        JOSE ROBERTO CAMACHO CHRISTY
+                    </td>
+                    <td>
+                        COCA COLA FEMSA S.A. DE C.V.
+                    </td>
+                    <td>
+                        GERENTE GENERAL
+                    </td>
+                    <td>
+                        9513468312
+                    </td>
+                    <td class="textocentrado">
+                        <button class="btn btn-success" title="Editar Cliente" onclick="EditarCliente();">
+                            <img src="Recursos/Generales/Plugins/icons/build/svg/pencilwhite.svg" height="15" alt="Editar Cliente"/>
+                        </button>
+                        <button class="btn btn-danger" title="Eliminar Cliente" onclick="EliminarCliente();">
+                            <img src="Recursos/Generales/Plugins/icons/build/svg/trashcanwhite.svg" height="15" alt="Eliminar Cliente"/>
+                        </button>
+                    </td>
+                    </tr>
+                    <tr>
+
+                        <td>
+                            3
+                        </td>
+                    <td>
+                        JOSE ROBERTO CAMACHO CHRISTY
+                    </td>
+                    <td>
+                        COCA COLA FEMSA S.A. DE C.V.
+                    </td>
+                    <td>
+                        GERENTE GENERAL
+                    </td>
+                    <td>
+                        9513468312
+                    </td>
+                    <td class="textocentrado">
+                        <button class="btn btn-success" title="Editar Cliente" onclick="EditarCliente();">
+                            <img src="Recursos/Generales/Plugins/icons/build/svg/pencilwhite.svg" height="15" alt="Editar Cliente"/>
+                        </button>
+                        <button class="btn btn-danger" title="Eliminar Cliente" onclick="EliminarCliente();">
+                            <img src="Recursos/Generales/Plugins/icons/build/svg/trashcanwhite.svg" height="15" alt="Eliminar Cliente"/>
+                        </button>
+                    </td>
+                </tr>
+        <tr>
+
+            <td>
+                4
+            </td>
+        <td>
+            JOSE ROBERTO CAMACHO CHRISTY
+        </td>
+        <td>
+            COCA COLA FEMSA S.A. DE C.V.
+        </td>
+        <td>
+            GERENTE GENERAL
+        </td>
+        <td>
+            9513468312
+        </td>
+        <td class="textocentrado">
+            <button class="btn btn-success" title="Editar Cliente" onclick="EditarCliente();">
+                <img src="Recursos/Generales/Plugins/icons/build/svg/pencilwhite.svg" height="15" alt="Editar Cliente"/>
+            </button>
+            <button class="btn btn-danger" title="Eliminar Cliente" onclick="EliminarCliente();">
+                <img src="Recursos/Generales/Plugins/icons/build/svg/trashcanwhite.svg" height="15" alt="Eliminar Cliente"/>
+            </button>
+        </td>
+    </tr>
+    <tr>
+
+        <td>
+            5
+        </td>
+    <td>
+        JOSE ROBERTO CAMACHO CHRISTY
+    </td>
+    <td>
+        COCA COLA FEMSA S.A. DE C.V.
+    </td>
+    <td>
+        GERENTE GENERAL
+    </td>
+    <td>
+        9513468312
+    </td>
+    <td class="textocentrado">
+        <button class="btn btn-success" title="Editar Cliente" onclick="EditarCliente();">
+            <img src="Recursos/Generales/Plugins/icons/build/svg/pencilwhite.svg" height="15" alt="Editar Cliente"/>
+        </button>
+        <button class="btn btn-danger" title="Eliminar Cliente" onclick="EliminarCliente();">
+            <img src="Recursos/Generales/Plugins/icons/build/svg/trashcanwhite.svg" height="15" alt="Eliminar Cliente"/>
+        </button>
+    </td>
+</tr>
+<tr>
+
+    <td>
+        6
+    </td>
+<td>
+    JOSE ROBERTO CAMACHO CHRISTY
+</td>
+<td>
+    COCA COLA FEMSA S.A. DE C.V.
+</td>
+<td>
+    GERENTE GENERAL
+</td>
+<td>
+    9513468312
+</td>
+<td class="textocentrado">
+    <button class="btn btn-success" title="Editar Cliente" onclick="EditarCliente();">
+        <img src="Recursos/Generales/Plugins/icons/build/svg/pencilwhite.svg" height="15" alt="Editar Cliente"/>
+    </button>
+    <button class="btn btn-danger" title="Eliminar Cliente" onclick="EliminarCliente();">
+        <img src="Recursos/Generales/Plugins/icons/build/svg/trashcanwhite.svg" height="15" alt="Eliminar Cliente"/>
+    </button>
+</td>
+</tr>
+<tr>
+
+    <td>
+        7
+    </td>
+<td>
+    JOSE ROBERTO CAMACHO CHRISTY
+</td>
+<td>
+    COCA COLA FEMSA S.A. DE C.V.
+</td>
+<td>
+    GERENTE GENERAL
+</td>
+<td>
+    9513468312
+</td>
+<td class="textocentrado">
+    <button class="btn btn-success" title="Editar Cliente" onclick="EditarCliente();">
+        <img src="Recursos/Generales/Plugins/icons/build/svg/pencilwhite.svg" height="15" alt="Editar Cliente"/>
+    </button>
+    <button class="btn btn-danger" title="Eliminar Cliente" onclick="EliminarCliente();">
+        <img src="Recursos/Generales/Plugins/icons/build/svg/trashcanwhite.svg" height="15" alt="Eliminar Cliente"/>
+            </button>
+            </td>
+                </tr>
+            </tbody>
+        </table>
+            
+     </div>
+</div>
+
+<!-- Modal A L T A   C L I E N T E S-->
+<div class="modal fade" id="ModalClientes" tabindex="-1" role="dialog" aria-labelledby="ModalClientes" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="color: black;">
+                <h4 class="modal-title" id="titulodemesa">Datos del Cliente : </h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="container">
+                <br>    
+                
+                <form action="/guardarclientes" method="POST" id="formaltaclientes" name="formaltaclientes">
+                    <div class="row">
+                        <div class="col">
+                            <input type="text" class="form-control textomayus" placeholder="Nombre" required value="">
+                        </div>
+                        <div class="col">
+                            <input type="text" class="form-control textomayus" placeholder="Apellido Paterno" required value="">
+                        </div>
+                        <div class="col">
+                            <input type="text" class="form-control textomayus" placeholder="Apellido Materno" value="">
+                        </div>
+                   </div>
+                   <br>
+                   <div class="row">
+                    <div class="col">
+                        <input type="text" class="form-control textomayus" placeholder="Empresa" value="">
+                    </div>
+                    <div class="col">
+                        <input type="text" class="form-control textomayus" placeholder="Puesto" value="">
+                    </div>
+                    <div class="col">
+                        <input type="text" class="form-control textomayus" placeholder="Correo Empresarial" value="">
+                    </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col">
+                            <input type="text" class="form-control textomayus" placeholder="Correo Electronico" required value="">
+                        </div>
+                        <div class="col">
+                            <input type="text" class="form-control textomayus" placeholder="Calle" required value="">
+                        </div>
+                        <div class="col">
+                            <input type="text" class="form-control textomayus" placeholder="Numero" required value="">
+                        </div>
+
+                    </div>
+                    <br>
+
+                    <div class="row">
+                        <div class="col">
+                            <input type="text" class="form-control textomayus" placeholder="Colonia" required value="">
+                        </div>
+                        <div class="col">
+                            <input type="text" class="form-control textomayus" placeholder="Codigo Postal" value="">
+                        </div>
+                        <div class="col">
+                            <input type="text" class="form-control textomayus" placeholder="Municipio" required value="">
+                        </div>
+
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col">
+                            <input type="text" class="form-control textomayus" placeholder="Estado" required value="">
+                        </div>
+                        <div class="col">
+                            <input type="text" class="form-control textomayus" placeholder="Ciudad" required value="">
+                        </div>
+                        <div class="col">
+                            <input type="text" class="form-control textomayus" placeholder="Teléfono" value="">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col">
+                            <input type="text" class="form-control textomayus" placeholder="Teléfono Alternativo" value="">
+                        </div>
+                        <div class="col">
+                            <input type="text" class="form-control textomayus" placeholder="Sitio Web" value="">
+                        </div>
+                        <div class="col">
+                            <input type="text" class="form-control textomayus" placeholder="Observaciones" value="">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-10">
+                        </div>
+                        <div class="col-sm-1">    
+                            <button type="submit" class="btn btn-dark" >Guardar</button>
+                        </div>
+                    </div>
+
+                </form>
+                
+            </div>
+<br>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
     </div>
+</div>
+
+
 </body>
 {{template "generaljstemplates"}}
 
