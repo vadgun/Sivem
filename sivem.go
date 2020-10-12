@@ -40,9 +40,14 @@ func main() {
 	app.Get("/vallasmoviles", admoncontroller.VallasMoviles)
 
 	//A L T A S
-	app.Get("/guardarclientes", admoncontroller.GuardaClientes)
+	app.Post("/guardarclientes", admoncontroller.GuardaClientes)
+	app.Post("/editandoclientes", admoncontroller.EditandoClientes)
 
-	
+	//E D I T A R
+	app.Post("/obtenercliente", admoncontroller.ObtenerCliente)
+
+	//E L I M I N A R
+	app.Post("/eliminarcliente", admoncontroller.EliminarCliente)
 
 	app.Run(iris.Addr(":8080"))
 
