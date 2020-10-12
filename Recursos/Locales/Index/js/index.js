@@ -49,7 +49,7 @@ $("#ModalEditarClientes").modal("show");
 
 function EliminarCliente(data){
 
-var r = confirm("Elimnar cliente, desea continuar");
+var r = confirm("Elimnar cliente, ¿Desea continuar?");
 if (r == true) {
   $.ajax({
     url: '/eliminarcliente',
@@ -72,4 +72,54 @@ if (r == true) {
   return false;
 }
 
+}
+
+function EditarEmpleado(data){
+
+  $.ajax({
+    url: '/obtenerempleado',
+    data: { data: data },
+    type: 'POST',
+    dataType: 'html',
+    success: function(result) {
+        console.log("Operacion Realizada con Exito");
+        $("#formeditarempleado").html(result);
+    },
+    error: function(xhr, status) {
+        console.log("Error en la consulta")
+    },
+    complete: function(xhr, status) {
+        console.log("Datos de edicion de empleado obtenidos")
+        
+    }
+});
+
+$("#ModalEditarEmpleados").modal("show");
+
+}
+
+function EliminarEmpleado(data){
+
+  var r = confirm("Elimnar empleado, ¿Desea continuar?");
+if (r == true) {
+  $.ajax({
+    url: '/eliminarempleado',
+    data: { data: data },
+    type: 'POST',
+    dataType: 'html',
+    success: function(result) {
+        console.log("Operacion Realizada con Exito");
+        $("#formeditarempleado").html(result);
+    },
+    error: function(xhr, status) {
+        console.log("Error en la consulta")
+    },
+    complete: function(xhr, status) {
+        console.log("Datos de edicion de cliente obtenidos")
+        
+    }
+});  
+} else {
+  return false;
+}
 }

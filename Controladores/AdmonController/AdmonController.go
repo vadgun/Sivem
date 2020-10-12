@@ -58,6 +58,8 @@ func Empleados(ctx iris.Context) {
 	if autorizado || autorizado2 {
 		userOn := indexmodel.GetUserOn(sessioncontroller.Sess.Start(ctx).GetString("UserID"))
 		ctx.ViewData("Usuario", userOn)
+		empleados := admonmodel.ExtraeEmpleados()
+		ctx.ViewData("Empleados", empleados)
 		if err := ctx.View("Empleados.html"); err != nil {
 			ctx.Application().Logger().Infof(err.Error())
 		}
@@ -172,6 +174,35 @@ func Espectaculares(ctx iris.Context) {
 	} else {
 		ctx.Redirect("/login", iris.StatusSeeOther)
 	}
+}
+
+//EspectacularesNuevo -> Regresa la vista autorizada para el formulario de captura de un espectacular y las consultas que este implica
+func EspectacularesNuevo(ctx iris.Context) {
+
+	var usuario indexmodel.MongoUser
+	var autorizado bool
+	autorizado2, _ := sessioncontroller.Sess.Start(ctx).GetBoolean("Autorizado")
+
+	if autorizado2 == false {
+		usuario.Key = ctx.PostValue("pass")
+		usuario.Usuario = ctx.PostValue("usuario")
+		autorizado, usuario = indexmodel.VerificarUsuario(usuario)
+		if autorizado {
+			sessioncontroller.Sess.Start(ctx).Set("Autorizado", true)
+			sessioncontroller.Sess.Start(ctx).Set("UserID", usuario.ID.Hex())
+		}
+	}
+
+	if autorizado || autorizado2 {
+		userOn := indexmodel.GetUserOn(sessioncontroller.Sess.Start(ctx).GetString("UserID"))
+		ctx.ViewData("Usuario", userOn)
+		if err := ctx.View("EspectacularesNuevo.html"); err != nil {
+			ctx.Application().Logger().Infof(err.Error())
+		}
+	} else {
+		ctx.Redirect("/login", iris.StatusSeeOther)
+	}
+
 }
 
 //Ventas -> Regresa la pagina de inicio
@@ -467,4 +498,209 @@ func EliminarCliente(ctx iris.Context) {
 
 	ctx.HTML(htmlcode)
 
+}
+
+//A L T A   D E    E M P L E A D O S
+//GuardaEmpleados -> Guarda Empleado en la Base de datos
+func GuardaEmpleados(ctx iris.Context) {
+	var htmlcode string
+
+	var empleado admonmodel.EmpleadoMongo
+
+	empleado.Nombre = strings.ToUpper(ctx.PostValue("nombreempleado"))
+	empleado.ApellidoP = strings.ToUpper(ctx.PostValue("apaterno"))
+	empleado.ApellidoM = strings.ToUpper(ctx.PostValue("amaterno"))
+	empleado.Sexo = strings.ToUpper(ctx.PostValue("sexo"))
+	empleado.Licencia = strings.ToUpper(ctx.PostValue("licencia"))
+	empleado.Cargo = strings.ToUpper(ctx.PostValue("cargo"))
+	empleado.Correo = strings.ToUpper(ctx.PostValue("correo"))
+	empleado.Calle = strings.ToUpper(ctx.PostValue("calle"))
+	empleado.Numero = strings.ToUpper(ctx.PostValue("numero"))
+	empleado.Colonia = strings.ToUpper(ctx.PostValue("colonia"))
+	empleado.CodigoP = strings.ToUpper(ctx.PostValue("codpostal"))
+	empleado.Municipio = strings.ToUpper(ctx.PostValue("municipio"))
+	empleado.Estado = strings.ToUpper(ctx.PostValue("estado"))
+	empleado.Ciudad = strings.ToUpper(ctx.PostValue("ciudad"))
+	empleado.Telefono = strings.ToUpper(ctx.PostValue("telefono"))
+	empleado.Referencias = strings.ToUpper(ctx.PostValue("referencias"))
+	empleado.Control = strings.ToUpper(ctx.PostValue("control"))
+
+	if admonmodel.GuardaEmpleadoMongo(empleado) {
+		htmlcode += fmt.Sprintf(`<script>
+		alert("Empleado %v Guardado");
+		location.replace("/empleados");
+		</script>`, empleado.Nombre)
+	} else {
+		htmlcode += fmt.Sprintf(`<script>
+		alert("Empleado no guardado");
+		location.replace("/empleados");
+		</script>`)
+	}
+
+	ctx.HTML(htmlcode)
+
+}
+
+//EditandoEmpleados -> Edita los empleados en la BAse de datos
+func EditandoEmpleados(ctx iris.Context) {
+
+	var htmlcode string
+
+	var empleado admonmodel.EmpleadoMongo
+
+	idempleado := ctx.PostValue("id2")
+	empleado.Nombre = strings.ToUpper(ctx.PostValue("nombreempleado2"))
+	empleado.ApellidoP = strings.ToUpper(ctx.PostValue("apaterno2"))
+	empleado.ApellidoM = strings.ToUpper(ctx.PostValue("amaterno2"))
+	empleado.Sexo = strings.ToUpper(ctx.PostValue("sexo2"))
+	empleado.Licencia = strings.ToUpper(ctx.PostValue("licencia2"))
+	empleado.Cargo = strings.ToUpper(ctx.PostValue("cargo2"))
+	empleado.Correo = strings.ToUpper(ctx.PostValue("correo2"))
+	empleado.Calle = strings.ToUpper(ctx.PostValue("calle2"))
+	empleado.Numero = strings.ToUpper(ctx.PostValue("numero2"))
+	empleado.Colonia = strings.ToUpper(ctx.PostValue("colonia2"))
+	empleado.CodigoP = strings.ToUpper(ctx.PostValue("codpostal2"))
+	empleado.Municipio = strings.ToUpper(ctx.PostValue("municipio2"))
+	empleado.Estado = strings.ToUpper(ctx.PostValue("estado2"))
+	empleado.Ciudad = strings.ToUpper(ctx.PostValue("ciudad2"))
+	empleado.Telefono = strings.ToUpper(ctx.PostValue("telefono2"))
+	empleado.Referencias = strings.ToUpper(ctx.PostValue("referencias2"))
+	empleado.Control = strings.ToUpper(ctx.PostValue("control2"))
+
+	if admonmodel.EditarEmpleadoMongo(idempleado, empleado) {
+		htmlcode += fmt.Sprintf(`<script>
+		alert("Empleado %v Editado");
+		location.replace("/empleados");
+		</script>`, empleado.Nombre)
+	} else {
+		htmlcode += fmt.Sprintf(`<script>
+		alert("Empleado no editado ");
+		location.replace("/empleados");
+		</script>`)
+	}
+
+	ctx.HTML(htmlcode)
+
+}
+
+//ObtenerEmpleado -> Regresa el Empleado al Modal de la Peticion de Editar
+func ObtenerEmpleado(ctx iris.Context) {
+
+	var htmlcode string
+
+	empleadoid := ctx.PostValue("data")
+
+	empleado := admonmodel.ExtraeEmpleadoPorId(empleadoid)
+
+	htmlcode += fmt.Sprintf(`
+	<div class="row">
+	<div class="col">
+	<input type="text" class="form-control textomayus" placeholder="# Control" value="%v" id="control2" name="control2">
+</div>
+                        <div class="col">
+							<input type="hidden" value="%v" name="id2" id="id2">		
+                            <input type="text" class="form-control textomayus" placeholder="Nombre" required value="%v" id="nombreempleado2" name="nombreempleado2">
+                        </div>
+                        <div class="col">
+                            <input type="text" class="form-control textomayus" placeholder="Apellido Paterno" required value="%v" id="apaterno2" name="apaterno2">
+                        </div>
+                        <div class="col">
+                            <input type="text" class="form-control textomayus" placeholder="Apellido Materno" value="%v" id="amaterno2" name="amaterno2">
+                        </div>
+
+                   </div>
+				   <br>`, empleado.Control, empleado.ID.Hex(), empleado.Nombre, empleado.ApellidoP, empleado.ApellidoM)
+	htmlcode += fmt.Sprintf(`
+	
+                   <div class="row">
+				   <div class="col">
+				   <input type="text" class="form-control textomayus" placeholder="Sexo" value="%v" id="sexo2" name="sexo2">
+			   </div>
+                    <div class="col">
+                        <input type="text" class="form-control textomayus" placeholder="Puesto" value="%v" id="cargo2" name="cargo2">
+                    </div>
+                    <div class="col">
+                        <input type="text" class="form-control textomayus" placeholder="Licencia" value="%v" id="licencia2" name="licencia2">
+                    </div>
+                    </div>
+					<br>`, empleado.Sexo, empleado.Cargo, empleado.Licencia)
+	htmlcode += fmt.Sprintf(`
+	
+                    <div class="row">
+                        <div class="col">
+                            <input type="text" class="form-control textomayus" placeholder="Correo Electronico" required value="%v" id="correo2" name="correo2">
+                        </div>
+                        <div class="col">
+                            <input type="text" class="form-control textomayus" placeholder="Calle" required value="%v" id="calle2" name="calle2">
+                        </div>
+                        <div class="col">
+                            <input type="text" class="form-control textomayus" placeholder="Numero" required value="%v" id="numero2" name="numero2">
+                        </div>
+
+                    </div>
+                    <br>`, empleado.Correo, empleado.Calle, empleado.Numero)
+	htmlcode += fmt.Sprintf(`
+                    <div class="row">
+                        <div class="col">
+                            <input type="text" class="form-control textomayus" placeholder="Colonia" required value="%v" id="colonia2" name="colonia2">
+                        </div>
+                        <div class="col">
+                            <input type="text" class="form-control textomayus" placeholder="Codigo Postal" value="%v" id="codpostal2" name="codpostal2">
+                        </div>
+                        <div class="col">
+                            <input type="text" class="form-control textomayus" placeholder="Municipio" required value="%v" id="municipio2" name="municipio2">
+                        </div>
+                    </div>
+					<br>`, empleado.Colonia, empleado.CodigoP, empleado.Municipio)
+	htmlcode += fmt.Sprintf(`
+                    <div class="row">
+                        <div class="col">
+                            <input type="text" class="form-control textomayus" placeholder="Estado" required value="%v" id="estado2" name="estado2">
+                        </div>
+                        <div class="col">
+                            <input type="text" class="form-control textomayus" placeholder="Ciudad" required value="%v" id="ciudad2" name="ciudad2">
+                        </div>
+                        <div class="col">
+                            <input type="text" class="form-control textomayus" placeholder="Teléfono" value="%v" id="telefono2" name="telefono2">
+                        </div>
+                    </div>
+					<br>`, empleado.Estado, empleado.Ciudad, empleado.Telefono)
+	htmlcode += fmt.Sprintf(`					
+                    <div class="row">
+                        <div class="col">
+                            <input type="text" class="form-control textomayus" placeholder="Referencias" value="%v" id="referencias2" name="referencias2">
+                        </div>
+                    </div>
+					<br>`, empleado.Referencias)
+	htmlcode += fmt.Sprintf(`	
+                    <div class="row">
+                        <div class="col-md-10">
+                        </div>
+                        <div class="col-sm-1">    
+                            <button type="submit" class="btn btn-dark" >Guardar</button>
+                        </div>
+                    </div>`)
+
+	ctx.HTML(htmlcode)
+
+}
+
+//EliminarEmpleado -> Elimina un empleado de la base de datos
+func EliminarEmpleado(ctx iris.Context) {
+	id := ctx.PostValue("data")
+	var htmlcode string
+
+	if admonmodel.EliminarEmpleadoMongo(id) {
+		htmlcode += fmt.Sprintf(`<script>
+		alert("Empleado Eliminado");
+		location.replace("/empleados");
+		</script>`)
+	} else {
+		htmlcode += fmt.Sprintf(`<script>
+		alert("Empleado no eliminado ");
+		location.replace("/empleados");
+		</script>`)
+	}
+
+	ctx.HTML(htmlcode)
 }

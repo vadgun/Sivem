@@ -27,3 +27,25 @@ type ClienteMongo struct {
 	SitioWeb      string        `bson:"SitioWeb"`
 	Observaciones string        `bson:"Observaciones"`
 }
+
+//EmpleadoMongo Controla datos de los Empledos en el Sistema
+type EmpleadoMongo struct {
+	ID          bson.ObjectId `bson:"_id,omitempty"`
+	Control     string        `bson:"Control"`
+	Nombre      string        `bson:"Nombre"`
+	ApellidoP   string        `bson:"ApellidoP"`
+	ApellidoM   string        `bson:"ApellidoM"`
+	Sexo        string        `bson:"Sexo"`
+	Cargo       string        `bson:"Cargo"`
+	Licencia    string        `bson:"Licencia"`
+	Correo      string        `bson:"Correo"`
+	Calle       string        `bson:"Calle"`
+	Numero      string        `bson:"Numero"`
+	Colonia     string        `bson:"Colonia"`
+	Municipio   string        `bson:"Municipio"`
+	Estado      string        `bson:"Estado"`
+	Ciudad      string        `bson:"Ciudad"`
+	CodigoP     string        `bson:"CodigoP"`
+	Telefono    string        `bson:"Telefono"`
+	Referencias string        `bson:"Referencias"`
+}

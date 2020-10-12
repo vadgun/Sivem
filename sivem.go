@@ -32,6 +32,7 @@ func main() {
 	app.Get("/materiales", admoncontroller.Materiales)
 
 	app.Get("/espectaculares", admoncontroller.Espectaculares)
+	app.Get("/nuevoespectacular", admoncontroller.EspectacularesNuevo)
 
 	app.Get("/ventas", admoncontroller.Ventas)
 
@@ -42,12 +43,16 @@ func main() {
 	//A L T A S
 	app.Post("/guardarclientes", admoncontroller.GuardaClientes)
 	app.Post("/editandoclientes", admoncontroller.EditandoClientes)
+	app.Post("/guardarempleados", admoncontroller.GuardaEmpleados)
+	app.Post("/editandoempleados", admoncontroller.EditandoEmpleados)
 
 	//E D I T A R
 	app.Post("/obtenercliente", admoncontroller.ObtenerCliente)
+	app.Post("/obtenerempleado", admoncontroller.ObtenerEmpleado)
 
 	//E L I M I N A R
 	app.Post("/eliminarcliente", admoncontroller.EliminarCliente)
+	app.Post("/eliminarempleado", admoncontroller.EliminarEmpleado)
 
 	app.Run(iris.Addr(":8080"))
 

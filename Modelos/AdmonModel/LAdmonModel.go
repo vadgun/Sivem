@@ -28,6 +28,23 @@ func ExtraeClientes() []ClienteMongo {
 	return clientes
 }
 
+func ExtraeEmpleados() []EmpleadoMongo {
+	var empleados []EmpleadoMongo
+
+	session, err := mgo.Dial(conexiones.MONGO_SERVER)
+	defer session.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
+	c := session.DB(conexiones.MONGO_DB).C(conexiones.MONGO_DB_EM)
+	err1 := c.Find(bson.M{}).All(&empleados)
+	if err1 != nil {
+		fmt.Println(err1)
+	}
+
+	return empleados
+}
+
 //GuardarClienteMongo -> Guarda Clientes en la Base de datos de Mongo DB
 func GuardarClienteMongo(cliente ClienteMongo) bool {
 
@@ -41,6 +58,28 @@ func GuardarClienteMongo(cliente ClienteMongo) bool {
 
 	c := session.DB(conexiones.MONGO_DB).C(conexiones.MONGO_DB_CL)
 	err1 := c.Insert(cliente)
+	guardado = true
+	if err1 != nil {
+		guardado = false
+		fmt.Println(err1)
+	}
+
+	return guardado
+
+}
+
+//GuardaEmpleadoMongo -> Guarda los datos del Empleado en la Base de datos
+func GuardaEmpleadoMongo(empleado EmpleadoMongo) bool {
+
+	var guardado bool
+	session, err := mgo.Dial(conexiones.MONGO_SERVER)
+	defer session.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	c := session.DB(conexiones.MONGO_DB).C(conexiones.MONGO_DB_EM)
+	err1 := c.Insert(empleado)
 	guardado = true
 	if err1 != nil {
 		guardado = false
@@ -75,6 +114,29 @@ func EditarClienteMongo(id string, cliente ClienteMongo) bool {
 
 }
 
+//EditarEmpleadoMongo -> Edita el empleado en la base de datos
+func EditarEmpleadoMongo(id string, empleado EmpleadoMongo) bool {
+	objid := bson.ObjectIdHex(id)
+	var editado bool
+
+	session, err := mgo.Dial(conexiones.MONGO_SERVER)
+	defer session.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	c := session.DB(conexiones.MONGO_DB).C(conexiones.MONGO_DB_EM)
+	err1 := c.UpdateId(objid, empleado)
+	editado = true
+	if err1 != nil {
+		editado = false
+		fmt.Println(err1)
+	}
+
+	return editado
+
+}
+
 //ExtraeClientePorId -> Regresa los datos del Cliente para ser editado
 func ExtraeClientePorId(id string) ClienteMongo {
 
@@ -98,6 +160,27 @@ func ExtraeClientePorId(id string) ClienteMongo {
 
 }
 
+//ExtraeEmpleadoPorId -> Extrae Empleado por medio de la id
+func ExtraeEmpleadoPorId(id string) EmpleadoMongo {
+	var empleado EmpleadoMongo
+
+	objid := bson.ObjectIdHex(id)
+
+	session, err := mgo.Dial(conexiones.MONGO_SERVER)
+	defer session.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	c := session.DB(conexiones.MONGO_DB).C(conexiones.MONGO_DB_EM)
+	err1 := c.FindId(objid).One(&empleado)
+	if err1 != nil {
+		fmt.Println(err1)
+	}
+
+	return empleado
+}
+
 //EliminarClienteMongo -> Elimina el Cliente de la base de datos
 func EliminarClienteMongo(id string) bool {
 	objid := bson.ObjectIdHex(id)
@@ -110,6 +193,28 @@ func EliminarClienteMongo(id string) bool {
 	}
 
 	c := session.DB(conexiones.MONGO_DB).C(conexiones.MONGO_DB_CL)
+	err1 := c.RemoveId(objid)
+	eliminado = true
+	if err1 != nil {
+		eliminado = false
+		fmt.Println(err1)
+	}
+
+	return eliminado
+}
+
+//EliminarEmpleadoMongo -> Elimina un empleado de la base de datos
+func EliminarEmpleadoMongo(id string) bool {
+	objid := bson.ObjectIdHex(id)
+	var eliminado bool
+
+	session, err := mgo.Dial(conexiones.MONGO_SERVER)
+	defer session.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	c := session.DB(conexiones.MONGO_DB).C(conexiones.MONGO_DB_EM)
 	err1 := c.RemoveId(objid)
 	eliminado = true
 	if err1 != nil {
