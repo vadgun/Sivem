@@ -1,7 +1,9 @@
-const button = document.getElementById('menu');
-const nav =  document.querySelector('.sidenav');
 
 $('#menu').click(function(e){
     e.preventDefault();
-    $('.sidenav').toggle('slide')
-})
+    $('.sidenav').show('500')
+});
+$('#closeMenu').click(function(e){
+    e.preventDefault();
+    $('.sidenav').hide('500')
+});

@@ -11,10 +11,20 @@
     <div class="col-lg-12">
     <div class="row">
         <div class="col-lg-2 col-md-2">
-                <a id="menu">
-                    <img src="Recursos/Imagenes/icoMenu.png"  width="35" alt="menu">
-                </a>
+            <div id=menu>
+                <div class="d-flex justify-content-end align-items-center mt-2">
+                    <b class="my-auto mr-1 menuTitle">MENU</b>
+                    <a id="menu">
+                        <img src="Recursos/Imagenes/icoMenu.png"  width="35" alt="menu">
+                    </a>
+                </div>
+            </div>
+            <hr class="bg-dark d-none">
             <div class="sidenav navbar-nav">
+                        <a class="icoMenu">
+                            <img id="closeMenu" src="Recursos/Generales/Plugins/icons/build/svg/x2.svg" alt="">
+                        </a>
+                        <hr class="bg-white d-none">
                         <a href="/index" id="indexit" class="">Inicio</a>
                         <a href="/clientes" id="clientesit" class="selected">Clientes</a>
                         <a href="/empleados" id="empleadosit" class="">Empleados</a>
@@ -25,14 +35,15 @@
                         <a href="/ventas" id="ventasit" class="">Ventas</a>
                         <a href="/vallas" id="vallasit" class="">Vallas</a>
                         <a href="/vallasmoviles" id="vallasmovilesit" class="">Vallas Moviles</a>
-                        <a href="#" class="useron">{{.Usuario.Nombre2}}</a>
-                        <a href="/logout" class="username">Cerrar Sesión</a>
+                        <div class="mt-auto">
+                            <a href="#" class="useron">{{.Usuario.Nombre2}}</a>
+                            <a href="/logout" class="username">Cerrar Sesión</a>
+                        </div>
                       </div>
                 </div>
         <div class="col-lg-10 col-md-10 rouded-lg">
             <div class="container mt-4">
                 <h1 class=" text-center">Clientes</h1>
-                hola
                      <hr>
                 <div class="d-flex justify-content-between my-4">
                     <div class="d-flex">
