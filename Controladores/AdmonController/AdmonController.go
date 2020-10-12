@@ -447,6 +447,7 @@ func ObtenerCliente(ctx iris.Context) {
 
 }
 
+//EliminarCliente -> Elimina el cliente de la base de datos
 func EliminarCliente(ctx iris.Context) {
 
 	id := ctx.PostValue("data")
