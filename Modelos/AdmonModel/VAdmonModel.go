@@ -1,6 +1,8 @@
 package admonmodel
 
 import (
+	"time"
+
 	"gopkg.in/mgo.v2/bson"
 )
 
@@ -48,4 +50,38 @@ type EmpleadoMongo struct {
 	CodigoP     string        `bson:"CodigoP"`
 	Telefono    string        `bson:"Telefono"`
 	Referencias string        `bson:"Referencias"`
+}
+
+//EspectacularMongo -> Controla la estructura de los espectaculares en la base de datos
+type EspectacularMongo struct {
+	ID               bson.ObjectId `bson:"_id,omitempty"`
+	NumControl       string        `bson:"NumControl"`
+	CostoImpresion   float64       `bson:"CostoImpresion"`
+	CostoInstalacion float64       `bson:"CostoInstalacion"`
+	Calle            string        `bson:"Calle"`
+	Numero           string        `bson:"Numero"`
+	Colonia          string        `bson:"Colonia"`
+	Localidad        string        `bson:"Localidad"`
+	Municipio        string        `bson:"Municipio"`
+	Estado           string        `bson:"Estado"`
+	Latitud          string        `bson:"Latitud"`
+	Longitud         string        `bson:"Longitud"`
+	Referencias      string        `bson:"Referencias"`
+	Ancho            float64       `bson:"Ancho"`
+	Alto             float64       `bson:"Alto"`
+	Material         bson.ObjectId `bson:"Material,omitempty"`
+	Precio           float64       `bson:"Precio"`
+	Observaciones    string        `bson:"Observaciones"`
+	Status           string        `bson:"Status"`
+	Acabados         string        `bson:"Acabados"`
+	Propietario      string        `bson:"Propietario"`
+	Celular          string        `bson:"Celular"`
+	Telefono         string        `bson:"Telefono"`
+	Imagenes         []string      `bson:"Imagenes"`
+	ContratoInicio   time.Time     `bson:"ContratoInicio"`
+	ContratoFin      time.Time     `bson:"ContratoFin"`
+	Monto            float64       `bson:"Monto"`
+	Folio            string        `bson:"Folio"`
+	TipoPago         string        `bson:"TipoPago"`
+	PeriodoPago      string        `bson:"PeriodoPago"`
 }

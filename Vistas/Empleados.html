@@ -11,25 +11,7 @@
 <body>
     <div class="col-lg-12">
         <div class="row">
-            <div class="col-lg-2 col-md-2">
-                    <a id="menu">
-                        <img src="Recursos/Imagenes/icoMenu.png"  width="35" alt="menu">
-                    </a>
-                <div class="sidenav navbar-nav">
-                            <a href="/index" id="indexit" class="">Inicio</a>
-                            <a href="/clientes" id="clientesit" class="">Clientes</a>
-                            <a href="/empleados" id="empleadosit" class="selected">Empleados</a>
-                            <a href="/empresas"id="empresasit" class="">Empresas</a>
-                            <a href="/medios" id="mediosit" class="">Medios</a>
-                            <a href="/materiales" id="materialesit" class="">Materiales</a>
-                            <a href="/espectaculares" id="espectacularesit" class="">Espectaculares</a>
-                            <a href="/ventas" id="ventasit" class="">Ventas</a>
-                            <a href="/vallas" id="vallasit" class="">Vallas</a>
-                            <a href="/vallasmoviles" id="vallasmovilesit" class="">Vallas Moviles</a>
-                            <a href="#" class="useron">{{.Usuario.Nombre2}}</a>
-                            <a href="/logout" class="username">Cerrar Sesión</a>
-                          </div>
-                    </div>
+            {{template "navbartemplate" .}}
             <div class="col-lg-10 col-md-10 rouded-lg">
                 <div class="container mt-4">
                     <h1 class=" text-center">Empleados</h1>
@@ -228,4 +210,7 @@
 
 </body>
 {{template "generaljstemplates"}}
+<script>
+    empleados.classList.add("selected");
+</script>
 </html>

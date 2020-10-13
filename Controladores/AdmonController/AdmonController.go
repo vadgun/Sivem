@@ -2,7 +2,10 @@ package admoncontroller
 
 import (
 	"fmt"
+	"io"
+	"os"
 	"strings"
+	"time"
 
 	"github.com/kataras/iris/v12"
 	sessioncontroller "github.com/vadgun/Sivem/Controladores/SessionController"
@@ -168,6 +171,8 @@ func Espectaculares(ctx iris.Context) {
 	if autorizado || autorizado2 {
 		userOn := indexmodel.GetUserOn(sessioncontroller.Sess.Start(ctx).GetString("UserID"))
 		ctx.ViewData("Usuario", userOn)
+		espectaculares := admonmodel.ExtraeEspectaculares()
+		ctx.ViewData("Espectaculares", espectaculares)
 		if err := ctx.View("Espectaculares.html"); err != nil {
 			ctx.Application().Logger().Infof(err.Error())
 		}
@@ -703,4 +708,198 @@ func EliminarEmpleado(ctx iris.Context) {
 	}
 
 	ctx.HTML(htmlcode)
+}
+
+//GuardaEspectacular -> Guarda la informacion del espectacular en la base de datos
+func GuardaEspectacular(ctx iris.Context) {
+
+	layout := "2006-01-02"
+	location, _ := time.LoadLocation("America/Mexico_City")
+	var htmlcode string
+	var espectacular admonmodel.EspectacularMongo
+
+	espectacular.NumControl = ctx.PostValue("numcontrol")
+	espectacular.CostoImpresion, _ = ctx.PostValueFloat64("costoimpreso")
+	espectacular.CostoInstalacion, _ = ctx.PostValueFloat64("instalacion")
+	espectacular.Calle = ctx.PostValue("calle")
+	espectacular.Numero = ctx.PostValue("numero")
+	espectacular.Colonia = ctx.PostValue("colonia")
+	espectacular.Localidad = ctx.PostValue("localidad")
+	espectacular.Municipio = ctx.PostValue("municipio")
+	espectacular.Estado = ctx.PostValue("estado")
+	espectacular.Latitud = ctx.PostValue("latitud")
+	espectacular.Longitud = ctx.PostValue("longitud")
+	espectacular.Referencias = ctx.PostValue("referencias")
+	espectacular.Ancho, _ = ctx.PostValueFloat64("ancho")
+	espectacular.Alto, _ = ctx.PostValueFloat64("alto")
+	// material := ctx.PostValue("material")
+	// espectacular.Material= ctx.PostValue("material")
+	espectacular.Precio, _ = ctx.PostValueFloat64("precio")
+	espectacular.Observaciones = ctx.PostValue("observaciones")
+	espectacular.Status = ctx.PostValue("status")
+	espectacular.Acabados = ctx.PostValue("acabados")
+	espectacular.Propietario = ctx.PostValue("nombreprop")
+	espectacular.Celular = ctx.PostValue("celular")
+	espectacular.Telefono = ctx.PostValue("telefono")
+
+	fechacontratoinicio := ctx.PostValue("iniciocontrato")
+	fechacontratofin := ctx.PostValue("fincontrato")
+
+	fmt.Println("Fecha 1", fechacontratoinicio)
+	fmt.Println("Fecha 2", fechacontratofin)
+
+	iniciocontrato, _ := time.ParseInLocation(layout, fechacontratoinicio, location)
+	fincontrato, _ := time.ParseInLocation(layout, fechacontratofin, location)
+
+	espectacular.ContratoInicio = iniciocontrato
+	espectacular.ContratoFin = fincontrato
+	espectacular.Monto, _ = ctx.PostValueFloat64("monto")
+	espectacular.Folio = ctx.PostValue("folio")
+	espectacular.TipoPago = ctx.PostValue("tipopago")
+	espectacular.PeriodoPago = ctx.PostValue("periodopago")
+
+	imagen1, header, err := ctx.FormFile("imagen1")
+	nombrearchivo1 := header.Filename
+	check(err, "Error al seleccionar la imagen 1")
+
+	imagen2, header, err := ctx.FormFile("imagen2")
+	nombrearchivo2 := header.Filename
+	check(err, "Error al seleccionar la imagen 2")
+
+	imagen3, header, err := ctx.FormFile("imagen3")
+	nombrearchivo3 := header.Filename
+	check(err, "Error al seleccionar la imagen 3")
+
+	imagen4, header, err := ctx.FormFile("imagen4")
+	nombrearchivo4 := header.Filename
+	check(err, "Error al seleccionar la imagen 4")
+
+	dirPath := "./Recursos/Imagenes/Espectaculares"
+	if _, err := os.Stat(dirPath); os.IsNotExist(err) {
+		fmt.Println("el directorio no existe")
+		os.MkdirAll(dirPath, 0777)
+	} else {
+		fmt.Println("el directorio ya existe")
+	}
+	out, err := os.Create("./Recursos/Imagenes/Espectaculares/" + espectacular.NumControl + "-" + nombrearchivo1)
+	check(err, "No se puede crear el archivo revisa los privilegios de escritura.")
+	defer out.Close()
+	_, err = io.Copy(out, imagen1)
+	check(err, "Error al escribir la imagen al directorio 1")
+	out2, err2 := os.Create("./Recursos/Imagenes/Espectaculares/" + espectacular.NumControl + "-" + nombrearchivo2)
+	_, err2 = io.Copy(out2, imagen2)
+	check(err2, "Error al escribir la imagen al directorio 2")
+	out3, err3 := os.Create("./Recursos/Imagenes/Espectaculares/" + espectacular.NumControl + "-" + nombrearchivo3)
+	_, err3 = io.Copy(out3, imagen3)
+	check(err3, "Error al escribir la imagen al directorio 3")
+	out4, err4 := os.Create("./Recursos/Imagenes/Espectaculares/" + espectacular.NumControl + "-" + nombrearchivo4)
+	_, err4 = io.Copy(out4, imagen4)
+	check(err4, "Error al escribir la imagen al directorio 4")
+
+	fmt.Println("Espectacular -> ", espectacular)
+	if nombrearchivo1 == "" {
+
+	} else {
+		espectacular.Imagenes = append(espectacular.Imagenes, "Recursos/Imagenes/Espectaculares/"+espectacular.NumControl+"-"+nombrearchivo1)
+	}
+
+	if nombrearchivo2 == "" {
+
+	} else {
+		espectacular.Imagenes = append(espectacular.Imagenes, "Recursos/Imagenes/Espectaculares/"+espectacular.NumControl+"-"+nombrearchivo2)
+	}
+
+	if nombrearchivo3 == "" {
+
+	} else {
+		espectacular.Imagenes = append(espectacular.Imagenes, "Recursos/Imagenes/Espectaculares/"+espectacular.NumControl+"-"+nombrearchivo3)
+	}
+
+	if nombrearchivo4 == "" {
+
+	} else {
+		espectacular.Imagenes = append(espectacular.Imagenes, "Recursos/Imagenes/Espectaculares/"+espectacular.NumControl+"-"+nombrearchivo4)
+	}
+
+	if admonmodel.GuardarEspectacularMongo(espectacular) {
+		htmlcode += fmt.Sprintf(`<script>
+		alert("Espectacular %v agregado");
+		location.replace("/espectaculares");
+		</script>`, espectacular.NumControl)
+	} else {
+		htmlcode += fmt.Sprintf(`<script>
+	alert("Espectacular %v no agregado");
+	location.replace("/espectaculares");
+	// 	</script>`, espectacular.NumControl)
+	}
+
+	ctx.HTML(htmlcode)
+
+}
+
+func check(err error, mensaje string) {
+	if err != nil {
+		fmt.Println(err)
+	}
+}
+
+//ObtenerImagenes -> Regresa las imagenes al modal de los espectaculares
+func ObtenerImagenes(ctx iris.Context) {
+
+	var htmlcode string
+
+	idespectacular := ctx.PostValue("data")
+
+	espectacular := admonmodel.ObtenerEspectacularPorID(idespectacular)
+
+	htmlcode += fmt.Sprintf(`
+	<div id="carouselespectacular" class="carousel slide" data-ride="carousel">
+	<ol class="carousel-indicators">`)
+
+	for k, _ := range espectacular.Imagenes {
+		if k != 0 {
+			htmlcode += fmt.Sprintf(`<li data-target="#carouselespectacular" data-slide-to="%v" class="active"></li>`, k)
+		} else {
+			htmlcode += fmt.Sprintf(`<li data-target="#carouselespectacular" data-slide-to="%v"</li>`, k)
+		}
+	}
+
+	htmlcode += fmt.Sprintf(`
+	</ol>
+	<div class="carousel-inner">`)
+
+	for k, v := range espectacular.Imagenes {
+
+		if k != 0 {
+			htmlcode += fmt.Sprintf(`
+
+		<div class="carousel-item">
+		<img class="d-block w-100" src="%v" alt="Slide">
+	  </div>`, v)
+
+		} else {
+			htmlcode += fmt.Sprintf(`
+
+		<div class="carousel-item active">
+		<img class="d-block w-100" src="%v" alt="Slide">
+	  </div>`, v)
+		}
+
+	}
+
+	htmlcode += fmt.Sprintf(`
+
+	</div>
+	<a class="carousel-control-prev" href="#carouselespectacular" role="button" data-slide="prev">
+	  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+	  <span class="sr-only">Anterior</span>
+	</a>
+	<a class="carousel-control-next" href="#carouselespectacular" role="button" data-slide="next">
+	  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+	  <span class="sr-only">Siguiente</span>
+	</a>
+  </div>`)
+
+	ctx.HTML(htmlcode)
+
 }

@@ -11,25 +11,7 @@
 <body>
     <div class="col-lg-12">
         <div class="row">
-            <div class="col-lg-2 col-md-2">
-                    <a id="menu">
-                        <img src="Recursos/Imagenes/icoMenu.png"  width="35" alt="menu">
-                    </a>
-                <div class="sidenav navbar-nav">
-                            <a href="/index" id="indexit" class="">Inicio</a>
-                            <a href="/clientes" id="clientesit" class="">Clientes</a>
-                            <a href="/empleados" id="empleadosit" class="">Empleados</a>
-                            <a href="/empresas"id="empresasit" class="">Empresas</a>
-                            <a href="/medios" id="mediosit" class="">Medios</a>
-                            <a href="/materiales" id="materialesit" class="">Materiales</a>
-                            <a href="/espectaculares" id="espectacularesit" class="selected">Espectaculares</a>
-                            <a href="/ventas" id="ventasit" class="">Ventas</a>
-                            <a href="/vallas" id="vallasit" class="">Vallas</a>
-                            <a href="/vallasmoviles" id="vallasmovilesit" class="">Vallas Moviles</a>
-                            <a href="#" class="useron">{{.Usuario.Nombre2}}</a>
-                            <a href="/logout" class="username">Cerrar Sesión</a>
-                          </div>
-                    </div>
+            {{template "navbartemplate" .}}
             <div class="col-lg-10 col-md-10 rouded-lg">
                 <div class="container mt-4">
                     <h1 class=" text-center">Espectaculares</h1>
@@ -43,13 +25,98 @@
                             <a class="btn btn-warning btn" href="/nuevoespectacular" role="button">+ Nuevo Espectacular +</a>
                         </div>
                     </div>
+                    <div class="" id="clientesContainer">
+                        <table class="table table-hover table-bordered ">
+                            
+                            <thead>
+                                <th>#</th>
+                                <th>Num Control</th>
+                                <th>Ancho</th>
+                                <th>Alto</th>
+                                <th>Material</th>	
+                                 <th>Precio</th>
+                                 <th>Status</th>
+                                 <th>Municipio</th>
+                                 <th>Acciones</th>
+                            </thead>
+                            <tbody>
+                                {{range $llave, $value := .Espectaculares}}
+                                <tr>
+                                    <td>
+                                        {{$llave}}
+                                    </td>
+                                    <td>
+                                        {{$value.NumControl}}
+                                    </td>
+                                    <td>
+                                        {{$value.Ancho}}
+                                    </td>
+                                    <td>
+                                        {{$value.Alto}}
+                                    </td>
+                                    <td>
+                                        {{$value.Material}}
+                                    </td>
+                                    <td>
+                                        {{$value.Precio}}
+                                    </td>
+                                    <td>
+                                        {{$value.Status}}
+                                    </td>
+                                    <td>
+                                        {{$value.Municipio}}
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-success" title="Editar espectacular" onclick="EditarEspectacular('{{$value.ID.Hex}}');">
+                                            <img src="Recursos/Generales/Plugins/icons/build/svg/pencilwhite.svg" height="15" alt="Editar Espectacular"/>
+                                        </button>
+                                        <button class="btn btn-danger" title="Eliminar espectacular" onclick="EliminarEspectacular('{{$value.ID.Hex}}');">
+                                            <img src="Recursos/Generales/Plugins/icons/build/svg/trashcanwhite.svg" height="15" alt="Eliminar Espectacular"/>
+                                        </button>
+                                        <button class="btn btn-dark" title="Ver imagenes" onclick="VerImagenesEspectacular('{{$value.ID.Hex}}');">
+                                            <img src="Recursos/Generales/Plugins/icons/build/svg/file-mediawhite.svg" height="15" alt="Ver imagenes"/>
+                                        </button>
+                                    </td>
+                                </tr>
+                                {{end}}
+    
+    
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
 
+<!-- Modal V E R   I M A G E N E S   D E   E S P E C T A C U L A R -->
+<div class="modal fade" id="ModalImagenesEspectacular" tabindex="-1" role="dialog" aria-labelledby="ModalImagenesEspectacular" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="color: black;">
+                <h4 class="modal-title text-center" id="titulodemesa">Imagenes del espectacular</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div id="ContainerImagenesEspectacular">
+
+            
+                
+            </div>
+                <br>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 </body>
 {{template "generaljstemplates"}}
+<script>
+    espectaculares.classList.add("selected");
+</script>
 </html>

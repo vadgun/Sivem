@@ -28,6 +28,7 @@ func ExtraeClientes() []ClienteMongo {
 	return clientes
 }
 
+//ExtraeEmpleados -> Devuelve la coleccion de Empleados a la vista
 func ExtraeEmpleados() []EmpleadoMongo {
 	var empleados []EmpleadoMongo
 
@@ -43,6 +44,42 @@ func ExtraeEmpleados() []EmpleadoMongo {
 	}
 
 	return empleados
+}
+
+//ExtraeEspectaculares -> Devuelve la coleccion de Espectaculares a la vista
+func ExtraeEspectaculares() []EspectacularMongo {
+	var espectaculares []EspectacularMongo
+
+	session, err := mgo.Dial(conexiones.MONGO_SERVER)
+	defer session.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
+	c := session.DB(conexiones.MONGO_DB).C(conexiones.MONGO_DB_ES)
+	err1 := c.Find(bson.M{}).All(&espectaculares)
+	if err1 != nil {
+		fmt.Println(err1)
+	}
+
+	return espectaculares
+
+}
+
+//ObtenerEspectacularPorID -> Regresa la informacion del espectacular por ID
+func ObtenerEspectacularPorID(id string) EspectacularMongo {
+	objid := bson.ObjectIdHex(id)
+	var espectacular EspectacularMongo
+	session, err := mgo.Dial(conexiones.MONGO_SERVER)
+	defer session.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
+	c := session.DB(conexiones.MONGO_DB).C(conexiones.MONGO_DB_ES)
+	err1 := c.FindId(objid).One(&espectacular)
+	if err1 != nil {
+		fmt.Println(err1)
+	}
+	return espectacular
 }
 
 //GuardarClienteMongo -> Guarda Clientes en la Base de datos de Mongo DB
@@ -223,4 +260,25 @@ func EliminarEmpleadoMongo(id string) bool {
 	}
 
 	return eliminado
+}
+
+//GuardarEspectacularMongo -> Guarda el espectacular y sus imagenes en la base de datos
+func GuardarEspectacularMongo(espectacular EspectacularMongo) bool {
+	var guardado bool
+
+	session, err := mgo.Dial(conexiones.MONGO_SERVER)
+	defer session.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	c := session.DB(conexiones.MONGO_DB).C(conexiones.MONGO_DB_ES)
+	err1 := c.Insert(espectacular)
+	guardado = true
+	if err1 != nil {
+		guardado = false
+		fmt.Println(err1)
+	}
+
+	return guardado
 }

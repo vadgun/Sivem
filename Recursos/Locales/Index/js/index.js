@@ -1,9 +1,11 @@
 // let inicio = document.getElementById("indexit");
 // inicio.classList.add("selected");
 
-// let clientes = document.getElementById("clientesit");
-// clientes.classList.add("selected");
+let clientes = document.getElementById("clientesit");
+let empleados = document.getElementById("empleadosit");
+let espectaculares = document.getElementById("espectacularesit");
 
+$('.dropify').dropify();
 function BuscaClientes() {
     inputvalue = document.getElementById("buscadorcliente").value;
     console.log(inputvalue+" AQUI");
@@ -122,4 +124,44 @@ if (r == true) {
 } else {
   return false;
 }
+}
+
+function Ubicaciones(data){
+  if (data == ""){
+    return false
+  }else{
+    alert(data);
+  }
+
+}
+
+function EditarEspectacular(data){
+
+}
+function EliminarEspectacular(data){
+
+}
+function VerImagenesEspectacular(data){
+  
+  $.ajax({
+    url: '/imagenesespectacular',
+    data: { data: data },
+    type: 'POST',
+    dataType: 'html',
+    success: function(result) {
+        console.log("Operacion Realizada con Exito");
+        $("#ContainerImagenesEspectacular").html(result);
+    },
+    error: function(xhr, status) {
+        console.log("Error en la consulta")
+    },
+    complete: function(xhr, status) {
+        console.log("Datos de imagenes para modal")
+        
+    }
+});  
+
+$("#ModalImagenesEspectacular").modal("show");
+
+
 }

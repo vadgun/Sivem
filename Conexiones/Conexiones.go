@@ -7,4 +7,5 @@ const (
 	MONGO_DB_U  = "Usuarios"
 	MONGO_DB_CL = "Clientes"
 	MONGO_DB_EM = "Empleados"
+	MONGO_DB_ES = "Espectaculares"
 )
