@@ -1,6 +1,3 @@
-// let inicio = document.getElementById("indexit");
-// inicio.classList.add("selected");
-
 let clientes = document.getElementById("clientesit");
 let empleados = document.getElementById("empleadosit");
 let espectaculares = document.getElementById("espectacularesit");
@@ -51,28 +48,40 @@ $("#ModalEditarClientes").modal("show");
 
 function EliminarCliente(data){
 
-var r = confirm("Elimnar cliente, ¿Desea continuar?");
-if (r == true) {
-  $.ajax({
-    url: '/eliminarcliente',
-    data: { data: data },
-    type: 'POST',
-    dataType: 'html',
-    success: function(result) {
-        console.log("Operacion Realizada con Exito");
-        $("#formeditarclientes").html(result);
-    },
-    error: function(xhr, status) {
-        console.log("Error en la consulta")
-    },
-    complete: function(xhr, status) {
-        console.log("Datos de edicion de cliente obtenidos")
-        
-    }
-});  
-} else {
-  return false;
-}
+Swal.fire({
+  title: '¿Eliminar cliente?',
+  text: "Esta accion no se puede revertir",
+  icon: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'Si, eliminar'
+}).then((result) => {
+  if (result.isConfirmed) {
+
+    $.ajax({
+      url: '/eliminarcliente',
+      data: { data: data },
+      type: 'POST',
+      dataType: 'html',
+      success: function(result) {
+          console.log("Operacion Realizada con Exito");
+          $("#formeditarclientes").html(result);
+          setTimeout(function(){ location.replace("/clientes"); }, 2000);
+      },
+      error: function(xhr, status) {
+          console.log("Error en la consulta");
+      },
+      complete: function(xhr, status) {
+          console.log("Eliminacion de cliente completa");
+          
+      }
+  });  
+
+  }else if (result.isDismissed) {
+    Swal.fire("El cliente no ha sido eliminado");
+  }
+})
 
 }
 
@@ -102,28 +111,46 @@ $("#ModalEditarEmpleados").modal("show");
 
 function EliminarEmpleado(data){
 
-  var r = confirm("Elimnar empleado, ¿Desea continuar?");
-if (r == true) {
-  $.ajax({
-    url: '/eliminarempleado',
-    data: { data: data },
-    type: 'POST',
-    dataType: 'html',
-    success: function(result) {
-        console.log("Operacion Realizada con Exito");
-        $("#formeditarempleado").html(result);
-    },
-    error: function(xhr, status) {
-        console.log("Error en la consulta")
-    },
-    complete: function(xhr, status) {
-        console.log("Datos de edicion de cliente obtenidos")
-        
-    }
-});  
-} else {
-  return false;
-}
+Swal.fire({
+  title: '¿Eliminar empleado?',
+  text: "Esta accion no se puede revertir",
+  icon: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'Si, eliminar'
+}).then((result) => {
+  if (result.isConfirmed) {
+
+    $.ajax({
+      url: '/eliminarempleado',
+      data: { data: data },
+      type: 'POST',
+      dataType: 'html',
+      success: function(result) {
+          console.log("Operacion Realizada con Exito");
+          $("#formeditarempleado").html(result);
+          setTimeout(function(){ location.replace("/empleados"); }, 2000);
+      },
+      error: function(xhr, status) {
+          console.log("Error en la consulta");
+      },
+      complete: function(xhr, status) {
+          console.log("Eliminacion de empleado completa");
+          
+      }
+  });  
+
+    Swal.fire(
+      'Eliminado!',
+      'Empleado eliminado',
+      'success'
+    )
+  }else if (result.isDismissed) {
+    Swal.fire("El empleado no ha sido eliminado");
+  }
+})
+
 }
 
 function Ubicaciones(data){
@@ -135,12 +162,51 @@ function Ubicaciones(data){
 
 }
 
-function EditarEspectacular(data){
-
-}
 function EliminarEspectacular(data){
+   
+  Swal.fire({
+    title: '¿Eliminar espectacular?',
+    text: "Esta accion no se puede revertir",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Si, eliminar'
+  }).then((result) => {
+    if (result.isConfirmed) {
 
+      $.ajax({
+        url: '/eliminarespectacular',
+        data: { data: data },
+        type: 'POST',
+        dataType: 'html',
+        success: function(result) {
+            console.log("Operacion Realizada con Exito");
+            $("#ContainerImagenesEspectacular").html(result);
+            setTimeout(function(){ location.replace("/espectaculares"); }, 2000);
+        },
+        error: function(xhr, status) {
+            console.log("Error en la consulta");
+        },
+        complete: function(xhr, status) {
+            console.log("Eliminacion de espectacular completa");
+            
+        }
+    });  
+
+      Swal.fire(
+        'Eliminado!',
+        'Espectacular eliminado',
+        'success'
+      )
+    }else if (result.isDismissed) {
+      Swal.fire("El espectacular no ha sido eliminado");
+    }
+  })
+  
 }
+
+
 function VerImagenesEspectacular(data){
   
   $.ajax({
@@ -163,5 +229,67 @@ function VerImagenesEspectacular(data){
 
 $("#ModalImagenesEspectacular").modal("show");
 
+}
 
+function VerificarEspectacularDuplicado(data){
+
+//Crear la funcion que verifique si el numero de control esta disponible para no agregar espectaculares duplicados
+$.ajax({
+  url: '/verificaespectacular',
+  data: { data: data },
+  type: 'POST',
+  dataType: 'html',
+  success: function(result) {
+      console.log("Operacion Realizada con Exito");
+      $("#answer").html(result);
+  },
+  error: function(xhr, status) {
+      console.log("Error en la consulta")
+  },
+  complete: function(xhr, status) {
+      console.log("Verificacion "+ data +" completada")
+      
+  }
+});
+
+}
+
+function GenerarFicha(data){
+
+  $.ajax({
+    url: '/generarfichadecliente',
+    data: { data: data },
+    type: 'POST',
+    dataType: 'html',
+    success: function(result) {
+        console.log("Operacion Realizada con Exito");
+        $("#answer").html(result);
+    },
+    error: function(xhr, status) {
+        console.log("Error en la consulta")
+    },
+    complete: function(xhr, status) {
+        console.log("Verificacion "+ data +" completada")
+        
+    }
+  });
+}
+
+function Descargar(name) {
+
+    $.ajax({
+        url: 'Recursos/Archivos/Fichas' + name + '.pdf',
+        method: 'GET',
+        xhrFields: {
+            responseType: 'blob'
+        },
+        success: function(data) {
+            var a = document.createElement('a');
+            var url = window.URL.createObjectURL(data);
+            a.href = url;
+            a.download = name + '.pdf';
+            a.click();
+            window.URL.revokeObjectURL(url);
+        }
+    });
 }

@@ -4,10 +4,13 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"strconv"
 	"strings"
 	"time"
 
+	"github.com/jung-kurt/gofpdf"
 	"github.com/kataras/iris/v12"
+	"github.com/leekchan/accounting"
 	sessioncontroller "github.com/vadgun/Sivem/Controladores/SessionController"
 	admonmodel "github.com/vadgun/Sivem/Modelos/AdmonModel"
 	indexmodel "github.com/vadgun/Sivem/Modelos/IndexModel"
@@ -491,13 +494,19 @@ func EliminarCliente(ctx iris.Context) {
 
 	if admonmodel.EliminarClienteMongo(id) {
 		htmlcode += fmt.Sprintf(`<script>
-		alert("Cliente Eliminado");
-		location.replace("/clientes");
+		Swal.fire(
+			'Eliminado!',
+			'Cliente eliminado',
+			'success'
+		  )
 		</script>`)
 	} else {
 		htmlcode += fmt.Sprintf(`<script>
-		alert("Cliente no eliminado ");
-		location.replace("/clientes");
+		Swal.fire(
+			'No Eliminado!',
+			'Cliente no eliminado',
+			'danger'
+		  )
 		</script>`)
 	}
 
@@ -697,17 +706,28 @@ func EliminarEmpleado(ctx iris.Context) {
 
 	if admonmodel.EliminarEmpleadoMongo(id) {
 		htmlcode += fmt.Sprintf(`<script>
-		alert("Empleado Eliminado");
-		location.replace("/empleados");
+		Swal.fire('Empleado eliminado');		
 		</script>`)
 	} else {
 		htmlcode += fmt.Sprintf(`<script>
-		alert("Empleado no eliminado ");
-		location.replace("/empleados");
+		Swal.fire('Empleado no eliminado');
 		</script>`)
 	}
 
 	ctx.HTML(htmlcode)
+}
+
+//EliminarEspectacular -> Elimina el espectacular de la base de datos
+func EliminarEspectacular(ctx iris.Context) {
+	id := ctx.PostValue("data")
+	var imagenes []string
+	espectacular := admonmodel.ObtenerEspectacularPorID(id)
+	imagenes = espectacular.Imagenes
+	admonmodel.EliminarEspectacularMongo(id)
+
+	for _, v := range imagenes {
+		os.Remove(v)
+	}
 }
 
 //GuardaEspectacular -> Guarda la informacion del espectacular en la base de datos
@@ -770,10 +790,6 @@ func GuardaEspectacular(ctx iris.Context) {
 	nombrearchivo3 := header.Filename
 	check(err, "Error al seleccionar la imagen 3")
 
-	imagen4, header, err := ctx.FormFile("imagen4")
-	nombrearchivo4 := header.Filename
-	check(err, "Error al seleccionar la imagen 4")
-
 	dirPath := "./Recursos/Imagenes/Espectaculares"
 	if _, err := os.Stat(dirPath); os.IsNotExist(err) {
 		fmt.Println("el directorio no existe")
@@ -792,11 +808,7 @@ func GuardaEspectacular(ctx iris.Context) {
 	out3, err3 := os.Create("./Recursos/Imagenes/Espectaculares/" + espectacular.NumControl + "-" + nombrearchivo3)
 	_, err3 = io.Copy(out3, imagen3)
 	check(err3, "Error al escribir la imagen al directorio 3")
-	out4, err4 := os.Create("./Recursos/Imagenes/Espectaculares/" + espectacular.NumControl + "-" + nombrearchivo4)
-	_, err4 = io.Copy(out4, imagen4)
-	check(err4, "Error al escribir la imagen al directorio 4")
 
-	fmt.Println("Espectacular -> ", espectacular)
 	if nombrearchivo1 == "" {
 
 	} else {
@@ -815,22 +827,16 @@ func GuardaEspectacular(ctx iris.Context) {
 		espectacular.Imagenes = append(espectacular.Imagenes, "Recursos/Imagenes/Espectaculares/"+espectacular.NumControl+"-"+nombrearchivo3)
 	}
 
-	if nombrearchivo4 == "" {
-
-	} else {
-		espectacular.Imagenes = append(espectacular.Imagenes, "Recursos/Imagenes/Espectaculares/"+espectacular.NumControl+"-"+nombrearchivo4)
-	}
-
 	if admonmodel.GuardarEspectacularMongo(espectacular) {
-		htmlcode += fmt.Sprintf(`<script>
-		alert("Espectacular %v agregado");
+		htmlcode += fmt.Sprintf(`<script> 
 		location.replace("/espectaculares");
+		Swal.fire('Espectacular %v agregado');
 		</script>`, espectacular.NumControl)
 	} else {
 		htmlcode += fmt.Sprintf(`<script>
-	alert("Espectacular %v no agregado");
-	location.replace("/espectaculares");
-	// 	</script>`, espectacular.NumControl)
+		location.replace("/espectaculares");
+		Swal.fire('Espectacular %v no agregado');
+	</script>`, espectacular.NumControl)
 	}
 
 	ctx.HTML(htmlcode)
@@ -899,6 +905,120 @@ func ObtenerImagenes(ctx iris.Context) {
 	  <span class="sr-only">Siguiente</span>
 	</a>
   </div>`)
+
+	ctx.HTML(htmlcode)
+
+}
+
+//VerificaEspectacular -> Verifica la existencia del numero de control en la base de datos
+func VerificaEspectacular(ctx iris.Context) {
+
+	var htmlcode string
+
+	control := ctx.PostValue("data")
+
+	var existe bool
+
+	existe = admonmodel.VerificaEspectacularMongo(control)
+
+	if existe {
+
+		htmlcode += fmt.Sprintf(`
+		<script>
+		Swal.fire('%v ha sido dado de alta')
+		document.getElementById("submitespectacular").disabled = true;
+		</script>`, control)
+
+	} else {
+		htmlcode += fmt.Sprintf(`
+		<script>
+		Swal.fire('%v no ha sido dado de alta')
+		document.getElementById("submitespectacular").disabled = false;
+		</script>`, control)
+
+	}
+
+	ctx.HTML(htmlcode)
+}
+
+//GenerarFichaDeCliente -> Genera el archivo PDF por espectacular
+func GenerarFichaDeCliente(ctx iris.Context) {
+
+	var htmlcode string
+	id := ctx.PostValue("data")
+
+	espectacular := admonmodel.ObtenerEspectacularPorID(id)
+
+	// Construir un pdf.	pdf := gofpdf.New("P", "mm", "A4", "")
+	ac := accounting.Accounting{Symbol: "$", Precision: 2}
+
+	var opt gofpdf.ImageOptions
+	pdf := gofpdf.New("L", "mm", "Letter", "")
+	tr := pdf.UnicodeTranslatorFromDescriptor("")
+	pdf.AddPage()
+	// func (f *Fpdf) SetFont(familyStr, styleStr string, size float64)
+	// func (f *Fpdf) ImageOptions(imageNameStr string, x, y, w, h float64, flow bool, options ImageOptions, link int, linkStr string)
+	// pdf.ImageOptions(`Recursos\Imagenes\nikelogo.jpg`, 0, 100, 20, 0, false, opt, 0, "")
+	// pdf.ImageOptions(`Recursos\Imagenes\nikelogo.jpg`, 0, 200, 20, 0, false, opt, 0, "")
+	// pdf.ImageOptions(`Recursos\Imagenes\nikelogo.jpg`, 100, 0, 20, 0, false, opt, 0, "")
+	// pdf.ImageOptions(`Recursos\Imagenes\pruebamapa.jpg`, 200, 0, 20, 0, false, opt, 0, "")
+	// func (f *Fpdf) Cell(w, h float64, txtStr string)
+	pdf.ImageOptions(`Recursos\Imagenes\logo.jpg`, 10, 10, 70, 0, false, opt, 0, "")
+	pdf.SetDrawColor(168, 170, 173)
+	pdf.SetLineWidth(0.5)
+	pdf.Line(80, 22, 250, 22)
+
+	pdf.SetFont("Helvetica", "B", 12)
+	pdf.ImageOptions(espectacular.Imagenes[0], 30, 35, 70, 0, false, opt, 0, "")
+	pdf.SetXY(45, 80)
+	pdf.Cell(80, 5, tr("VISTA CERCANA"))
+	pdf.ImageOptions(espectacular.Imagenes[1], 105, 35, 70, 0, false, opt, 0, "")
+	pdf.SetXY(125, 80)
+	pdf.Cell(80, 5, tr("VISTA LEJANA"))
+	pdf.ImageOptions(espectacular.Imagenes[2], 180, 35, 70, 0, false, opt, 0, "")
+	pdf.SetXY(200, 80)
+	pdf.Cell(80, 5, tr("VISTA COMPLETA"))
+	pdf.SetFont("Helvetica", "B", 24)
+	pdf.SetTextColor(227, 34, 34)
+	pdf.SetXY(10, 150)
+	pdf.Cell(0, 7, tr(espectacular.NumControl))
+	pdf.SetFont("Helvetica", "", 14)
+	pdf.SetTextColor(78, 80, 82)
+	pdf.Ln(7)
+	pdf.Cell(100, 5, tr(espectacular.Calle+" "+espectacular.Numero+", "+espectacular.Colonia+", "+espectacular.Localidad+"."))
+	pdf.Ln(5)
+	pdf.Cell(50, 5, tr(espectacular.Municipio+", "+espectacular.Estado+"."))
+	pdf.Ln(5)
+	anchostring := strconv.FormatFloat(espectacular.Ancho, 'f', -1, 64)
+	altostring := strconv.FormatFloat(espectacular.Alto, 'f', -1, 64)
+	pdf.Cell(50, 5, tr(anchostring+"m x "+altostring+"m"))
+	pdf.Ln(5)
+	pdf.Cell(50, 5, tr("IMPRESIÓN  : "+ac.FormatMoney(espectacular.CostoImpresion)))
+	pdf.Ln(5)
+	pdf.Cell(50, 5, tr("INSTALACIÓN: "+ac.FormatMoney(espectacular.CostoInstalacion)))
+	pdf.Ln(5)
+	pdf.Cell(50, 5, tr(espectacular.Status))
+	pdf.SetXY(180, 184)
+	pdf.SetTextColor(168, 170, 173)
+	pdf.SetFont("Helvetica", "", 9)
+	pdf.Cell(80, 4, tr("La Soledad #115, Fracc. Colinas de la Soledad"))
+	pdf.SetXY(180, 187)
+	pdf.Cell(80, 4, tr("San Felipe del Agua, Oaxaca, Oax. C.P. 68044"))
+	pdf.SetXY(180, 190)
+	pdf.Cell(80, 4, tr("Tel. (951) 503-82-020, publihome@hotmail.com"))
+
+	pdf.ImageOptions(`Recursos\Imagenes\pruebamapa.jpg`, 150, 95, 100, 0, false, opt, 0, "")
+	pdf.SetTextColor(39, 88, 138)
+	pdf.SetFont("Helvetica", "B", 16)
+	pdf.Text(187, 175, tr(espectacular.Latitud+" , "+espectacular.Longitud))
+
+	fileee := `Recursos\Archivos\Fichas` + espectacular.NumControl + `.pdf`
+	err4 := pdf.OutputFileAndClose(fileee)
+	if err4 != nil {
+		fmt.Println(err4)
+	} else {
+		htmlcode += fmt.Sprintf(`<script>Descargar('%v');</script>`, espectacular.NumControl)
+	}
 
 	ctx.HTML(htmlcode)
 

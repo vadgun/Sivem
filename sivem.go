@@ -36,6 +36,8 @@ func main() {
 	app.Get("/nuevoespectacular", admoncontroller.EspectacularesNuevo)
 	app.Post("/guardarespectacular", admoncontroller.GuardaEspectacular)
 	app.Post("/imagenesespectacular", admoncontroller.ObtenerImagenes)
+	app.Post("/eliminarespectacular", admoncontroller.EliminarEspectacular)
+	app.Post("/generarfichadecliente", admoncontroller.GenerarFichaDeCliente)
 
 	app.Get("/ventas", admoncontroller.Ventas)
 
@@ -56,6 +58,9 @@ func main() {
 	//E L I M I N A R
 	app.Post("/eliminarcliente", admoncontroller.EliminarCliente)
 	app.Post("/eliminarempleado", admoncontroller.EliminarEmpleado)
+
+	//B U S Q U E D A S
+	app.Post("/verificaespectacular", admoncontroller.VerificaEspectacular)
 
 	app.Run(iris.Addr(":8080"))
 

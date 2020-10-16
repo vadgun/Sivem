@@ -26,6 +26,7 @@
                         </div>
                     </div>
                     <div class="" id="clientesContainer">
+                        {{if .Empleados}}
                         <table class="table table-hover table-bordered ">
                             <thead>
                                 <th># Control</th>
@@ -67,6 +68,10 @@
     
                             </tbody>
                         </table>
+                        {{else}}
+                        <h3 class=" text-center">No hay Empleados dados de alta</h3>
+                        {{end}}
+                        
                     </div>
                 </div>
             </div>

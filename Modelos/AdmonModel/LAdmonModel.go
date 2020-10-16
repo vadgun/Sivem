@@ -218,6 +218,21 @@ func ExtraeEmpleadoPorId(id string) EmpleadoMongo {
 	return empleado
 }
 
+//EliminarEspectacularMongo -> Elimina el espectacular de la base de datos
+func EliminarEspectacularMongo(id string) {
+	objid := bson.ObjectIdHex(id)
+	session, err := mgo.Dial(conexiones.MONGO_SERVER)
+	defer session.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
+	c := session.DB(conexiones.MONGO_DB).C(conexiones.MONGO_DB_ES)
+	err1 := c.RemoveId(objid)
+	if err1 != nil {
+		fmt.Println(err1)
+	}
+}
+
 //EliminarClienteMongo -> Elimina el Cliente de la base de datos
 func EliminarClienteMongo(id string) bool {
 	objid := bson.ObjectIdHex(id)
@@ -281,4 +296,29 @@ func GuardarEspectacularMongo(espectacular EspectacularMongo) bool {
 	}
 
 	return guardado
+}
+
+//VerificaEspectacularMongo -> Verifica el numero de control para el alta de espectaculares
+func VerificaEspectacularMongo(numcontrol string) bool {
+
+	var espectacular EspectacularMongo
+
+	session, err := mgo.Dial(conexiones.MONGO_SERVER)
+	defer session.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	c := session.DB(conexiones.MONGO_DB).C(conexiones.MONGO_DB_ES)
+	err1 := c.Find(bson.M{"NumControl": numcontrol}).One(&espectacular)
+	if err1 != nil {
+		fmt.Println(err1)
+	}
+
+	if espectacular.NumControl == "" {
+		return false
+	} else {
+		return true
+	}
+
 }

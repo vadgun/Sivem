@@ -26,6 +26,8 @@
                         </div>
                     </div>
                     <div class="" id="clientesContainer">
+
+                        {{if .Espectaculares}}
                         <table class="table table-hover table-bordered ">
                             
                             <thead>
@@ -37,7 +39,7 @@
                                  <th>Precio</th>
                                  <th>Status</th>
                                  <th>Municipio</th>
-                                 <th>Acciones</th>
+                                 <th width="18%">Acciones</th>
                             </thead>
                             <tbody>
                                 {{range $llave, $value := .Espectaculares}}
@@ -76,6 +78,9 @@
                                         <button class="btn btn-dark" title="Ver imagenes" onclick="VerImagenesEspectacular('{{$value.ID.Hex}}');">
                                             <img src="Recursos/Generales/Plugins/icons/build/svg/file-mediawhite.svg" height="15" alt="Ver imagenes"/>
                                         </button>
+                                        <button class="btn btn-info" title="Generar Ficha De Cliente" onclick="GenerarFicha('{{$value.ID.Hex}}');">
+                                            <img src="Recursos/Generales/Plugins/icons/build/svg/file-pdfwhite.svg" height="15" alt="Generar Ficha De Cliente"/>
+                                        </button>
                                     </td>
                                 </tr>
                                 {{end}}
@@ -83,12 +88,18 @@
     
                             </tbody>
                         </table>
+                        {{else}}
+                        <h3 class=" text-center">No hay espectaculares dados de alta</h3>
+                        {{end}}
+
+                       
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
+<div id="answer"></div>
 
 <!-- Modal V E R   I M A G E N E S   D E   E S P E C T A C U L A R -->
 <div class="modal fade" id="ModalImagenesEspectacular" tabindex="-1" role="dialog" aria-labelledby="ModalImagenesEspectacular" aria-hidden="true">

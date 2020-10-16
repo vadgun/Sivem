@@ -27,7 +27,7 @@
                                     <label for="numcontrol" class="col-sm-1 col-form-label negrita"> #Control: </label>
                                     <div class="col-sm-2">
                                         <input type="text" class="form-control" id="numcontrol" name="numcontrol"
-                                            value="" required>
+                                            value="" required onchange="VerificarEspectacularDuplicado(this.value);">
                                     </div>
 
                                     <label for="costoimpreso" class="col-sm-2 col-form-label negrita"> Costo Impresión:
@@ -160,23 +160,21 @@
 
                                 <div class="form-group row">
 
-                                    <label for="imagendrop" class="col-sm-2 col-form-label negrita"> Imagenes : </label>
-                                    <div class="col-sm-5">
+                                    <label for="imagen1" class="col-sm-2 col-form-label negrita"> Vista Cercana : </label>
+                                    <div class="col-sm-4">
                                         <input type="file" class="dropify" data-allowed-file-extensions="jpg jpeg"
                                             id="imagen1" name="imagen1" required />
                                     </div>
-                                    <div class="col-sm-5">
+                                    <label for="imagen1" class="col-sm-2 col-form-label negrita"> Vista Lejana : </label>
+                                    <div class="col-sm-4">
                                         <input type="file" class="dropify" data-allowed-file-extensions="jpg jpeg"
                                             id="imagen2" name="imagen2" required />
                                     </div>
-                                    <div class="col-sm-2"></div>
-                                    <div class="col-sm-5">
+                                    
+                                    <label for="imagen1" class="col-sm-2 col-form-label negrita"> Vista Completa : </label>
+                                    <div class="col-sm-4">
                                         <input type="file" class="dropify" data-allowed-file-extensions="jpg jpeg"
                                             id="imagen3" name="imagen3" required />
-                                    </div>
-                                    <div class="col-sm-5">
-                                        <input type="file" class="dropify" data-allowed-file-extensions="jpg jpeg"
-                                            id="imagen4" name="imagen4" required />
                                     </div>
                                 </div>
                                 <br>
@@ -263,7 +261,7 @@
 
                                 <div class="form-group row">
                                     <div class="col-sm-4">
-                                        <button type="submit" class="btn btn-success">Guardar</button>
+                                        <button type="submit" id="submitespectacular" class="btn btn-success">Guardar</button>
                                     </div>
                                 </div>
                             </div>
@@ -274,7 +272,9 @@
         </div>
     </div>
 
+<div id="answer">
 
+</div>
 
 
 </body>
