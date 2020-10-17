@@ -949,11 +949,20 @@ func GenerarFichaDeCliente(ctx iris.Context) {
 
 	espectacular := admonmodel.ObtenerEspectacularPorID(id)
 
+	var horafecha time.Time
+
+	horafecha = espectacular.ContratoInicio
+	dia := horafecha.Day()
+	mess := horafecha.Month().String()
+	mes := MesEspanol(mess)
+	anio := horafecha.Year()
+	diastring := strconv.Itoa(dia)
+	aniostring := strconv.Itoa(anio)
 	// Construir un pdf.	pdf := gofpdf.New("P", "mm", "A4", "")
 	ac := accounting.Accounting{Symbol: "$", Precision: 2}
 
 	var opt gofpdf.ImageOptions
-	pdf := gofpdf.New("L", "mm", "Letter", "")
+	pdf := gofpdf.New("L", "mm", "Letter", ``)
 	tr := pdf.UnicodeTranslatorFromDescriptor("")
 	pdf.AddPage()
 	// func (f *Fpdf) SetFont(familyStr, styleStr string, size float64)
@@ -963,54 +972,67 @@ func GenerarFichaDeCliente(ctx iris.Context) {
 	// pdf.ImageOptions(`Recursos\Imagenes\nikelogo.jpg`, 100, 0, 20, 0, false, opt, 0, "")
 	// pdf.ImageOptions(`Recursos\Imagenes\pruebamapa.jpg`, 200, 0, 20, 0, false, opt, 0, "")
 	// func (f *Fpdf) Cell(w, h float64, txtStr string)
-	pdf.ImageOptions(`Recursos\Imagenes\logo.jpg`, 10, 10, 70, 0, false, opt, 0, "")
-	pdf.SetDrawColor(168, 170, 173)
-	pdf.SetLineWidth(0.5)
-	pdf.Line(80, 22, 250, 22)
 
-	pdf.SetFont("Helvetica", "B", 12)
-	pdf.ImageOptions(espectacular.Imagenes[0], 30, 35, 70, 0, false, opt, 0, "")
-	pdf.SetXY(45, 80)
-	pdf.Cell(80, 5, tr("VISTA CERCANA"))
-	pdf.ImageOptions(espectacular.Imagenes[1], 105, 35, 70, 0, false, opt, 0, "")
-	pdf.SetXY(125, 80)
-	pdf.Cell(80, 5, tr("VISTA LEJANA"))
-	pdf.ImageOptions(espectacular.Imagenes[2], 180, 35, 70, 0, false, opt, 0, "")
-	pdf.SetXY(200, 80)
-	pdf.Cell(80, 5, tr("VISTA COMPLETA"))
+	pdf.ImageOptions(`Recursos\Imagenes\logo.jpg`, 10, 10, 70, 0, false, opt, 0, "")
+	pdf.SetLineWidth(2)
+	pdf.SetDrawColor(227, 34, 34) //Roja
+	pdf.Line(10, 154, 195, 154)
+	pdf.SetDrawColor(39, 88, 138)
+	pdf.Line(195, 154, 260, 154)    //Azul
+	pdf.SetDrawColor(168, 170, 173) //Gris
+	pdf.SetFont("Helvetica", "BI", 12)
+	pdf.SetTextColor(126, 136, 140)
+	pdf.ImageOptions(espectacular.Imagenes[1], 10, 25, 0, 100, false, opt, 0, "")
+	pdf.SetXY(10, 126)
+	pdf.Cell(80, 5, tr("VISTA MEDIA"))
+	pdf.ImageOptions(espectacular.Imagenes[0], 190, 25, 70, 0, false, opt, 0, "")
+	pdf.SetXY(190, 70)
+	pdf.Cell(80, 5, tr("VISTA CORTA"))
+	pdf.ImageOptions(espectacular.Imagenes[2], 190, 83, 70, 0, false, opt, 0, "")
+	pdf.SetXY(190, 126)
+	pdf.Cell(80, 5, tr("VISTA LARGA"))
 	pdf.SetFont("Helvetica", "B", 24)
 	pdf.SetTextColor(227, 34, 34)
-	pdf.SetXY(10, 150)
-	pdf.Cell(0, 7, tr(espectacular.NumControl))
-	pdf.SetFont("Helvetica", "", 14)
+	pdf.SetXY(10, 147)
+	long := len(espectacular.NumControl)
+	pdf.Cell(float64(long*6), 5, tr(espectacular.NumControl))
+	x := pdf.GetX()
+	pdf.SetXY(x, 146)
 	pdf.SetTextColor(78, 80, 82)
-	pdf.Ln(7)
+	pdf.SetFont("arial", "B", 10)
+	pdf.Cell(0, 10, "ESPECTACULAR")
+	pdf.SetFont("Helvetica", "B", 13)
+	pdf.SetTextColor(78, 80, 82)
+	pdf.SetXY(10, 157)
 	pdf.Cell(100, 5, tr(espectacular.Calle+" "+espectacular.Numero+", "+espectacular.Colonia+", "+espectacular.Localidad+"."))
 	pdf.Ln(5)
 	pdf.Cell(50, 5, tr(espectacular.Municipio+", "+espectacular.Estado+"."))
 	pdf.Ln(5)
 	anchostring := strconv.FormatFloat(espectacular.Ancho, 'f', -1, 64)
 	altostring := strconv.FormatFloat(espectacular.Alto, 'f', -1, 64)
-	pdf.Cell(50, 5, tr(anchostring+"m x "+altostring+"m"))
+	pdf.Cell(50, 5, tr(anchostring+"m. x "+altostring+"m."))
 	pdf.Ln(5)
 	pdf.Cell(50, 5, tr("IMPRESIÓN  : "+ac.FormatMoney(espectacular.CostoImpresion)))
 	pdf.Ln(5)
 	pdf.Cell(50, 5, tr("INSTALACIÓN: "+ac.FormatMoney(espectacular.CostoInstalacion)))
 	pdf.Ln(5)
-	pdf.Cell(50, 5, tr(espectacular.Status))
-	pdf.SetXY(180, 184)
+	pdf.Cell(50, 5, tr(espectacular.Status+": "+diastring+"/"+mes+"/"+aniostring))
+	pdf.Ln(5)
+	pdf.Cell(50, 5, tr("MATERIAL EN: LONA, LONA HD, VINIL, VINIL HD"))
+	pdf.SetXY(193, 181)
 	pdf.SetTextColor(168, 170, 173)
 	pdf.SetFont("Helvetica", "", 9)
-	pdf.Cell(80, 4, tr("La Soledad #115, Fracc. Colinas de la Soledad"))
-	pdf.SetXY(180, 187)
-	pdf.Cell(80, 4, tr("San Felipe del Agua, Oaxaca, Oax. C.P. 68044"))
-	pdf.SetXY(180, 190)
-	pdf.Cell(80, 4, tr("Tel. (951) 503-82-020, publihome@hotmail.com"))
+	pdf.Cell(0, 4, tr("La Soledad #115, Fracc. Colinas de la Soledad"))
+	pdf.SetXY(193, 184)
+	pdf.Cell(0, 4, tr("San Felipe del Agua, Oaxaca, Oax. C.P. 68044"))
+	pdf.SetXY(193, 187)
+	pdf.Cell(0, 4, tr("Tel. (951) 50382-020, publihome@hotmail.com"))
 
-	pdf.ImageOptions(`Recursos\Imagenes\pruebamapa.jpg`, 150, 95, 100, 0, false, opt, 0, "")
+	pdf.ImageOptions(`Recursos\Imagenes\googlemapslogo2.png`, 218, 160, 20, 0, false, opt, 0, tr(`https://maps.google.com/?q=`+espectacular.Latitud+`,`+espectacular.Longitud))
 	pdf.SetTextColor(39, 88, 138)
 	pdf.SetFont("Helvetica", "B", 16)
-	pdf.Text(187, 175, tr(espectacular.Latitud+" , "+espectacular.Longitud))
+	pdf.SetXY(202, 175)
+	pdf.CellFormat(50, 5, tr(espectacular.Latitud+" , "+espectacular.Longitud), "", 1, "C", false, 0, tr(`https://maps.google.com/?q=`+espectacular.Latitud+`,`+espectacular.Longitud))
 
 	fileee := `Recursos\Archivos\Fichas` + espectacular.NumControl + `.pdf`
 	err4 := pdf.OutputFileAndClose(fileee)
@@ -1022,4 +1044,49 @@ func GenerarFichaDeCliente(ctx iris.Context) {
 
 	ctx.HTML(htmlcode)
 
+}
+
+//MesEspanol Regresa el mes en español.
+func MesEspanol(mes string) string {
+	var mess string
+	switch mes {
+	case "January":
+		mess = "ENERO"
+		break
+	case "February":
+		mess = "FEBRERO"
+		break
+	case "March":
+		mess = "MARZO"
+		break
+	case "April":
+		mess = "ABRL"
+		break
+	case "May":
+		mess = "MAYO"
+		break
+	case "June":
+		mess = "JUNIO"
+		break
+	case "July":
+		mess = "JULIO"
+		break
+	case "August":
+		mess = "AGOSTO"
+		break
+	case "September":
+		mess = "SEPTIEMBRE"
+		break
+
+	case "October":
+		mess = "OCTUBRE"
+		break
+	case "November":
+		mess = "NOVIEMBRE"
+		break
+	case "December":
+		mess = "DICIEMBRE"
+		break
+	}
+	return mess
 }
