@@ -65,6 +65,25 @@ func ExtraeEspectaculares() []EspectacularMongo {
 
 }
 
+//ExtraeMateriales Regresa la coleccion completa de materiales a la vista
+func ExtraeMateriales() []MaterialMongo {
+	var materiales []MaterialMongo
+
+	session, err := mgo.Dial(conexiones.MONGO_SERVER)
+	defer session.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
+	c := session.DB(conexiones.MONGO_DB).C(conexiones.MONGO_DB_MAT)
+	err1 := c.Find(bson.M{}).All(&materiales)
+	if err1 != nil {
+		fmt.Println(err1)
+	}
+
+	return materiales
+
+}
+
 //ObtenerEspectacularPorID -> Regresa la informacion del espectacular por ID
 func ObtenerEspectacularPorID(id string) EspectacularMongo {
 	objid := bson.ObjectIdHex(id)

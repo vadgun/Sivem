@@ -147,6 +147,8 @@ func Materiales(ctx iris.Context) {
 	if autorizado || autorizado2 {
 		userOn := indexmodel.GetUserOn(sessioncontroller.Sess.Start(ctx).GetString("UserID"))
 		ctx.ViewData("Usuario", userOn)
+		materiales := admonmodel.ExtraeMateriales()
+		ctx.ViewData("Materiales", materiales)
 		if err := ctx.View("Materiales.html"); err != nil {
 			ctx.Application().Logger().Infof(err.Error())
 		}

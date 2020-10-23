@@ -1,6 +1,11 @@
 let clientes = document.getElementById("clientesit");
 let empleados = document.getElementById("empleadosit");
 let espectaculares = document.getElementById("espectacularesit");
+let materiales = document.getElementById("materialesit");
+let empresas = document.getElementById("empresasit");
+let indexit = document.getElementById("indexit");
+
+
 
 $('.dropify').dropify();
 function BuscaClientes() {
@@ -292,4 +297,12 @@ function Descargar(name) {
             window.URL.revokeObjectURL(url);
         }
     });
+}
+
+function EditarMaterial(data){
+  
+}
+
+function EliminarMaterial(data){
+
 }

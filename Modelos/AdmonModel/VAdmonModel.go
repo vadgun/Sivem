@@ -86,3 +86,18 @@ type EspectacularMongo struct {
 	PeriodoPago      string        `bson:"PeriodoPago"`
 	Disponible       bool          `bson:"Disponible"`
 }
+
+//MaterialMongo -> Estructura de material para la base de datos
+type MaterialMongo struct {
+	ID          bson.ObjectId `bson:"_id,omitempty"`
+	Nombre      string        `bson:"Nombre"`
+	Precio      float64       `bson:"Precio"`
+	Descripcion string        `bson:"Descripcion"`
+}
+
+//EmpresaMongo -> Estructura que controla la empresa en la base de datos
+type EmpresaMongo struct {
+	ID     bson.ObjectId `bson:"_id,omitempty"`
+	Nombre string        `bson:"Nombre"`
+	RFC    string        `bson:"RFC"`
+}

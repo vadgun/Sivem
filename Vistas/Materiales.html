@@ -9,26 +9,128 @@
     <link rel="stylesheet" type="text/css" href="Recursos/Locales/Index/css/index.css">
 </head>
 <body>
-    <div class="sidenav">
-        <a href="/index" id="indexit" class="">Inicio</a>
-        <a href="/clientes" id="clientesit" class="">Clientes</a>
-        <a href="/empleados" id="empleadosit" class="">Empleados</a>
-        <a href="/empresas"id="empresasit" class="">Empresas</a>
-        <a href="/medios" id="mediosit" class="">Medios</a>
-        <a href="/materiales" id="materialesit" class="selected">Materiales</a>
-        <a href="/espectaculares" id="espectacularesit" class="">Espectaculares</a>
-        <a href="/ventas" id="ventasit" class="">Ventas</a>
-        <a href="/vallas" id="vallasit" class="">Vallas</a>
-        <a href="/vallasmoviles" id="vallasmovilesit" class="">Vallas Moviles</a>
-        <a href="#" class="useron">{{.Usuario.Nombre2}}</a>
-        <a href="/logout" class="username">Cerrar Sesión</a>
-        
-      </div>
-    <div class="main">
-        Materiales
+
+    <div class="col-lg-12">
+        <div class="row">
+            {{template "navbartemplate" .}}
+            <div class="col-lg-10 col-md-10 rounded-lg">
+                <div class="container mt-4">
+                    <h1 class="text-center">Materiales</h1>
+                    <hr>
+                    <div class="d-flex justify-content-between my-4">
+                        <div class="d-flex">
+                            <input type="text" class="form-control mr-2" id="buscadormaterial" name="buscadormaterial" value=""  placeholder="Busca material">
+                            <a class="btn btn-info " href="Javascript:BuscaMaterial();" role="button">Buscar</a>&nbsp;
+                        </div>
+                        <div class="d-flex">
+                            <a class="btn btn-warning btn" href="#" role="button" data-toggle="modal" data-target="#ModalMaterial">+ Nuevo Material +</a>
+                        </div>
+                    </div>
+                    <div id="materialesContainer"> 
+                        {{if .Materiales}}
+                        <table class="table table-hover table-bordered ">                        
+                            <thead>
+                                <th>#</th>
+                                <th>Nombre</th>
+                                <th>Empresa</th>
+                                <th>Puesto</th>
+                                <th>Teléfono</th>	
+                                 <th>Acciones</th>
+                            </thead>
+                            <tbody>
+                                {{range $llave, $value := .Materiales}}
+                                <tr>
+                                    <td>
+                                        {{$value.ID.Hex}
+                                    </td>
+                                    <td>
+                                        {{$value.ID.Hex}
+                                    </td>
+                                    <td>
+                                        {{$value.ID.Hex}
+                                    </td>
+                                    <td>
+                                        {{$value.ID.Hex}
+                                    </td>
+                                    <td>
+                                        {{$value.ID.Hex}
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-success" title="Editar Material" onclick="EditarMaterial('{{$value.ID.Hex}}');">
+                                            <img src="Recursos/Generales/Plugins/icons/build/svg/pencilwhite.svg" height="15" alt="Editar Material"/>
+                                        </button>
+                                        <button class="btn btn-danger" title="Eliminar Material" onclick="EliminarMaterial('{{$value.ID.Hex}}');">
+                                            <img src="Recursos/Generales/Plugins/icons/build/svg/trashcanwhite.svg" height="15" alt="Eliminar Material"/>
+                                        </button>
+                                    </td>
+                                </tr>
+                                {{end}}
+    
+    
+                            </tbody>
+                        </table>
+                        {{else}}
+
+                        <h3 class=" text-center">No hay materiales dados de alta</h3>
+
+                        {{end}}
+
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
+<!-- Modal M A T E R I A L E S -->
+<div class="modal fade" id="ModalMaterial" tabindex="-1" role="dialog" aria-labelledby="ModalMaterial" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="color: black;">
+                <h4 class="modal-title text-center" id="titulodemesa">Datos del Material</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+
+            <form action="/guardarmaterial" method="POST" id="formguardarmaterial">
+            </form>
+            
+                <br>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Modal M O D I F I C A R    M A T E R I A L E S -->
+<div class="modal fade" id="ModalEditarMaterial" tabindex="-1" role="dialog" aria-labelledby="ModalEditarMaterial" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="color: black;">
+                <h4 class="modal-title text-center" id="titulodemesa">Editando Material</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <form action="/guardarmaterial" method="POST" id="formeditarmaterial">
+
+            </form>
+            
+                <br>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 </body>
 {{template "generaljstemplates"}}
-
-<script src="Recursos/Locales/Index/js/index.js"></script>	
+<script>
+    materiales.classList.add("selected");
+</script>
 </html>
