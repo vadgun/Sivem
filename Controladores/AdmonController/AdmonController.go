@@ -1135,23 +1135,20 @@ func ObtenerMaterial(ctx iris.Context) {
 
 	<label for="nombrematerial2" class="col-sm-2 col-form-label negrita" >Material : </label>
 	<div class="col-sm-5">
-	<input type="text" class="form-control" id="nombrematerial2" name="nombrematerial2"
-	value="" required placeholder="Tipo de material" value="%v">
+	<input type="text" class="form-control" id="nombrematerial2" name="nombrematerial2" required placeholder="Tipo de material" value="%v">
 	<input type="hidden" value="%v" name="id2" id="id2">
 	</div>
 
 	<label for="preciomaterial2" class="col-sm-2 col-form-label negrita" >Precio : </label>
 	<div class="col-sm-2">
-	<input type="text" class="form-control" id="preciomaterial2" name="preciomaterial2"
-	value="" required step="any" value="%v">
+	<input type="text" class="form-control" id="preciomaterial2" name="preciomaterial2" required step="any" value="%v">
 	</div>
 	</div>
 
 	<div class="form-group row">
 	<label for="descripcionmaterial2" class="col-sm-2 col-form-label negrita" >Descripción : </label>
 	<div class="col-sm-9">
-	<input type="text" class="form-control" id="descripcionmaterial2" name="descripcionmaterial2"
-	value="" required placeholder="Descripción del material" value="%v">
+	<input type="text" class="form-control" id="descripcionmaterial2" name="descripcionmaterial2" required placeholder="Descripción del material" value="%v">
 	</div>
 	</div>                    
 	<div class="row">
@@ -1175,20 +1172,18 @@ func EditandoMaterial(ctx iris.Context) {
 	var htmlcode string
 
 	idmaterial := ctx.PostValue("id2")
-	material.Nombre = ctx.PostValue("nombrematerial")
-	material.Precio, _ = ctx.PostValueFloat64("preciomaterial")
-	material.Descripcion = ctx.PostValue("descripcionmaterial")
+	material.Nombre = ctx.PostValue("nombrematerial2")
+	material.Precio, _ = ctx.PostValueFloat64("preciomaterial2")
+	material.Descripcion = ctx.PostValue("descripcionmaterial2")
 
 	if admonmodel.EditarMaterialMongo(idmaterial, material) {
 		htmlcode += fmt.Sprintf(`<script> 
-		location.replace("/materiales");
-		Swal.fire('Material %v modificado');
-		</script>`, material.Nombre)
+		location.replace("/materiales");		
+		</script>`)
 	} else {
 		htmlcode += fmt.Sprintf(`<script>
 		location.replace("/materiales");
-		Swal.fire('Material %v no modificado');
-	</script>`, material.Nombre)
+	</script>`)
 	}
 
 	ctx.HTML(htmlcode)
