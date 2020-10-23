@@ -1,60 +1,29 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Empleados | SIVEM</title>
-    {{template "generalcsstemplates"}}
-
-    <link rel="stylesheet" type="text/css" href="Recursos/Locales/Index/css/index.css">
-</head>
-<body>
-    <div class="col-lg-12">
-        <div class="row">
-            <div class="col-lg-2 col-md-2">
-                    <a id="menu">
-                        <img src="Recursos/Imagenes/icoMenu.png"  width="35" alt="menu">
-                    </a>
-                <div class="sidenav navbar-nav">
-                            <a href="/index" id="indexit" class="">Inicio</a>
-                            <a href="/clientes" id="clientesit" class="">Clientes</a>
-                            <a href="/empleados" id="empleadosit" class="selected">Empleados</a>
-                            <a href="/empresas"id="empresasit" class="">Empresas</a>
-                            <a href="/medios" id="mediosit" class="">Medios</a>
-                            <a href="/materiales" id="materialesit" class="">Materiales</a>
-                            <a href="/espectaculares" id="espectacularesit" class="">Espectaculares</a>
-                            <a href="/ventas" id="ventasit" class="">Ventas</a>
-                            <a href="/vallas" id="vallasit" class="">Vallas</a>
-                            <a href="/vallasmoviles" id="vallasmovilesit" class="">Vallas Moviles</a>
-                            <a href="#" class="useron">{{.Usuario.Nombre2}}</a>
-                            <a href="/logout" class="username">Cerrar Sesión</a>
-                          </div>
-                    </div>
-            <div class="col-lg-10 col-md-10 rouded-lg">
-                <div class="container mt-4">
+{{template "headTemplate"}}
+{{template "navbartemplate" .}}
                     <h1 class=" text-center">Empleados</h1>
                          <hr>
                     <div class="d-flex justify-content-between my-4">
                         <div class="d-flex">
-                            <input type="text" class="form-control mr-2" id="buscadorcliente" name="buscadorcliente" value=""  placeholder="Busca clientes">
-                            <a class="btn btn-info " href="Javascript:BuscaClientes();" role="button">Buscar</a>&nbsp;
+                            <input type="text" class="form-control mr-2" id="buscadorcliente" name="buscadorcliente" value=""  placeholder="Busca empleado">
+                            <a class="btn btn-info " href="Javascript:BuscaEmpleado();" role="button">Buscar</a>&nbsp;
                         </div>
                         <div class="d-flex">
-                            <a class="btn btn-warning btn" href="#" role="button" data-toggle="modal" data-target="#ModalClientes">+ Nuevo Empleados +</a>
+                            <a class="btn btn-warning btn" href="#" role="button" data-toggle="modal" data-target="#ModalEmpleados">+ Nuevo Empleado +</a>
                         </div>
                     </div>
                     <div class="" id="clientesContainer">
+                        {{if .Empleados}}
                         <table class="table table-hover table-bordered ">
                             <thead>
-                                <th>#</th>
+                                <th># Control</th>
                                 <th>Nombre</th>
-                                <th>Empresa</th>
-                                <th>Puesto</th>
+                                <th>Cargo</th>
+                                <th>Correo</th>
                                 <th>Teléfono</th>	
                                  <th>Acciones</th>
                             </thead>
                             <tbody>
-                                {{range $llave, $value := .Clientes}}
+                                {{range $llave, $value := .Empleados}}
                                 <tr>
                                     <td>
                                         {{$llave}}
@@ -63,20 +32,20 @@
                                         {{$value.Nombre}}&nbsp;{{$value.ApellidoP}}&nbsp;{{$value.ApellidoM}}
                                     </td>
                                     <td>
-                                        {{$value.Empresa}}
+                                        {{$value.Cargo}}
                                     </td>
                                     <td>
-                                        {{$value.Puesto}}
+                                        {{$value.Correo}}
                                     </td>
                                     <td>
                                         {{$value.Telefono}}
                                     </td>
                                     <td>
-                                        <button class="btn btn-success" title="Editar Cliente" onclick="EditarCliente('{{$value.ID.Hex}}');">
-                                            <img src="Recursos/Generales/Plugins/icons/build/svg/pencilwhite.svg" height="15" alt="Editar Cliente"/>
+                                        <button class="btn btn-success" title="Editar Empleado" onclick="EditarEmpleado('{{$value.ID.Hex}}');">
+                                            <img src="Recursos/Generales/Plugins/icons/build/svg/pencilwhite.svg" height="15" alt="Editar Empleado"/>
                                         </button>
-                                        <button class="btn btn-danger" title="Eliminar Cliente" onclick="EliminarCliente('{{$value.ID.Hex}}');">
-                                            <img src="Recursos/Generales/Plugins/icons/build/svg/trashcanwhite.svg" height="15" alt="Eliminar Cliente"/>
+                                        <button class="btn btn-danger" title="Eliminar Empleado" onclick="EliminarEmpleado('{{$value.ID.Hex}}');">
+                                            <img src="Recursos/Generales/Plugins/icons/build/svg/trashcanwhite.svg" height="15" alt="Eliminar Empleado"/>
                                         </button>
                                     </td>
                                 </tr>
@@ -85,13 +54,149 @@
     
                             </tbody>
                         </table>
+                        {{else}}
+                        <h3 class=" text-center">No hay Empleados dados de alta</h3>
+                        {{end}}
+                        
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</body>
-{{template "generaljstemplates"}}
 
-<script src="Recursos/Locales/Index/js/index.js"></script>	
-</html>
+    <!-- Modal A L T A   E M P L E A D O S -->
+<div class="modal fade" id="ModalEmpleados" tabindex="-1" role="dialog" aria-labelledby="ModalEmpleados" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="color: black;">
+                <h4 class="modal-title text-center" id="titulodemesa">Datos del Empleado</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="container">
+                <br>    
+                
+                <form action="/guardarempleados" method="POST" id="formaltaempleado" name="formaltaempleado">
+                    <div class="row">
+
+                        <div class="col">
+                            <input type="text" class="form-control textomayus" placeholder="# Control" value="" id="control" name="control">
+                        </div>
+                        <div class="col">
+                            <input type="text" class="form-control textomayus" placeholder="Nombre" required value="" id="nombreempleado" name="nombreempleado">
+                        </div>
+                        <div class="col">
+                            <input type="text" class="form-control textomayus" placeholder="Apellido Paterno" required value="" id="apaterno" name="apaterno">
+                        </div>
+                        <div class="col">
+                            <input type="text" class="form-control textomayus" placeholder="Apellido Materno" value="" id="amaterno" name="amaterno">
+                        </div>
+
+
+                   </div>
+                   <br>
+                   <div class="row">
+                    <div class="col">
+                        <input type="text" class="form-control textomayus" placeholder="Sexo" value="" id="sexo" name="sexo">
+                    </div>
+                    <div class="col">
+                        <input type="text" class="form-control textomayus" placeholder="Cargo" value="" id="cargo" name="cargo">
+                    </div>
+                    <div class="col">
+                        <input type="text" class="form-control textomayus" placeholder="Licencia" value="" id="licencia" name="licencia">
+                    </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col">
+                            <input type="text" class="form-control textomayus" placeholder="Correo Electronico" required value="" id="correo" name="correo">
+                        </div>
+                        <div class="col">
+                            <input type="text" class="form-control textomayus" placeholder="Calle" required value="" id="calle" name="calle">
+                        </div>
+                        <div class="col">
+                            <input type="text" class="form-control textomayus" placeholder="Numero" required value="" id="numero" name="numero">
+                        </div>
+
+                    </div>
+                    <br>
+
+                    <div class="row">
+                        <div class="col">
+                            <input type="text" class="form-control textomayus" placeholder="Colonia" required value="" id="colonia" name="colonia">
+                        </div>
+                        <div class="col">
+                            <input type="text" class="form-control textomayus" placeholder="Codigo Postal" value="" id="codpostal" name="codpostal">
+                        </div>
+                        <div class="col">
+                            <input type="text" class="form-control textomayus" placeholder="Municipio" required value="" id="municipio" name="municipio">
+                        </div>
+
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col">
+                            <input type="text" class="form-control textomayus" placeholder="Estado" required value="" id="estado" name="estado">
+                        </div>
+                        <div class="col">
+                            <input type="text" class="form-control textomayus" placeholder="Ciudad" required value="" id="ciudad" name="ciudad">
+                        </div>
+                        <div class="col">
+                            <input type="text" class="form-control textomayus" placeholder="Teléfono" value="" id="telefono" name="telefono">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col">
+                            <input type="text" class="form-control textomayus" placeholder="Referencias" value="" id="referencias" name="referencias">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-10">
+                        </div>
+                        <div class="col-sm-1">    
+                            <button type="submit" class="btn btn-dark" >Guardar</button>
+                        </div>
+                    </div>
+
+                </form>
+                
+            </div>
+                <br>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal E D I T A R    E M P L E A D O S-->
+<div class="modal fade" id="ModalEditarEmpleados" tabindex="-1" role="dialog" aria-labelledby="ModalEditarEmpleados" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="color: black;">
+                <h4 class="modal-title text-center" id="titulodemesa">Datos del Empleado</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="container">
+                <br>    
+                
+                <form action="/editandoempleados" method="POST" id="formeditarempleado" name="formeditarempleado">
+                    
+
+                </form>
+                
+            </div>
+                <br>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+{{template "footerTemplate" .}}
+<script>empleadosit.classList.add("selected");</script>

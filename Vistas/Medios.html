@@ -1,33 +1,5 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Medios | SIVEM</title>
-    {{template "generalcsstemplates"}}
-    <link rel="stylesheet" type="text/css" href="Recursos/Locales/Index/css/index.css">
-</head>
-<body>
-    <div class="sidenav">
-        <a href="/index" id="indexit" class="">Inicio</a>
-        <a href="/clientes" id="clientesit" class="">Clientes</a>
-        <a href="/empleados" id="empleadosit" class="">Empleados</a>
-        <a href="/empresas"id="empresasit" class="">Empresas</a>
-        <a href="/medios" id="mediosit" class="selected">Medios</a>
-        <a href="/materiales" id="materialesit" class="">Materiales</a>
-        <a href="/espectaculares" id="espectacularesit" class="">Espectaculares</a>
-        <a href="/ventas" id="ventasit" class="">Ventas</a>
-        <a href="/vallas" id="vallasit" class="">Vallas</a>
-        <a href="/vallasmoviles" id="vallasmovilesit" class="">Vallas Moviles</a>
-        <a href="#" class="useron">{{.Usuario.Nombre2}}</a>
-        <a href="/logout" class="username">Cerrar Sesión</a>
-        
-      </div>
-    <div class="main">
+{{template "headTemplate"}}
+{{template "navbartemplate" .}}
         Medios
-    </div>
-</body>
-{{template "generaljstemplates"}}
 
-<script src="Recursos/Locales/Index/js/index.js"></script>	
-</html>
+{{template "footerTemplate"}}

@@ -1,48 +1,5 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clientes | SIVEM</title>
-    {{template "generalcsstemplates"}}
-    <link rel="stylesheet" type="text/css" href="Recursos/Locales/Index/css/index.css">
-</head>
-<body>
-    <div class="col-lg-12">
-    <div class="row">
-        <div class="col-lg-2 col-md-2">
-            <div id=menu>
-                <div class="d-flex justify-content-end align-items-center mt-2">
-                    <b class="my-auto mr-1 menuTitle">MENU</b>
-                    <a id="menu">
-                        <img src="Recursos/Imagenes/icoMenu.png"  width="35" alt="menu">
-                    </a>
-                </div>
-            </div>
-            <hr class="bg-dark d-none">
-            <div class="sidenav navbar-nav">
-                        <a class="icoMenu">
-                            <img id="closeMenu" src="Recursos/Generales/Plugins/icons/build/svg/x2.svg" alt="">
-                        </a>
-                        <hr class="bg-white d-none">
-                        <a href="/index" id="indexit" class="">Inicio</a>
-                        <a href="/clientes" id="clientesit" class="selected">Clientes</a>
-                        <a href="/empleados" id="empleadosit" class="">Empleados</a>
-                        <a href="/empresas"id="empresasit" class="">Empresas</a>
-                        <a href="/medios" id="mediosit" class="">Medios</a>
-                        <a href="/materiales" id="materialesit" class="">Materiales</a>
-                        <a href="/espectaculares" id="espectacularesit" class="">Espectaculares</a>
-                        <a href="/ventas" id="ventasit" class="">Ventas</a>
-                        <a href="/vallas" id="vallasit" class="">Vallas</a>
-                        <a href="/vallasmoviles" id="vallasmovilesit" class="">Vallas Moviles</a>
-                        <div class="mt-auto">
-                            <a href="#" class="useron">{{.Usuario.Nombre2}}</a>
-                            <a href="/logout" class="username">Cerrar Sesión</a>
-                        </div>
-                      </div>
-                </div>
-        <div class="col-lg-10 col-md-10 rouded-lg">
-            <div class="container mt-4">
+{{template "headTemplate"}}
+{{template "navbartemplate" .}}
                 <h1 class=" text-center">Clientes</h1>
                      <hr>
                 <div class="d-flex justify-content-between my-4">
@@ -55,6 +12,7 @@
                     </div>
                 </div>
                 <div class="" id="clientesContainer">
+                    {{if .Clientes}}
                     <table class="table table-hover table-bordered ">
                         
                         <thead>
@@ -97,11 +55,16 @@
 
                         </tbody>
                     </table>
+                    {{else}}
+                    <h3 class=" text-center">No hay Clientes Dados de Alta</h3>
+                    {{end}}
+      
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 <!-- Modal A L T A   C L I E N T E S-->
 <div class="modal fade" id="ModalClientes" tabindex="-1" role="dialog" aria-labelledby="ModalClientes" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -239,11 +202,5 @@
         </div>
     </div>
 </div>
-
-
-</body>
-{{template "generaljstemplates"}}
-
-<script src="Recursos/Locales/Index/js/index.js"></script>	
-<script src="Recursos/Locales/Index/js/navbar.js"></script>	
-</html>
+{{template "footerTemplate" .}}
+<script>clientesit.classList.add("selected");</script>
