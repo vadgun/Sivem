@@ -1,18 +1,5 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clientes | SIVEM</title>
-    {{template "generalcsstemplates"}}
-    <link rel="stylesheet" type="text/css" href="Recursos/Locales/Index/css/index.css">
-</head>
-<body>
-    <div class="col-lg-12">
-    <div class="row">
-        {{template "navbartemplate" .}}
-        <div class="col-lg-10 col-md-10 rounded-lg">
-            <div class="container mt-4">
+{{template "headTemplate"}}
+{{template "navbartemplate" .}}
                 <h1 class=" text-center">Clientes</h1>
                      <hr>
                 <div class="d-flex justify-content-between my-4">
@@ -215,11 +202,4 @@
         </div>
     </div>
 </div>
-
-
-</body>
-{{template "generaljstemplates"}}
-<script>
-    clientes.classList.add("selected");
-</script>
-</html>
+{{template "footerTemplate" .}}
