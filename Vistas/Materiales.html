@@ -25,16 +25,16 @@
                                 {{range $llave, $value := .Materiales}}
                                 <tr>
                                     <td>
-                                        {{$value.ID.Hex}}
+                                        {{$llave}}
                                     </td>
                                     <td>
-                                        {{$value.ID.Hex}}
+                                        {{$value.Nombre}}
                                     </td>
                                     <td>
-                                        {{$value.ID.Hex}}
+                                        $ {{$value.Precio}}
                                     </td>
                                     <td>
-                                        {{$value.ID.Hex}}
+                                        {{$value.Descripcion}}
                                     </td>
                                     <td>
                                         <button class="btn btn-success" title="Editar Material" onclick="EditarMaterial('{{$value.ID.Hex}}');">
@@ -79,27 +79,32 @@
 
                     <label for="nombrematerial" class="col-sm-2 col-form-label negrita" >Material : </label>
                     <div class="col-sm-5">
-                        <input type="text" class="form-control" id="nombrematerial" name="nombrematerial"
-                            value="" required placeholder="Tipo de material">
+                    <input type="text" class="form-control" id="nombrematerial" name="nombrematerial"
+                    value="" required placeholder="Tipo de material">
                     </div>
 
                     <label for="preciomaterial" class="col-sm-2 col-form-label negrita" >Precio : </label>
                     <div class="col-sm-2">
-                        <input type="text" class="form-control" id="preciomaterial" name="preciomaterial"
-                            value="" required step="any">
+                    <input type="text" class="form-control" id="preciomaterial" name="preciomaterial"
+                    value="" required step="any">
                     </div>
                     </div>
-                </div>
 
-                <div class="form-group row">
+                    <div class="form-group row">
                     <label for="descripcionmaterial" class="col-sm-2 col-form-label negrita" >Descripción : </label>
-                    <div class="col-sm-5">
-                        <input type="text" class="form-control" id="descripcionmaterial" name="descripcionmaterial"
-                            value="" required placeholder="Tipo de material">
+                    <div class="col-sm-9">
+                    <input type="text" class="form-control" id="descripcionmaterial" name="descripcionmaterial"
+                    value="" required placeholder="Descripción del material">
+                    </div>
+                    </div>                    
+                    <div class="row">
+                        <div class="col-md-10">
+                        </div>
+                        <div class="col-sm-1">    
+                            <button type="submit" class="btn btn-dark" >Guardar</button>
+                        </div>
                     </div>
                 </div>
-
-
             </form>
             
                 <br>
@@ -122,7 +127,7 @@
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <form action="/guardarmaterial" method="POST" id="formeditarmaterial">
+            <form action="/editarmaterial" method="POST" id="formeditarmaterial">
 
             </form>
             
@@ -133,4 +138,8 @@
         </div>
     </div>
 </div>
+
+
+
+
 {{template "footerTemplate" .}}

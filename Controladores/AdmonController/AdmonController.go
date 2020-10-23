@@ -1092,3 +1092,105 @@ func MesEspanol(mes string) string {
 	}
 	return mess
 }
+
+//GuardaMaterial Guarda el material
+func GuardaMaterial(ctx iris.Context) {
+
+	var material admonmodel.MaterialMongo
+
+	var htmlcode string
+
+	material.Nombre = ctx.PostValue("nombrematerial")
+	material.Precio, _ = ctx.PostValueFloat64("preciomaterial")
+	material.Descripcion = ctx.PostValue("descripcionmaterial")
+
+	if admonmodel.GuardarMaterialMongo(material) {
+		htmlcode += fmt.Sprintf(`<script> 
+		location.replace("/materiales");
+		Swal.fire('Material %v agregado');
+		</script>`, material.Nombre)
+	} else {
+		htmlcode += fmt.Sprintf(`<script>
+		location.replace("/materiales");
+		Swal.fire('Material %v no agregado');
+	</script>`, material.Nombre)
+	}
+
+	ctx.HTML(htmlcode)
+
+}
+
+//ObtenerMaterial Regresa el material a la vista por busqueda de id
+func ObtenerMaterial(ctx iris.Context) {
+
+	var htmlcode string
+
+	materialid := ctx.PostValue("data")
+
+	material := admonmodel.ExtraeMaterialPorId(materialid)
+
+	htmlcode += fmt.Sprintf(`
+	<div class="col-12">
+	<div class="form-group row">
+
+	<label for="nombrematerial2" class="col-sm-2 col-form-label negrita" >Material : </label>
+	<div class="col-sm-5">
+	<input type="text" class="form-control" id="nombrematerial2" name="nombrematerial2"
+	value="" required placeholder="Tipo de material" value="%v">
+	<input type="hidden" value="%v" name="id2" id="id2">
+	</div>
+
+	<label for="preciomaterial2" class="col-sm-2 col-form-label negrita" >Precio : </label>
+	<div class="col-sm-2">
+	<input type="text" class="form-control" id="preciomaterial2" name="preciomaterial2"
+	value="" required step="any" value="%v">
+	</div>
+	</div>
+
+	<div class="form-group row">
+	<label for="descripcionmaterial2" class="col-sm-2 col-form-label negrita" >Descripción : </label>
+	<div class="col-sm-9">
+	<input type="text" class="form-control" id="descripcionmaterial2" name="descripcionmaterial2"
+	value="" required placeholder="Descripción del material" value="%v">
+	</div>
+	</div>                    
+	<div class="row">
+		<div class="col-md-10">
+		</div>
+		<div class="col-sm-1">    
+			<button type="submit" class="btn btn-dark" >Guardar</button>
+		</div>
+	</div>
+</div>`, material.Nombre, material.ID.Hex(), material.Precio, material.Descripcion)
+
+	ctx.HTML(htmlcode)
+
+}
+
+//EditandoMaterial -> Edita el material y lo guarda en la base de datos
+func EditandoMaterial(ctx iris.Context) {
+
+	var material admonmodel.MaterialMongo
+
+	var htmlcode string
+
+	idmaterial := ctx.PostValue("id2")
+	material.Nombre = ctx.PostValue("nombrematerial")
+	material.Precio, _ = ctx.PostValueFloat64("preciomaterial")
+	material.Descripcion = ctx.PostValue("descripcionmaterial")
+
+	if admonmodel.EditarMaterialMongo(idmaterial, material) {
+		htmlcode += fmt.Sprintf(`<script> 
+		location.replace("/materiales");
+		Swal.fire('Material %v modificado');
+		</script>`, material.Nombre)
+	} else {
+		htmlcode += fmt.Sprintf(`<script>
+		location.replace("/materiales");
+		Swal.fire('Material %v no modificado');
+	</script>`, material.Nombre)
+	}
+
+	ctx.HTML(htmlcode)
+
+}

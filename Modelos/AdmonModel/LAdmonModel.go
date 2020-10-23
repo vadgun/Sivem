@@ -341,3 +341,69 @@ func VerificaEspectacularMongo(numcontrol string) bool {
 	}
 
 }
+
+//GuardarMaterialMongo -> Guarda el material en la base de datos de mongodb
+func GuardarMaterialMongo(material MaterialMongo) bool {
+	var guardado bool
+
+	session, err := mgo.Dial(conexiones.MONGO_SERVER)
+	defer session.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	c := session.DB(conexiones.MONGO_DB).C(conexiones.MONGO_DB_MAT)
+	err1 := c.Insert(material)
+	guardado = true
+	if err1 != nil {
+		guardado = false
+		fmt.Println(err1)
+	}
+
+	return guardado
+}
+
+//ExtraeMaterialPorId -> Extrae Material por medio de la id
+func ExtraeMaterialPorId(id string) MaterialMongo {
+	var material MaterialMongo
+
+	objid := bson.ObjectIdHex(id)
+
+	session, err := mgo.Dial(conexiones.MONGO_SERVER)
+	defer session.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	c := session.DB(conexiones.MONGO_DB).C(conexiones.MONGO_DB_MAT)
+	err1 := c.FindId(objid).One(&material)
+	if err1 != nil {
+		fmt.Println(err1)
+	}
+
+	return material
+}
+
+//EditarMaterialMongo -> Guarda los cambios en la Base de datos
+func EditarMaterialMongo(id string, material MaterialMongo) bool {
+
+	objid := bson.ObjectIdHex(id)
+	var editado bool
+
+	session, err := mgo.Dial(conexiones.MONGO_SERVER)
+	defer session.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	c := session.DB(conexiones.MONGO_DB).C(conexiones.MONGO_DB_MAT)
+	err1 := c.UpdateId(objid, material)
+	editado = true
+	if err1 != nil {
+		editado = false
+		fmt.Println(err1)
+	}
+
+	return editado
+
+}

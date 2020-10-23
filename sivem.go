@@ -62,6 +62,11 @@ func main() {
 	//B U S Q U E D A S
 	app.Post("/verificaespectacular", admoncontroller.VerificaEspectacular)
 
+	//M A T E R I A L E S
+	app.Post("/guardarmaterial", admoncontroller.GuardaMaterial)
+	app.Post("/obtenermaterial", admoncontroller.ObtenerMaterial)
+	app.Post("/editarmaterial", admoncontroller.EditandoMaterial)
+
 	app.Run(iris.Addr(":8080"))
 
 }

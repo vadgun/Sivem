@@ -300,7 +300,28 @@ function Descargar(name) {
 }
 
 function EditarMaterial(data){
-  
+
+  $.ajax({
+    url: '/obtenermaterial',
+    data: { data: data },
+    type: 'POST',
+    dataType: 'html',
+    success: function(result) {
+        console.log("Operacion Realizada con Exito");
+        $("#formeditarmaterial").html(result);
+    },
+    error: function(xhr, status) {
+        console.log("Error en la consulta")
+    },
+    complete: function(xhr, status) {
+        console.log("Datos de imagenes para modal")
+        
+    }
+}); 
+
+
+$("#ModalEditarMaterial").modal("show");
+
 }
 
 function EliminarMaterial(data){
