@@ -84,4 +84,5 @@ type EspectacularMongo struct {
 	Folio            string        `bson:"Folio"`
 	TipoPago         string        `bson:"TipoPago"`
 	PeriodoPago      string        `bson:"PeriodoPago"`
+	Disponible       bool          `bson:"Disponible"`
 }
