@@ -206,6 +206,8 @@ func EspectacularesNuevo(ctx iris.Context) {
 	if autorizado || autorizado2 {
 		userOn := indexmodel.GetUserOn(sessioncontroller.Sess.Start(ctx).GetString("UserID"))
 		ctx.ViewData("Usuario", userOn)
+		materiales := admonmodel.ExtraeMateriales()
+		ctx.ViewData("Materiales", materiales)
 		if err := ctx.View("EspectacularesNuevo.html"); err != nil {
 			ctx.Application().Logger().Infof(err.Error())
 		}
@@ -754,8 +756,9 @@ func GuardaEspectacular(ctx iris.Context) {
 	espectacular.Referencias = ctx.PostValue("referencias")
 	espectacular.Ancho, _ = ctx.PostValueFloat64("ancho")
 	espectacular.Alto, _ = ctx.PostValueFloat64("alto")
-	// material := ctx.PostValue("material")
-	// espectacular.Material= ctx.PostValue("material")
+	cadenamaterial := strings.Split(ctx.PostValue("material"), ":")
+	material := admonmodel.ExtraeMaterialPorId(cadenamaterial[0])
+	espectacular.Material = material
 	espectacular.Precio, _ = ctx.PostValueFloat64("precio")
 	espectacular.Observaciones = ctx.PostValue("observaciones")
 	espectacular.Status = ctx.PostValue("status")
@@ -1188,4 +1191,31 @@ func EditandoMaterial(ctx iris.Context) {
 
 	ctx.HTML(htmlcode)
 
+}
+
+//EliminarMaterial -> Elimina el material de la bade de datos por medio de la id solicitada
+func EliminarMaterial(ctx iris.Context) {
+
+	id := ctx.PostValue("data")
+	var htmlcode string
+
+	if admonmodel.EliminarMaterialMongo(id) {
+		htmlcode += fmt.Sprintf(`<script>
+		Swal.fire(
+			'Eliminado!',
+			'Material eliminado',
+			'success'
+		  )
+		</script>`)
+	} else {
+		htmlcode += fmt.Sprintf(`<script>
+		Swal.fire(
+			'Eliminado!',
+			'Material no eliminado',
+			'danger'
+		  )
+		</script>`)
+	}
+
+	ctx.HTML(htmlcode)
 }

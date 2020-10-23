@@ -327,4 +327,86 @@ $("#ModalEditarMaterial").modal("show");
 
 function EliminarMaterial(data){
 
+  Swal.fire({
+    title: '¿Eliminar material?',
+    text: "Esta accion no se puede revertir",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Si, eliminar'
+  }).then((result) => {
+    if (result.isConfirmed) {
+
+      $.ajax({
+        url: '/eliminarmaterial',
+        data: { data: data },
+        type: 'POST',
+        dataType: 'html',
+        success: function(result) {
+            console.log("Operacion Realizada con Exito");
+            $("#formeditarmaterial").html(result);
+            setTimeout(function(){ location.replace("/materiales"); }, 2000);
+        },
+        error: function(xhr, status) {
+            console.log("Error en la consulta");
+        },
+        complete: function(xhr, status) {
+            console.log("Eliminacion de material completa");
+            
+        }
+    });  
+    }else if (result.isDismissed) {
+      Swal.fire("El material no ha sido eliminado");
+    }
+  })
+
+}
+
+function CalculaPrecio(){
+
+  material = document.getElementById("material");
+
+  var idmaterial = "";
+  var preciomaterial = 0;
+  var res = material.value.split(":");
+   idmaterial = res[0];
+   preciomaterial = parseFloat(res[1]);
+
+  if (material.value != ""){
+    
+    inputprecio = document.getElementById("precio");
+    inputancho = document.getElementById("ancho");
+    inputalto = document.getElementById("alto");
+    area = inputancho.value * inputalto.value
+    inputprecio.value = preciomaterial * area;
+    instalacion = document.getElementById("instalacion");
+    costoimpreso = document.getElementById("costoimpreso");
+
+    costoimpreso.value = inputprecio.value;
+
+    if (area < 50 ){
+
+      instalacion.value = 800;
+      
+    }else {
+      instalacion.value = 1200;
+    }
+
+
+
+
+  }else{
+
+    instalacion = document.getElementById("instalacion");
+    costoimpreso = document.getElementById("costoimpreso");
+    inputprecio = document.getElementById("precio");
+
+    instalacion.value = 0;
+    costoimpreso.value = 0;
+    inputprecio.value = 0;
+    
+    return false;
+  }
+
 }

@@ -407,3 +407,25 @@ func EditarMaterialMongo(id string, material MaterialMongo) bool {
 	return editado
 
 }
+
+//EliminarMaterialMongo -> Elimina el material de la base de datos
+func EliminarMaterialMongo(id string) bool {
+	objid := bson.ObjectIdHex(id)
+	var eliminado bool
+
+	session, err := mgo.Dial(conexiones.MONGO_SERVER)
+	defer session.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	c := session.DB(conexiones.MONGO_DB).C(conexiones.MONGO_DB_MAT)
+	err1 := c.RemoveId(objid)
+	eliminado = true
+	if err1 != nil {
+		eliminado = false
+		fmt.Println(err1)
+	}
+
+	return eliminado
+}
