@@ -742,28 +742,28 @@ func GuardaEspectacular(ctx iris.Context) {
 	var htmlcode string
 	var espectacular admonmodel.EspectacularMongo
 
-	espectacular.NumControl = ctx.PostValue("numcontrol")
+	espectacular.NumControl = strings.ToUpper(ctx.PostValue("numcontrol"))
 	espectacular.CostoImpresion, _ = ctx.PostValueFloat64("costoimpreso")
 	espectacular.CostoInstalacion, _ = ctx.PostValueFloat64("instalacion")
-	espectacular.Calle = ctx.PostValue("calle")
-	espectacular.Numero = ctx.PostValue("numero")
-	espectacular.Colonia = ctx.PostValue("colonia")
-	espectacular.Localidad = ctx.PostValue("localidad")
-	espectacular.Municipio = ctx.PostValue("municipio")
-	espectacular.Estado = ctx.PostValue("estado")
+	espectacular.Calle = strings.ToUpper(ctx.PostValue("calle"))
+	espectacular.Numero = strings.ToUpper(ctx.PostValue("numero"))
+	espectacular.Colonia = strings.ToUpper(ctx.PostValue("colonia"))
+	espectacular.Localidad = strings.ToUpper(ctx.PostValue("localidad"))
+	espectacular.Municipio = strings.ToUpper(ctx.PostValue("municipio"))
+	espectacular.Estado = strings.ToUpper(ctx.PostValue("estado"))
 	espectacular.Latitud = ctx.PostValue("latitud")
 	espectacular.Longitud = ctx.PostValue("longitud")
-	espectacular.Referencias = ctx.PostValue("referencias")
+	espectacular.Referencias = strings.ToUpper(ctx.PostValue("referencias"))
 	espectacular.Ancho, _ = ctx.PostValueFloat64("ancho")
 	espectacular.Alto, _ = ctx.PostValueFloat64("alto")
 	cadenamaterial := strings.Split(ctx.PostValue("material"), ":")
 	material := admonmodel.ExtraeMaterialPorId(cadenamaterial[0])
 	espectacular.Material = material
 	espectacular.Precio, _ = ctx.PostValueFloat64("precio")
-	espectacular.Observaciones = ctx.PostValue("observaciones")
+	espectacular.Observaciones = strings.ToUpper(ctx.PostValue("observaciones"))
 	espectacular.Status = ctx.PostValue("status")
-	espectacular.Acabados = ctx.PostValue("acabados")
-	espectacular.Propietario = ctx.PostValue("nombreprop")
+	espectacular.Acabados = strings.ToUpper(ctx.PostValue("acabados"))
+	espectacular.Propietario = strings.ToUpper(ctx.PostValue("nombreprop"))
 	espectacular.Celular = ctx.PostValue("celular")
 	espectacular.Telefono = ctx.PostValue("telefono")
 
@@ -779,7 +779,7 @@ func GuardaEspectacular(ctx iris.Context) {
 	espectacular.ContratoInicio = iniciocontrato
 	espectacular.ContratoFin = fincontrato
 	espectacular.Monto, _ = ctx.PostValueFloat64("monto")
-	espectacular.Folio = ctx.PostValue("folio")
+	espectacular.Folio = strings.ToUpper(ctx.PostValue("folio"))
 	espectacular.TipoPago = ctx.PostValue("tipopago")
 	espectacular.PeriodoPago = ctx.PostValue("periodopago")
 
