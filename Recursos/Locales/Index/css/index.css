@@ -37,10 +37,47 @@
   .sidenav a:hover {
     color: #f1f1f1;
   }
+
+  @media (min-width: 451px) and (max-width: 770px){
+    #menu{
+      display: block;
+    }
+    .d-none{
+      display: block!important;
+    }
+    .icoMenu{
+      display: flex!important;
+      justify-content: flex-end!important;
+      padding-right: 12px!important;
+    }
+    .menuTitle{
+      font-size: 16px;
+    }
+    
+
+    .sidenav{
+      display: none;
+      height: auto; /* Full-height: remove this if you want "auto" height */
+      width: 100%; /* Set the width of the sidebar */
+      position: fixed; /*Fixed Sidebar (stay in place on scroll) */
+      /* z-index: 1; Stay on top */
+      top: 0; /*Stay at the top */
+      /* left: 0; */
+      background-color: #111; /* Black */
+      /* overflow-x: hidden; Disable horizontal scroll */
+      padding-top: 5px;
+      font-family: "Lato", sans-serif;
+    }
+
+
+    #clientesContainer{
+      overflow-x: scroll;
+    }
+  }
   
   
   /* On smaller screens, where height is less than 450px, change the style of the sidebar (less padding and a smaller font size) */
-  @media screen and (max-width: 450px) {
+  @media (max-width: 450px) {
     #menu{
       display: block;
     }

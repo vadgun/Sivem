@@ -1,0 +1,303 @@
+{{template "headTemplate"}}
+{{template "navbartemplate" .}}
+    <h1 class="text-center" style="color:#ba0d0d;">Nueva Valla</h1>
+    <hr>
+    <div class="col-lg-12">
+        <form method="POST" enctype="multipart/form-data" action="/guardarvalla" name="altavalla" id="altavalla">
+                <h6 class="text-center"> Datos de la valla </h6>
+                <hr>
+                <div class="row">
+                    <div class="col-lg-2 col-md-2">
+                        <div class="form-group">
+                            <label for="numcontrol" class="label negrita"> No Control: </label>
+                            <input type="text" class="form-control" id="numcontrol" name="numcontrol" value="" required onchange="VerificarEspectacularDuplicado(this.value);">
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-4">
+                        <div class="form-group">
+                            <label for="ubicacion" class="label negrita"> Ubicación:</label>
+                            <select class="form-control" id="ubicacion" name="ubicacion" required>
+                                <option value="nueva">Nueva ubicación</option>
+                                <option value="guardada">Ubicación guardada </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 d-none col-md-6" id="ubicaciones">
+                        <div class="form-group">
+                            <label for="ubicaciones" class="label negrita"> Ubicaciones:</label>
+                            <select class="form-control" id="ubicaciones" name="ubicaciones" required>
+                                <option value="guardada">ubicación</option>
+                                <option value="nueva">Ubicación 1 </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-4" id="calle">
+                        <div class="form-group">
+                            <label for="calle" class="col-form-label negrita"> Calle:</label>
+                            <input type="text" class="form-control" id="calle" name="calle" value="" required step="any">
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-2 col-md-4" id="numero">
+                        <div class="form-group">
+                            <label for="numero" class="col-form-label negrita"> Numero:</label>
+                            <input type="number" class="form-control" id="numero" name="numero" value="" required step="any">
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-4" id="colonia">
+                        <div class="from-group">
+                            <label for="colonia" class="col-form-label negrita"> Colonia:</label>
+                            <input type="text" class="form-control" id="colonia" name="colonia" value="" required step="any">
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-4 col-md-4" id="localidad">
+                        <div class="form-group">
+                            <label for="localidad" class="col-form-label negrita">Localidad:</label>
+                            <input type="text" class="form-control" id="localidad" name="localidad" value="" required step="any">
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-4" id="estado">
+                        <div class="form-group">
+                            <label for="estado" class="col-form-label negrita"> Estado: </label>
+                                <input type="text" class="form-control" id="estado" name="estado" value="" required>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-4" id="municipio">
+                        <div class="form-group">
+                            <label for="municipio" class="col-form-label negrita"> Municipio: </label>
+                            <input type="text" class="form-control" id="municipio" name="municipio" value="" required>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12 col-md-12 my-4">
+                        <h6 class="text-center">Medidas</h6>
+                        <hr>
+                    </div>
+
+                    <div class="col-lg-4 col-md-4">
+                        <div class="form-group">
+                            <label for="ancho" class="col-form-label negrita"> Ancho(m): </label>
+                                <input type="number" class="form-control" id="ancho" name="ancho" value="" required step="any">
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-4">
+                        <div class="form-group">
+                            <label for="alto" class="col-form-label negrita"> Alto(m): </label>
+                                <input type="number" class="form-control" id="alto" name="alto" value="" required step="any">
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-4">
+                        <div class="form group">
+                            <label for="material" class="col-form-label negrita"> Material: </label>
+                                <select class="form-control" id="material" name="material" required>
+                                    <option value="">Sel. Material</option>
+                                    <option value="guardada">Lona 100</option>
+                                    <option value="nueva">Lona 50</option>
+                                </select>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-4">
+                        <div class="form-group">
+                            <label for="costodeimpresion" class="col-form-label negrita"> Costo de impresion: </label>
+                                <input type="number" class="form-control" id="costodeimpresion" name="costodeimpresion" value="" required step="any">
+                        </div>
+                    </div>
+                    
+                    <div class="col-sm-2 col-md-2">
+                        <div class="form-group">
+                            <label for="precio" class="col-form-label negrita"> Precio: </label>
+                            <input type="number" class="form-control" id="precio" name="precio" value="" required step="any">
+                        </div>
+                    </div>
+
+                    <div class="col-sm-2 col-md-2">
+                        <div class="form-group">
+                            <label for="status" class="col-sm-2 col-form-label negrita"> Status: </label>
+                                <select class="form-control" id="status" name="status" value="" required>
+                                    <option value="">Sel. Status</option>
+                                    <option value="DISPONIBLE">Disponible</option>
+                                    <option value="OCUPADO">Ocupado</option>
+                                    <option value="REPARACION">Reparacion</option>
+                                    <option value="BLOQUEADO">Bloqueado</option>
+                                </select>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-12 col-md-12">
+                        <div class="form-group">
+                            <label for="observaciones" class="col-form-label negrita"> Obaservaciones: </label>
+                            <textarea class="form-control" id="observaciones" name="observaciones" required step="any"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12">
+                        <div class="form-group">
+                            <label for="acabados" class="col-form-label negrita"> Acabados </label>
+                            <textarea class="form-control" id="acabados" name="acabados" required step="any"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-4">
+                        <div class="form-group">
+                            <label for="imagen1" class="col-form-label negrita"> Vista Corta : </label>
+                                <input type="file" class="dropify" data-allowed-file-extensions="jpg jpeg"
+                                    id="imagen1" name="imagen1" required />
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4">
+                        <div class="form-group">
+                            <label for="imagen1" class="col-form-label negrita"> Vista Media : </label>
+                                <input type="file" class="dropify" data-allowed-file-extensions="jpg jpeg"
+                                    id="imagen2" name="imagen2" required />
+                        </div>
+                    </div>
+                            
+                    <div class="col-lg-4 col-md-4">
+                        <div class="form-group">
+                            <label for="imagen1" class="col-form-label negrita"> Vista Larga : </label>
+                                <input type="file" class="dropify" data-allowed-file-extensions="jpg jpeg"
+                                    id="imagen3" name="imagen3" required />
+                        </div>
+                    </div>
+                    <div class="col-lg-12 my-5">
+                        <h6 class="text-center"> Datos del propietario: </h6>
+                        <hr>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="form-group ">
+                            <label for="propietario" class="col-form-label negrita"> Propietario:</label>
+                            <select class="form-control" id="propietario" name="propietario"  required>
+                                <option value="NUEVO">Nuevo</option>
+                                <option value="REGISTRADO">Registrado</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 d-none" id="propietariosReg">
+                        <div class="form-group ">
+                            <label for="propietarioReg" class="col-form-label negrita"> Propietarios registrados:</label>
+                            <select class="form-control" id="propietarioReg" name="propietarioReg" required>
+                                <option value="">--selecciona--</option>
+                                <option value="">prop 1</option>
+                                <option value="">prop 2</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4" id="nombre">
+                        <div class="form-group ">
+                            <label for="nombreprop" class="col-form-label negrita"> Nombre:</label>
+                            <input type="text" class="form-control" id="nombreprop" name="nombreprop" value="" required>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3" id="celular">
+                        <div class="form-group">
+                            <label for="celular" class="col-form-label negrita"> Celular: </label>
+                            <input type="text" class="form-control" id="celular" name="celular" value="" required>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3" id="telefono">
+                        <div class="form-group">
+                            <label for="telefono" class="col-form-label negrita"> Teléfono: </label>
+                            <input type="text" class="form-control" id="telefono" name="telefono" value="" required>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-2">
+                        <div class="form-group">
+                            <label for="pago" class="col-form-label negrita"> Pago: </label>
+                            <input type="text" class="form-control" id="pago" name="pago" value="" required>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label for="iniciocontrato" class="col-form-label negrita"> Inicio:</label>
+                            <input type="date" class="form-control" id="iniciocontrato" name="iniciocontrato" value="" required>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label for="fincontrato" class="col-form-label negrita"> Fin: </label>
+                                <input type="date" class="form-control" id="fincontrato" name="fincontrato" value="" required>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label for="tipopago" class="col-form-label negrita"> Tipo pago: </label>
+                                <select class="form-control" id="tipopago" name="tipopago" value="" required>
+                                    <option value="">Sel. Tipo de pago</option>
+                                    <option value="efectivo">Efectivo</option>
+                                    <option value="transferencia">Transferencia</option>
+                                    <option value="deposito">Deposito bancario</option>
+                                    <option value="tarjeta">Tarjeta Debito/Crédito</option>
+                                    <option value="oxxo">Oxxo</option>
+                                    <option value="otro">Otro</option>
+                                </select>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label for="pago" class="col-form-label negrita"> Periodo de Pago: </label>
+                                <select class="form-control" id="periodopago" name="periodopago" value=""
+                                    required>
+                                    <option value="">Periodo</option>
+                                    <option value="1">1 Mes</option>
+                                    <option value="2">2 Meses</option>
+                                    <option value="3">3 Meses</option>
+                                    <option value="4">4 Meses</option>
+                                    <option value="5">5 Meses</option>
+                                    <option value="6">6 Meses</option>
+                                    <option value="7">7 Meses</option>
+                                    <option value="8">8 Meses</option>
+                                    <option value="9">9 Meses</option>
+                                    <option value="10">10 Meses</option>
+                                    <option value="11">11 Meses</option>
+                                    <option value="12">12 Meses</option>
+                                </select>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-2">
+                        <div class="form-group">
+                            <label for="folio" class="col-form-label negrita"> Folio: </label>
+                            <input type="text" class="form-control" id="folio" name="folio" value="" required>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <label for="monto" class=" col-form-label negrita">Contrato: </label>
+                            <input type="file" id="monto" name="monto" value="" required step="any">
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="d-flex justify-content-end my-5">
+                    <button type="submit" id="submitespectacular" class="btn btn-success">Guardar</button>
+                </div>
+
+
+        </form>
+    </div>
+
+<div id="answer">
+
+</div>
+<script>vallasit.classList.add("selected");</script>
+
+{{template "footerTemplate" .}}
