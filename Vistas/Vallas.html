@@ -1,6 +1,22 @@
+        <!-- H E A D    H T M L -->
 {{template "headTemplate"}}
 {{template "navbartemplate" .}}
-        Vallas
+
+        <h1 class=" text-center">Vallas</h1>
+                <hr>
+        <div class="d-flex justify-content-between my-4">
+            <div class="d-flex">
+                <input type="text" class="form-control mr-2" id="buscadorValla" name="buscadorValla" value=""  placeholder="Buscar Valla">
+                <a class="btn btn-info " href="Javascript:BuscaValla();" role="button">Buscar</a>&nbsp;
+            </div>
+            <div class="d-flex">
+                <a class="btn btn-warning btn" href="/nuevavalla" role="button">+ Nueva Valla +</a>
+            </div>
+        </div>
+        <div class="" id="clientesContainer">
+
+        </div>
+
 <script>vallasit.classList.add("selected");</script>
    
 {{template "footerTemplate"}}
