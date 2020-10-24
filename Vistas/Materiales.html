@@ -24,9 +24,12 @@
                             <tbody>
                                 {{range $llave, $value := .Materiales}}
                                 <tr>
-                                    <td>
-                                        {{$llave}}
-                                    </td>
+                                    <td id="llave{{$llave}}">
+                                        <script>
+                                        llave = document.getElementById("llave{{$llave}}")
+                                        llave.innerHTML = {{$llave}}+1;
+                                     </script>
+                                     </td>
                                     <td>
                                         {{$value.Nombre}}
                                     </td>
