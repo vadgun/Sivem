@@ -68,6 +68,7 @@ func main() {
 	app.Post("/guardarmaterial", admoncontroller.GuardaMaterial)
 	app.Post("/obtenermaterial", admoncontroller.ObtenerMaterial)
 	app.Post("/editarmaterial", admoncontroller.EditandoMaterial)
+	app.Post("/eliminarmaterial", admoncontroller.EliminarMaterial)
 
 	app.Run(iris.Addr(":8080"))
 

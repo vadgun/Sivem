@@ -69,7 +69,7 @@ type EspectacularMongo struct {
 	Referencias      string        `bson:"Referencias"`
 	Ancho            float64       `bson:"Ancho"`
 	Alto             float64       `bson:"Alto"`
-	Material         bson.ObjectId `bson:"Material,omitempty"`
+	Material         MaterialMongo `bson:"Material"`
 	Precio           float64       `bson:"Precio"`
 	Observaciones    string        `bson:"Observaciones"`
 	Status           string        `bson:"Status"`
