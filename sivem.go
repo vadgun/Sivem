@@ -41,7 +41,9 @@ func main() {
 
 	app.Get("/ventas", admoncontroller.Ventas)
 
+	// V A L L A S
 	app.Get("/vallas", admoncontroller.Vallas)
+	app.Get("/nuevavalla", admoncontroller.NuevaValla)
 
 	app.Get("/vallasmoviles", admoncontroller.VallasMoviles)
 
