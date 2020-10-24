@@ -1,8 +1,128 @@
 {{template "headTemplate"}}
 {{template "navbartemplate" .}}
-                    <h1 class="text-center">Empresas</h1>
-                    <hr>
+    <h1 class="text-center">Clientes</h1>
+    <hr>
+    <div class="d-flex justify-content-between my-4">
+        <div class="d-flex">
+            <input type="text" class="form-control mr-2" id="buscadorValla" name="buscadorValla" value=""  placeholder="Buscar Valla">
+            <a class="btn btn-info " href="Javascript:BuscaValla();" role="button">Buscar</a>&nbsp;
+        </div>
+        <div class="d-flex">
+            <a class="btn btn-warning btn" href="/nuevavalla" data-toggle="modal" data-target="#agregarCliente" role="button">+ Nuevo Cliente +</a>
+        </div>
+    </div>
+    <div class="" id="clientesContainer">
+
+    </div>
        
+
+
+    <!-- Modal -->
+<div class="modal fade" id="agregarCliente" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Agregar cliente</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body ">
+            <div class="col-12">
+                
+                <form action="">
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="form-group">
+                                <label for="razonSocial">Razón social</label>
+                                <input type="text" name="razonSocial" class="form-control" id="razonSocial">
+                            </div>
+                        </div>
+    
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label for="rfc">RFC</label>
+                                <input type="text" name="rfc" class="form-control" id="rfc">
+                            </div>
+                        </div>
+    
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label for="domicilio">Domicilio</label>
+                                <input type="text" name="domicilio" class="form-control" id="domicilio">
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label for="colonia">Colonia</label>
+                                <input type="text" name="colonia" class="form-control" id="colonia">
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label for="poblacion">Poblacion/Municipio/Delegacion</label>
+                                <input type="text" name="poblacion" class="form-control" id="poblacion">
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label for="estado">Estado</label>
+                                <input type="text" name="estado" class="form-control" id="estado">
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label for="pais">País</label>
+                                <input type="text" name="pais" class="form-control" id="pais">
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label for="codigoPostal">Código postal</label>
+                                <input type="text" name="codigoPostal" class="form-control" id="codigoPostal">
+                            </div>
+                        </div>
+                        <div class="col-lg-12 my-4">
+                            <h6 class="text-center">Contacto del cliente</h6>
+                            <hr >
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label for="nombreCliente">Nombre del cliente</label>
+                                <input type="text" name="nombreCliente" class="form-control" id="nombreCliente">
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label for="puesto">Puesto</label>
+                                <input type="text" name="puesto" class="form-control" id="puesto">
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label for="telefono">No Teléfono</label>
+                                <input type="text" name="telefono" class="form-control" id="telefono">
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="correo">Correo electrónico</label>
+                                <input type="text" name="correo" class="form-control" id="correo">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-end">
+                        <button type="submit" class="btn btn-dark">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-dark" data-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
 {{template "footerTemplate"}}
 <script>empresasit.classList.add("selected");</script>
 
