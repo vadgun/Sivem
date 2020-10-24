@@ -84,40 +84,56 @@
                 <form action="/guardarclientes" method="POST" id="formaltaclientes" name="formaltaclientes">
                     <div class="row">
                         <div class="col">
-                            <input type="text" class="form-control textomayus" placeholder="Nombre" required value="" id="nombrecliente" name="nombrecliente">
+                            <label for="nombrecliente" class="small">Nombre:</label>
+                            <input type="text" class="form-control form-control-sm textomayus" placeholder="Nombre" required value="" id="nombrecliente" name="nombrecliente">
                         </div>
                         <div class="col">
-                            <input type="text" class="form-control textomayus" placeholder="Apellido Paterno" required value="" id="apaterno" name="apaterno">
+                            <label for="apaterno" class="small">Apellido P:</label>
+                            
+                            <input type="text" class="form-control form-control-sm textomayus" placeholder="Apellido Paterno" required value="" id="apaterno" name="apaterno">
                         </div>
                         <div class="col">
-                            <input type="text" class="form-control textomayus" placeholder="Apellido Materno" value="" id="amaterno" name="amaterno">
+                            <label for="amaterno" class="small">Apellido M:</label>
+                            <input type="text" class="form-control form-control-sm textomayus" placeholder="Apellido Materno" value="" id="amaterno" name="amaterno">
                         </div>
                         <div class="col">
-                            <input type="text" class="form-control textomayus" placeholder="Sexo" value="" id="sexo" name="sexo">
+                            <label for="sexo" class="small">Sexo:</label>
+                            <select class="form-control form-control-sm textomayus" name="sexo" id="sexo">
+                                <option value="">Selecciona</option>
+                                <option value="MASCULINO">Masculino</option>
+                                <option value="FEMENINO">Femenino</option>
+                            </select>
+                            
                         </div>
                    </div>
                    <br>
                    <div class="row">
                     <div class="col">
-                        <input type="text" class="form-control textomayus" placeholder="Empresa" value="" id="empresa" name="empresa">
+                        <label for="empresa" class="small">Empresa:</label>
+                        <input type="text" class="form-control form-control-sm textomayus" placeholder="Empresa" value="" id="empresa" name="empresa">
                     </div>
                     <div class="col">
-                        <input type="text" class="form-control textomayus" placeholder="Puesto" value="" id="puesto" name="puesto">
+                        <label for="puesto" class="small">Puesto:</label>
+                        <input type="text" class="form-control form-control-sm textomayus" placeholder="Puesto" value="" id="puesto" name="puesto">
                     </div>
                     <div class="col">
-                        <input type="text" class="form-control textomayus" placeholder="Correo Empresarial" value="" id="correoemp" name="correoemp">
+                        <label for="correoemp" class="small">Correo Empresa:</label>
+                        <input type="text" class="form-control form-control-sm textomayus" placeholder="Correo Empresarial" value="" id="correoemp" name="correoemp">
                     </div>
                     </div>
                     <br>
                     <div class="row">
                         <div class="col">
-                            <input type="text" class="form-control textomayus" placeholder="Correo Electronico" required value="" id="correo" name="correo">
+                            <label for="correo" class="small">Correo:</label>
+                            <input type="text" class="form-control form-control-sm textomayus" placeholder="Correo Electronico" required value="" id="correo" name="correo">
                         </div>
                         <div class="col">
-                            <input type="text" class="form-control textomayus" placeholder="Calle" required value="" id="calle" name="calle">
+                            <label for="calle" class="small">Calle:</label>
+                            <input type="text" class="form-control form-control-sm textomayus" placeholder="Calle" required value="" id="calle" name="calle">
                         </div>
                         <div class="col">
-                            <input type="text" class="form-control textomayus" placeholder="Numero" required value="" id="numero" name="numero">
+                            <label for="numero" class="small">Número:</label>
+                            <input type="text" class="form-control form-control-sm textomayus" placeholder="Numero" required value="" id="numero" name="numero">
                         </div>
 
                     </div>
@@ -125,38 +141,47 @@
 
                     <div class="row">
                         <div class="col">
-                            <input type="text" class="form-control textomayus" placeholder="Colonia" required value="" id="colonia" name="colonia">
+                            <label for="colonia" class="small">Colonia:</label>
+                            <input type="text" class="form-control form-control-sm textomayus" placeholder="Colonia" required value="" id="colonia" name="colonia">
                         </div>
                         <div class="col">
-                            <input type="text" class="form-control textomayus" placeholder="Codigo Postal" value="" id="codpostal" name="codpostal">
+                            <label for="codpostal" class="small">Codigo Postal:</label>
+                            <input type="text" class="form-control form-control-sm textomayus" placeholder="Codigo Postal" value="" id="codpostal" name="codpostal">
                         </div>
                         <div class="col">
-                            <input type="text" class="form-control textomayus" placeholder="Municipio" required value="" id="municipio" name="municipio">
+                            <label for="municipio" class="small">Municipio:</label>
+                            <input type="text" class="form-control form-control-sm textomayus" placeholder="Municipio" required value="" id="municipio" name="municipio">
                         </div>
 
                     </div>
                     <br>
                     <div class="row">
                         <div class="col">
-                            <input type="text" class="form-control textomayus" placeholder="Estado" required value="" id="estado" name="estado">
+                            <label for="estado" class="small">Estado:</label>
+                            <input type="text" class="form-control form-control-sm textomayus" placeholder="Estado" required value="" id="estado" name="estado">
                         </div>
                         <div class="col">
-                            <input type="text" class="form-control textomayus" placeholder="Ciudad" required value="" id="ciudad" name="ciudad">
+                            <label for="ciudad" class="small">Ciudad:</label>
+                            <input type="text" class="form-control form-control-sm textomayus" placeholder="Ciudad" required value="" id="ciudad" name="ciudad">
                         </div>
                         <div class="col">
-                            <input type="text" class="form-control textomayus" placeholder="Teléfono" value="" id="telefono" name="telefono">
+                            <label for="telefono" class="small">Teléfono:</label>
+                            <input type="text" class="form-control form-control-sm textomayus" placeholder="Teléfono" value="" id="telefono" name="telefono">
                         </div>
                     </div>
                     <br>
                     <div class="row">
                         <div class="col">
-                            <input type="text" class="form-control textomayus" placeholder="Teléfono Alternativo" value="" id="telefonob" name="telefonob">
+                            <label for="telefonob" class="small">Teléfono (2) :</label>
+                            <input type="text" class="form-control form-control-sm textomayus" placeholder="Teléfono Alternativo" value="" id="telefonob" name="telefonob">
                         </div>
                         <div class="col">
-                            <input type="text" class="form-control textomayus" placeholder="Sitio Web" value="" id="sitioweb" name="sitioweb">
+                            <label for="sitioweb" class="small">Sitio Web:</label>
+                            <input type="text" class="form-control form-control-sm textomayus" placeholder="Sitio Web" value="" id="sitioweb" name="sitioweb">
                         </div>
                         <div class="col">
-                            <input type="text" class="form-control textomayus" placeholder="Observaciones" value="" id="observaciones" name="observaciones">
+                            <label for="observaciones" class="small">Observaciones:</label>
+                            <input type="text" class="form-control form-control-sm textomayus" placeholder="Observaciones" value="" id="observaciones" name="observaciones">
                         </div>
                     </div>
                     <br>

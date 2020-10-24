@@ -244,7 +244,6 @@ func Ventas(ctx iris.Context) {
 	}
 }
 
-
 /* V A L L A S */
 
 //Vallas -> Regresa la pagina de inicio
@@ -274,7 +273,7 @@ func Vallas(ctx iris.Context) {
 	}
 }
 
-func NuevaValla(ctx iris.Context){
+func NuevaValla(ctx iris.Context) {
 	var usuario indexmodel.MongoUser
 	var autorizado bool
 	autorizado2, _ := sessioncontroller.Sess.Start(ctx).GetBoolean("Autorizado")
@@ -300,16 +299,6 @@ func NuevaValla(ctx iris.Context){
 	}
 
 }
-
-
-
-
-
-
-
-
-
-
 
 //VallasMoviles -> Regresa la pagina de inicio
 func VallasMoviles(ctx iris.Context) {
@@ -434,86 +423,105 @@ func ObtenerCliente(ctx iris.Context) {
 
 	htmlcode += fmt.Sprintf(`
 	<div class="row">
-                        <div class="col">
+						<div class="col">
+						<label for="nombrecliente" class="small">Nombre:</label>
 							<input type="hidden" value="%v" name="id2" id="id2">		
-                            <input type="text" class="form-control textomayus" placeholder="Nombre" required value="%v" id="nombrecliente2" name="nombrecliente2">
+                            <input type="text" class="form-control form-control-sm negrita textomayus" placeholder="Nombre" required value="%v" id="nombrecliente2" name="nombrecliente2">
                         </div>
-                        <div class="col">
-                            <input type="text" class="form-control textomayus" placeholder="Apellido Paterno" required value="%v" id="apaterno2" name="apaterno2">
+						<div class="col">
+						<label for="apaterno" class="small">Apellido P:</label>
+                            <input type="text" class="form-control form-control-sm negrita textomayus" placeholder="Apellido Paterno" required value="%v" id="apaterno2" name="apaterno2">
                         </div>
-                        <div class="col">
-                            <input type="text" class="form-control textomayus" placeholder="Apellido Materno" value="%v" id="amaterno2" name="amaterno2">
+						<div class="col">
+						<label for="amaterno" class="small">Apellido M:</label>
+                            <input type="text" class="form-control form-control-sm negrita textomayus" placeholder="Apellido Materno" value="%v" id="amaterno2" name="amaterno2">
                         </div>
-                        <div class="col">
-                            <input type="text" class="form-control textomayus" placeholder="Sexo" value="%v" id="sexo2" name="sexo2">
+						<div class="col">
+						<label for="sexo" class="small">Sexo:</label>
+                            <input type="text" class="form-control form-control-sm negrita textomayus" placeholder="Sexo" value="%v" id="sexo2" name="sexo2">
                         </div>
                    </div>
 				   <br>`, cliente.ID.Hex(), cliente.Nombre, cliente.ApellidoP, cliente.ApellidoM, cliente.Sexo)
 	htmlcode += fmt.Sprintf(`
 	
                    <div class="row">
-                    <div class="col">
-                        <input type="text" class="form-control textomayus" placeholder="Empresa" value="%v" id="empresa2" name="empresa2">
+					<div class="col">
+					<label for="empresa" class="small">Empresa:</label>
+                        <input type="text" class="form-control form-control-sm negrita textomayus" placeholder="Empresa" value="%v" id="empresa2" name="empresa2">
                     </div>
-                    <div class="col">
-                        <input type="text" class="form-control textomayus" placeholder="Puesto" value="%v" id="puesto2" name="puesto2">
+					<div class="col">
+					<label for="puesto" class="small">Puesto:</label>
+                        <input type="text" class="form-control form-control-sm negrita textomayus" placeholder="Puesto" value="%v" id="puesto2" name="puesto2">
                     </div>
-                    <div class="col">
-                        <input type="text" class="form-control textomayus" placeholder="Correo Empresarial" value="%v" id="correoemp2" name="correoemp2">
+					<div class="col">
+					<label for="correoemp" class="small">Correo Empresa:</label>
+                        <input type="text" class="form-control form-control-sm negrita textomayus" placeholder="Correo Empresarial" value="%v" id="correoemp2" name="correoemp2">
                     </div>
                     </div>
 					<br>`, cliente.Empresa, cliente.Puesto, cliente.CorreoEMP)
 	htmlcode += fmt.Sprintf(`
 	
                     <div class="row">
-                        <div class="col">
-                            <input type="text" class="form-control textomayus" placeholder="Correo Electronico" required value="%v" id="correo2" name="correo2">
+						<div class="col">
+						<label for="correo" class="small">Correo:</label>
+                            <input type="text" class="form-control form-control-sm negrita textomayus" placeholder="Correo Electronico" required value="%v" id="correo2" name="correo2">
                         </div>
-                        <div class="col">
-                            <input type="text" class="form-control textomayus" placeholder="Calle" required value="%v" id="calle2" name="calle2">
+						<div class="col">
+						<label for="calle" class="small">Calle:</label>
+                            <input type="text" class="form-control form-control-sm negrita textomayus" placeholder="Calle" required value="%v" id="calle2" name="calle2">
                         </div>
-                        <div class="col">
-                            <input type="text" class="form-control textomayus" placeholder="Numero" required value="%v" id="numero2" name="numero2">
+						<div class="col">
+						<label for="numero" class="small">Número:</label>
+                            <input type="text" class="form-control form-control-sm negrita textomayus" placeholder="Numero" required value="%v" id="numero2" name="numero2">
                         </div>
 
                     </div>
                     <br>`, cliente.Correo, cliente.Calle, cliente.Numero)
 	htmlcode += fmt.Sprintf(`
                     <div class="row">
-                        <div class="col">
-                            <input type="text" class="form-control textomayus" placeholder="Colonia" required value="%v" id="colonia2" name="colonia2">
+						<div class="col">
+						<label for="colonia" class="small">Colonia:</label>
+                            <input type="text" class="form-control form-control-sm negrita textomayus" placeholder="Colonia" required value="%v" id="colonia2" name="colonia2">
                         </div>
-                        <div class="col">
-                            <input type="text" class="form-control textomayus" placeholder="Codigo Postal" value="%v" id="codpostal2" name="codpostal2">
+						<div class="col">
+						<label for="codpostal" class="small">Codigo Postal:</label>
+                            <input type="text" class="form-control form-control-sm negrita textomayus" placeholder="Codigo Postal" value="%v" id="codpostal2" name="codpostal2">
                         </div>
-                        <div class="col">
-                            <input type="text" class="form-control textomayus" placeholder="Municipio" required value="%v" id="municipio2" name="municipio2">
+						<div class="col">
+						<label for="municipio" class="small">Municipio:</label>
+                            <input type="text" class="form-control form-control-sm negrita textomayus" placeholder="Municipio" required value="%v" id="municipio2" name="municipio2">
                         </div>
                     </div>
 					<br>`, cliente.Colonia, cliente.CodigoP, cliente.Municipio)
 	htmlcode += fmt.Sprintf(`
                     <div class="row">
-                        <div class="col">
-                            <input type="text" class="form-control textomayus" placeholder="Estado" required value="%v" id="estado2" name="estado2">
+						<div class="col">
+						<label for="estado" class="small">Estado:</label>
+                            <input type="text" class="form-control form-control-sm negrita textomayus" placeholder="Estado" required value="%v" id="estado2" name="estado2">
                         </div>
-                        <div class="col">
-                            <input type="text" class="form-control textomayus" placeholder="Ciudad" required value="%v" id="ciudad2" name="ciudad2">
+						<div class="col">
+						<label for="ciudad" class="small">Ciudad:</label>
+                            <input type="text" class="form-control form-control-sm negrita textomayus" placeholder="Ciudad" required value="%v" id="ciudad2" name="ciudad2">
                         </div>
-                        <div class="col">
-                            <input type="text" class="form-control textomayus" placeholder="Teléfono" value="%v" id="telefono2" name="telefono2">
+						<div class="col">
+						<label for="telefono" class="small">Teléfono:</label>
+                            <input type="text" class="form-control form-control-sm negrita textomayus" placeholder="Teléfono" value="%v" id="telefono2" name="telefono2">
                         </div>
                     </div>
 					<br>`, cliente.Estado, cliente.Ciudad, cliente.Telefono)
 	htmlcode += fmt.Sprintf(`					
                     <div class="row">
-                        <div class="col">
-                            <input type="text" class="form-control textomayus" placeholder="Teléfono Alternativo" value="%v" id="telefonob2" name="telefonob2">
+						<div class="col">
+						<label for="telefonob" class="small">Teléfono (2) :</label>
+                            <input type="text" class="form-control form-control-sm negrita textomayus" placeholder="Teléfono Alternativo" value="%v" id="telefonob2" name="telefonob2">
                         </div>
-                        <div class="col">
-                            <input type="text" class="form-control textomayus" placeholder="Sitio Web" value="%v" id="sitioweb2" name="sitioweb2">
+						<div class="col">
+						<label for="sitioweb" class="small">Sitio Web:</label>
+                            <input type="text" class="form-control form-control-sm negrita textomayus" placeholder="Sitio Web" value="%v" id="sitioweb2" name="sitioweb2">
                         </div>
-                        <div class="col">
-                            <input type="text" class="form-control textomayus" placeholder="Observaciones" value="%v" id="observaciones2" name="observaciones2">
+						<div class="col">
+						<label for="observaciones" class="small">Observaciones:</label>
+                            <input type="text" class="form-control form-control-sm negrita textomayus" placeholder="Observaciones" value="%v" id="observaciones2" name="observaciones2">
                         </div>
                     </div>
 					<br>`, cliente.TelefonoA, cliente.SitioWeb, cliente.Observaciones)

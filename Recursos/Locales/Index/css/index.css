@@ -148,3 +148,6 @@ a.selected{
   font-weight: bold;
 }
 
+.small-font-label{
+  font-size: 0.4em;
+}
