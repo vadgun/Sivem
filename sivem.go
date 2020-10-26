@@ -39,11 +39,15 @@ func main() {
 	app.Post("/eliminarespectacular", admoncontroller.EliminarEspectacular)
 	app.Post("/generarfichadecliente", admoncontroller.GenerarFichaDeCliente)
 
+	/*------------------------ V E N T A S -----------------------------------*/
 	app.Get("/ventas", admoncontroller.Ventas)
 
 	// V A L L A S
 	app.Get("/vallas", admoncontroller.Vallas)
 	app.Get("/nuevavalla", admoncontroller.NuevaValla)
+
+
+
 
 	app.Get("/vallasmoviles", admoncontroller.VallasMoviles)
 

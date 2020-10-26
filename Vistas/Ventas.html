@@ -1,6 +1,128 @@
 {{template "headTemplate"}}
 {{template "navbartemplate" .}}
-        Ventas
+<h1 class=" text-center">Ventas</h1>
+<hr>    
+        <div class="d-flex justify-content-between my-4">
+          <div class="d-flex">
+                <input type="text" class="form-control mr-2" id="buscadorVenta" name="buscadorVenta" value=""  placeholder="Buscar Venta">
+                <a class="btn btn-info " href="Javascript:BuscaVenta();" role="button">Buscar</a>&nbsp;
+        </div>
+        <div class="d-flex">
+                <a class="btn btn-warning btn" data-toggle="modal" data-target="#modalAgregarVenta" role="button">+ Nueva Venta +</a>
+        </div>
+        </div>
+        <div class="" id="clientesContainer">
+
+        </div>
+
+
+        <!-- Modal -->
+<div class="modal fade" id="modalAgregarVenta" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Agregar ventas</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form action="">
+                      <div class="row">
+                              <div class="col-md-6">
+                                      <div class="form-group">
+                                              <label for="cliente">Cliente</label>
+                                              <select name="cliente" id="cliente" class="form-control"></select>
+                                      </div>
+                              </div>
+                              <div class="col-md-6">
+                                      <div class="form-group">
+                                              <label for="tipoDeArte">Tipo de arte</label>
+                                              <input type="text" class="form-control" name="tipoDeArte" id="tipoDeArte">
+                                      </div>
+                              </div>
+                              <div class="col-md-5">
+                                <div class="form-group">
+                                        <label for="fechaInicio">Fecha de inicio</label>
+                                        <input type="date" class="form-control" name="fechaInicio" id="fechaInicio">
+                                </div>
+                                </div>
+                                <div class="col-md-5">
+                                        <div class="form-group">
+                                                <label for="fechaTermino">Fecha de termino</label>
+                                                <input type="date" class="form-control" name="fechaTermino" id="fechaTermino">
+                                        </div>
+                                </div>
+                                <div class="col-md-2">
+                                        <div class="form-group">
+                                                <label for="pagos">No pagos</label>
+                                                <input type="number" class="form-control" name="pagos" id="pagos">
+                                        </div>
+                                </div>
+                                <div class="col-md-4">
+                                        <div class="form-group">
+                                                <label for="factura">Requiere factura</label>
+                                                <select name="factura" id="factura" class="form-control">
+                                                        <option value="no" selected>No</option>
+                                                        <option value="si">Si</option>
+                                                </select>
+                                        </div>
+                                </div>
+                                <div class="col-md-4">
+                                        <div class="form-group">
+                                                <label for="tipoDePago">Tipo de pago</label>
+                                                <select name="tipoDePago" id="tipoDePago" class="form-control">
+                                                        <option value="efectivo" selected>Efectivo</option>
+                                                        <option value="Trasnferencia" >Trasnferencia</option>
+                                                        <option value="Deposito Bancario" >Deposito Bancario</option>
+                                                        <option value="Targeta debito/Credito" >Targeta debito/Credito</option>
+                                                        <option value="Oxxo" >Oxxo</option>
+                                                </select>
+                                        </div>
+                                </div>
+                                <div class="col-md-12">
+                                        <div class="form-group">
+                                                <label for="medio">Medio</label>
+                                                <select name="medio" id="medio" class="form-control">
+                                                        <option value="">Seleccione un medio</option>
+                                                        <option value=""></option>
+                                                </select>
+                                        </div>
+                                </div>
+
+                      </div>
+                      <table class="table table-sm">
+                        <thead>
+                          <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Tipo de medio</th>
+                            <th scope="col">Ubicación</th>
+                            <th scope="col">Instalación</th>
+                            <th scope="col">Impresión</th>
+                            <th scope="col">Costo</th>
+                          </tr>
+                        </thead>
+                        <tr class="d-none" id="iva">
+                                <th colspan="5" >Iva</th>
+                                <th scope="row"></th>
+                              </tr>
+                          <tr>
+                           
+                            <th colspan="5" >Total</th>
+                            <th scope="row">0</th>
+                          </tr>
+                      </table>
+                      
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-dark" data-dismiss="modal">Cerrar</button>
+              <button type="button" class="btn btn-dark">Guardar</button>
+            </div>
+          </div>
+        </div>
+</div>
 <script>ventasit.classList.add("selected");</script>
-   
+<script src="Recursos/Locales/Index/js/vallas.js"></script>	
+  
 {{template "footerTemplate"}}
