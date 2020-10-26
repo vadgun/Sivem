@@ -31,6 +31,8 @@ func main() {
 
 	app.Get("/materiales", admoncontroller.Materiales)
 
+	app.Get("/catalogos", admoncontroller.Catalogos)
+
 	//E S P E C T A C U L A R E S
 	app.Get("/espectaculares", admoncontroller.Espectaculares)
 	app.Get("/nuevoespectacular", admoncontroller.EspectacularesNuevo)

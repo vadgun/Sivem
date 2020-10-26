@@ -85,6 +85,7 @@ type EspectacularMongo struct {
 	TipoPago         string        `bson:"TipoPago"`
 	PeriodoPago      string        `bson:"PeriodoPago"`
 	Disponible       bool          `bson:"Disponible"`
+	Rentado          bool          `bson:"Rentado"`
 }
 
 //MaterialMongo -> Estructura de material para la base de datos

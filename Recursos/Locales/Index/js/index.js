@@ -4,6 +4,7 @@ let espectaculares = document.getElementById("espectacularesit");
 let materiales = document.getElementById("materialesit");
 let empresas = document.getElementById("empresasit");
 let indexit = document.getElementById("indexit");
+let catalogosit = document.getElementById("catalogosit");
 
 
 

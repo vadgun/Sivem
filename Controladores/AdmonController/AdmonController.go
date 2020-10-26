@@ -10,7 +10,6 @@ import (
 
 	"github.com/jung-kurt/gofpdf"
 	"github.com/kataras/iris/v12"
-	"github.com/leekchan/accounting"
 	sessioncontroller "github.com/vadgun/Sivem/Controladores/SessionController"
 	admonmodel "github.com/vadgun/Sivem/Modelos/AdmonModel"
 	indexmodel "github.com/vadgun/Sivem/Modelos/IndexModel"
@@ -121,6 +120,33 @@ func Medios(ctx iris.Context) {
 		userOn := indexmodel.GetUserOn(sessioncontroller.Sess.Start(ctx).GetString("UserID"))
 		ctx.ViewData("Usuario", userOn)
 		if err := ctx.View("Medios.html"); err != nil {
+			ctx.Application().Logger().Infof(err.Error())
+		}
+	} else {
+		ctx.Redirect("/login", iris.StatusSeeOther)
+	}
+}
+
+//Catalogos -> Regresa la pagina de inicio
+func Catalogos(ctx iris.Context) {
+	var usuario indexmodel.MongoUser
+	var autorizado bool
+	autorizado2, _ := sessioncontroller.Sess.Start(ctx).GetBoolean("Autorizado")
+
+	if autorizado2 == false {
+		usuario.Key = ctx.PostValue("pass")
+		usuario.Usuario = ctx.PostValue("usuario")
+		autorizado, usuario = indexmodel.VerificarUsuario(usuario)
+		if autorizado {
+			sessioncontroller.Sess.Start(ctx).Set("Autorizado", true)
+			sessioncontroller.Sess.Start(ctx).Set("UserID", usuario.ID.Hex())
+		}
+	}
+
+	if autorizado || autorizado2 {
+		userOn := indexmodel.GetUserOn(sessioncontroller.Sess.Start(ctx).GetString("UserID"))
+		ctx.ViewData("Usuario", userOn)
+		if err := ctx.View("Catalogos.html"); err != nil {
 			ctx.Application().Logger().Infof(err.Error())
 		}
 	} else {
@@ -1003,8 +1029,9 @@ func GenerarFichaDeCliente(ctx iris.Context) {
 	espectacular := admonmodel.ObtenerEspectacularPorID(id)
 
 	var horafecha time.Time
+	var horafecha2 time.Time
 
-	horafecha = espectacular.ContratoInicio
+	horafecha = espectacular.ContratoFin
 	dia := horafecha.Day()
 	mess := horafecha.Month().String()
 	mes := MesEspanol(mess)
@@ -1012,7 +1039,15 @@ func GenerarFichaDeCliente(ctx iris.Context) {
 	diastring := strconv.Itoa(dia)
 	aniostring := strconv.Itoa(anio)
 	// Construir un pdf.	pdf := gofpdf.New("P", "mm", "A4", "")
-	ac := accounting.Accounting{Symbol: "$", Precision: 2}
+	// ac := accounting.Accounting{Symbol: "$", Precision: 2}
+
+	horafecha2 = espectacular.ContratoInicio
+	dia2 := horafecha2.Day()
+	mess2 := horafecha2.Month().String()
+	mes2 := MesEspanol(mess2)
+	anio2 := horafecha2.Year()
+	diastring2 := strconv.Itoa(dia2)
+	aniostring2 := strconv.Itoa(anio2)
 
 	var opt gofpdf.ImageOptions
 	pdf := gofpdf.New("L", "mm", "Letter", ``)
@@ -1065,13 +1100,18 @@ func GenerarFichaDeCliente(ctx iris.Context) {
 	altostring := strconv.FormatFloat(espectacular.Alto, 'f', -1, 64)
 	pdf.Cell(50, 5, tr(anchostring+"m. x "+altostring+"m."))
 	pdf.Ln(5)
-	pdf.Cell(50, 5, tr("IMPRESIÓN  : "+ac.FormatMoney(espectacular.CostoImpresion)))
+	if espectacular.Rentado == false {
+		pdf.Cell(50, 5, tr("DISPONIBLE PARA EL CLIENTE."))
+	} else {
+		pdf.Cell(50, 5, tr("NO DISPONIBLE, RENTADO. "))
+	}
 	pdf.Ln(5)
-	pdf.Cell(50, 5, tr("INSTALACIÓN: "+ac.FormatMoney(espectacular.CostoInstalacion)))
+	pdf.Cell(50, 5, tr("CONTRATO DEL ARRENDADOR:"))
 	pdf.Ln(5)
-	pdf.Cell(50, 5, tr(espectacular.Status+": "+diastring+"/"+mes+"/"+aniostring))
+	pdf.Cell(50, 5, tr(diastring2+"/"+mes2+"/"+aniostring2+"  A  "+diastring+"/"+mes+"/"+aniostring))
+	// pdf.Cell(50, 5, tr(espectacular.Status))
 	pdf.Ln(5)
-	pdf.Cell(50, 5, tr("MATERIAL EN: LONA, LONA HD, VINIL, VINIL HD"))
+	pdf.Cell(50, 5, tr("MATERIAL: "+espectacular.Material.Nombre+"."))
 	pdf.SetXY(193, 181)
 	pdf.SetTextColor(168, 170, 173)
 	pdf.SetFont("Helvetica", "", 9)
