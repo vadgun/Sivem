@@ -16,17 +16,20 @@
                         <table class="table table-hover table-bordered ">                        
                             <thead>
                                 <th>#</th>
-                                <th>Material</th>
+                                <th width="15%" >Material</th>
                                 <th>Precio</th>
                                 <th>Descripción</th>
-                                 <th>Acciones</th>
+                                 <th width="10%" >Acciones</th>
                             </thead>
                             <tbody>
                                 {{range $llave, $value := .Materiales}}
                                 <tr>
-                                    <td>
-                                        {{$llave}}
-                                    </td>
+                                    <td id="llave{{$llave}}">
+                                        <script>
+                                        llave = document.getElementById("llave{{$llave}}")
+                                        llave.innerHTML = {{$llave}}+1;
+                                     </script>
+                                     </td>
                                     <td>
                                         {{$value.Nombre}}
                                     </td>
@@ -127,6 +130,7 @@
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
+            <br>
             <form action="/editarmaterial" method="POST" id="formeditarmaterial">
 
             </form>

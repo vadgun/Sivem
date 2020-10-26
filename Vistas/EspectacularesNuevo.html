@@ -19,13 +19,13 @@
                                     </label>
                                     <div class="col-sm-2">
                                         <input type="number" class="form-control" id="costoimpreso" name="costoimpreso"
-                                            value="" required step="any">
+                                            value="0" required step="any" value="1" readonly>
                                     </div>
                                     <label for="instalacion" class="col-sm-3 col-form-label negrita"> Costo de
                                         Instalación: </label>
                                     <div class="col-sm-2">
                                         <input type="number" class="form-control" id="instalacion" name="instalacion"
-                                            value="" required step="any">
+                                            value="0" required step="any" value="0" readonly>
                                     </div>
                                 </div>
 
@@ -91,27 +91,29 @@
                                 <h6 class="border-bottoms-c"> Medidas, Materiales, Imagenes: </h6>
                                 <div class="form-group row">
                                     <label for="ancho" class="col-sm-1 col-form-label negrita"> Ancho(m): </label>
-                                    <div class="col-sm-2">
-                                        <input type="number" class="form-control" id="ancho" name="ancho" value=""
-                                            required step="any">
+                                    <div class="col-sm-1">
+                                        <input type="number" class="form-control" id="ancho" name="ancho" value="0"
+                                            required step="any" onchange="CalculaPrecio();">
                                     </div>
                                     <label for="alto" class="col-sm-1 col-form-label negrita"> Alto(m): </label>
-                                    <div class="col-sm-2">
-                                        <input type="number" class="form-control" id="alto" name="alto" value=""
-                                            required step="any">
+                                    <div class="col-sm-1">
+                                        <input type="number" class="form-control" id="alto" name="alto" value="0"
+                                            required step="any" onchange="CalculaPrecio();">
                                     </div>
                                     <label for="material" class="col-sm-1 col-form-label negrita"> Material: </label>
-                                    <div class="col-sm-2">
-                                        <select class="form-control" id="material" name="material" required>
+                                    <div class="col-sm-4">
+                                        <select class="form-control" id="material" name="material" required onchange="CalculaPrecio();">
                                             <option value="">Sel. Material</option>
-                                            <option value="guardada">Lona 100</option>
-                                            <option value="nueva">Lona 50</option>
+                                            {{range $llave, $value := .Materiales}}
+                                            <option value="{{$value.ID.Hex}}:{{$value.Precio}}">{{$value.Nombre}} - ${{$value.Precio}}</option>
+                                            {{end}}
+
                                         </select>
                                     </div>
                                     <label for="precio" class="col-sm-1 col-form-label negrita"> Precio: </label>
                                     <div class="col-sm-2">
-                                        <input type="number" class="form-control" id="precio" name="precio" value=""
-                                            required step="any">
+                                        <input type="number" class="form-control" id="precio" name="precio" value="0"
+                                            required step="any" readonly>
                                     </div>
                                 </div>
 
@@ -178,7 +180,7 @@
                                     </div>
                                     <label for="telefono" class="col-sm-1 col-form-label negrita"> Teléfono: </label>
                                     <div class="col-sm-2">
-                                        <input type="text" class="form-control" id="telefono" name="telefono" value=""
+                                        <input type="tel" class="form-control" id="telefono" name="telefono" value=""
                                             required>
                                     </div>
                                 </div>
