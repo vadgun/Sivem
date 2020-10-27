@@ -48,8 +48,9 @@ func main() {
 
 
 
-
+ /* ---------------------- V A L L A S   M O V I L E S ---------------------------*/
 	app.Get("/vallasmoviles", admoncontroller.VallasMoviles)
+	app.Get("/nuevavallamovil", admoncontroller.NuevaVallaMovil)
 
 	//A L T A S
 	app.Post("/guardarclientes", admoncontroller.GuardaClientes)
