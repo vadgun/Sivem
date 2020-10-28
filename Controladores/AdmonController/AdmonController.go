@@ -10,6 +10,7 @@ import (
 
 	"github.com/jung-kurt/gofpdf"
 	"github.com/kataras/iris/v12"
+	"github.com/leekchan/accounting"
 	sessioncontroller "github.com/vadgun/Sivem/Controladores/SessionController"
 	admonmodel "github.com/vadgun/Sivem/Modelos/AdmonModel"
 	indexmodel "github.com/vadgun/Sivem/Modelos/IndexModel"
@@ -844,8 +845,25 @@ func GuardaEspectacular(ctx iris.Context) {
 	fechacontratoinicio := ctx.PostValue("iniciocontrato")
 	fechacontratofin := ctx.PostValue("fincontrato")
 
-	fmt.Println("Fecha 1", fechacontratoinicio)
-	fmt.Println("Fecha 2", fechacontratofin)
+	switch espectacular.Status {
+	case "DISPONIBLE":
+		espectacular.Disponible = true
+		espectacular.Rentado = false
+		break
+	case "OCUPADO":
+		espectacular.Rentado = true
+		espectacular.Disponible = false
+		break
+	case "REPARACION":
+		espectacular.Disponible = false
+		espectacular.Rentado = false
+		break
+	case "BLOQUEADO":
+		espectacular.Disponible = false
+		espectacular.Rentado = false
+		break
+
+	}
 
 	iniciocontrato, _ := time.ParseInLocation(layout, fechacontratoinicio, location)
 	fincontrato, _ := time.ParseInLocation(layout, fechacontratofin, location)
@@ -1108,7 +1126,11 @@ func GenerarFichaDeCliente(ctx iris.Context) {
 	pdf.Ln(5)
 	pdf.Cell(50, 5, tr("CONTRATO DEL ARRENDADOR:"))
 	pdf.Ln(5)
-	pdf.Cell(50, 5, tr(diastring2+"/"+mes2+"/"+aniostring2+"  A  "+diastring+"/"+mes+"/"+aniostring))
+	if espectacular.Propietario == "" {
+		pdf.Cell(50, 5, tr("NO SE HAN ENCONTRADO FECHAS"))
+	} else {
+		pdf.Cell(50, 5, tr(diastring2+"/"+mes2+"/"+aniostring2+"  A  "+diastring+"/"+mes+"/"+aniostring))
+	}
 	// pdf.Cell(50, 5, tr(espectacular.Status))
 	pdf.Ln(5)
 	pdf.Cell(50, 5, tr("MATERIAL: "+espectacular.Material.Nombre+"."))
@@ -1306,4 +1328,252 @@ func EliminarMaterial(ctx iris.Context) {
 	}
 
 	ctx.HTML(htmlcode)
+}
+
+// ImprimirEspectaculares -> imprime el catalogo de espectaculares
+func ImprimirEspectaculares(ctx iris.Context) {
+	info := ctx.PostValue("data")
+
+	var htmlcode string
+
+	switch info {
+	case "disponibles": //--------------------------------------------------------------------
+		//Obtener los espectaculares disponibles - es decir los que esten contratados - filtrar
+
+		//Agregar una pagina de portada y enseguida los elementos de cada hoja
+
+		var horafecha time.Time
+
+		horafecha = time.Now()
+		// dia := horafecha.Day()
+		mess := horafecha.Month().String()
+		mes := MesEspanol(mess)
+		anio := horafecha.Year()
+		// diastring := strconv.Itoa(dia)
+		aniostring := strconv.Itoa(anio)
+		ac := accounting.Accounting{Symbol: "$", Precision: 2}
+
+		espectaculares := admonmodel.ExtraeEspectacularesDisponibles()
+
+		var opt gofpdf.ImageOptions
+		pdf := gofpdf.New("L", "mm", "Letter", `Recursos\font`)
+		tr := pdf.UnicodeTranslatorFromDescriptor("")
+		pdf.AddPage()
+		pdf.AddFont("Montse", "", "Montse.json")
+		pdf.SetFont("Montse", "", 50)
+
+		pdf.ImageOptions(`Recursos\Imagenes\logo2.png`, 50, 30, 180, 0, false, opt, 0, "")
+		// pdf.SetFont("Calligra", "B", 40)
+		pdf.SetXY(60, 85)
+		pdf.Cell(50, 8, tr("ESPECTACULARES"))
+		pdf.SetXY(78, 100)
+		pdf.Cell(50, 8, tr("DISPONIBLES"))
+		pdf.SetXY(72, 115)
+		pdf.Cell(50, 8, tr(mes+" "+aniostring))
+		pdf.SetFont("Montse", "", 17)
+		pdf.SetXY(100, 135)
+		pdf.Cell(50, 8, tr("PLAZA: OAXACA DE JUAREZ"))
+		pdf.SetFont("Montse", "", 14)
+		pdf.SetXY(85, 160)
+		pdf.SetTextColor(191, 31, 31)
+		pdf.Cell(24, 8, tr("INCLUYE: "))
+		pdf.SetTextColor(0, 0, 0)
+		pdf.Cell(50, 8, tr("INSTALACIÓN Y RETIRO DE MATERIAL."))
+		pdf.SetXY(105, 165)
+		pdf.SetTextColor(191, 31, 31)
+		pdf.Cell(50, 8, tr("SUJETOS A DISPONIBILIDAD"))
+
+		pdf.SetXY(193, 181)
+		pdf.SetTextColor(168, 170, 173)
+		pdf.SetFont("Montse", "", 9)
+		pdf.Cell(0, 4, tr("La Soledad N°115, Fracc. Colinas de la Soledad"))
+		pdf.SetXY(193, 184)
+		pdf.Cell(0, 4, tr("San Felipe del Agua, Oaxaca, Oax. C.P. 68044."))
+		pdf.SetXY(193, 187)
+		pdf.Cell(0, 4, tr("Tel. (951) 50382020, publihome@hotmail.com"))
+
+		for _, v := range espectaculares {
+
+			var horafecha2 time.Time
+			var horafecha3 time.Time
+
+			horafecha2 = v.ContratoInicio
+			dia2 := horafecha2.Day()
+			mess2 := horafecha2.Month().String()
+			mes2 := MesEspanol(mess2)
+			anio2 := horafecha.Year()
+			diastring2 := strconv.Itoa(dia2)
+			aniostring2 := strconv.Itoa(anio2)
+
+			horafecha3 = v.ContratoFin
+			dia3 := horafecha3.Day()
+			mess3 := horafecha3.Month().String()
+			mes3 := MesEspanol(mess3)
+			anio3 := horafecha3.Year()
+			diastring3 := strconv.Itoa(dia3)
+			aniostring3 := strconv.Itoa(anio3)
+
+			pdf.AddPage()
+			pdf.ImageOptions(`Recursos\Imagenes\logo.jpg`, 10, 10, 70, 0, false, opt, 0, tr(`https://www.publihome.mx`))
+			pdf.ImageOptions(`Recursos\Imagenes\paginaweb.png`, 180, 147, 95, 0, false, opt, 0, tr(`https://www.publihome.mx`))
+			pdf.SetLineWidth(2)
+			pdf.SetDrawColor(227, 34, 34) //Roja
+			pdf.Line(10, 154, 195, 154)
+			pdf.SetDrawColor(39, 88, 138)
+			pdf.Line(195, 154, 260, 154)    //Azul
+			pdf.SetDrawColor(168, 170, 173) //Gris
+			pdf.SetFont("Helvetica", "BI", 12)
+			pdf.SetTextColor(126, 136, 140)
+			pdf.ImageOptions(v.Imagenes[1], 10, 25, 177, 100, false, opt, 0, "")
+			pdf.SetXY(10, 126)
+			pdf.Cell(80, 5, tr("VISTA MEDIA"))
+			pdf.ImageOptions(v.Imagenes[0], 190, 25, 70, 0, false, opt, 0, "")
+			pdf.SetXY(190, 70)
+			pdf.Cell(80, 5, tr("VISTA CORTA"))
+			pdf.ImageOptions(v.Imagenes[2], 190, 83, 70, 0, false, opt, 0, "")
+			pdf.SetXY(190, 126)
+			pdf.Cell(80, 5, tr("VISTA LARGA"))
+			pdf.SetFont("Helvetica", "B", 24)
+			pdf.SetTextColor(227, 34, 34)
+			pdf.SetXY(10, 147)
+			long := len(v.NumControl)
+			pdf.Cell(float64(long*6), 5, tr(v.NumControl))
+			x := pdf.GetX()
+			pdf.SetXY(x, 146)
+			pdf.SetTextColor(78, 80, 82)
+			pdf.SetFont("arial", "B", 10)
+			pdf.Cell(0, 10, "ESPECTACULAR")
+			pdf.SetFont("Montse", "", 12)
+			pdf.SetTextColor(78, 80, 82)
+			pdf.SetXY(10, 157)
+			pdf.Cell(100, 5, tr(v.Calle+" "+v.Numero+", "+v.Colonia+", "+v.Localidad+"."))
+			pdf.Ln(5)
+			pdf.Cell(50, 5, tr(v.Municipio+", "+v.Estado+"."))
+			pdf.Ln(5)
+			anchostring := strconv.FormatFloat(v.Ancho, 'f', -1, 64)
+			altostring := strconv.FormatFloat(v.Alto, 'f', -1, 64)
+			pdf.Cell(50, 5, tr(anchostring+"m. x "+altostring+"m."+" INSTALACION: "+ac.FormatMoney(v.CostoInstalacion)+" IMPRESION: "+ac.FormatMoney(v.CostoImpresion)))
+			pdf.Ln(5)
+			pdf.SetTextColor(39, 88, 138)
+			if v.Rentado == false {
+				pdf.Cell(50, 5, tr("DISPONIBLE PARA EL CLIENTE."))
+			} else {
+				pdf.Cell(50, 5, tr("NO DISPONIBLE, RENTADO. "))
+			}
+			pdf.SetTextColor(78, 80, 82)
+			pdf.Ln(5)
+			if v.Propietario == "" {
+				pdf.Cell(50, 5, tr("SIN ARRENDADOR:"))
+			} else {
+				pdf.Cell(50, 5, tr("CONTRATO DEL ARRENDADOR: "+v.Propietario+"."))
+			}
+			pdf.Ln(5)
+			if v.Propietario == "" {
+				pdf.Cell(50, 5, tr("SIN FECHAS DE ARRENDAMIENTO."))
+			} else {
+				var mesesito string
+				if v.PeriodoPago == "1" {
+					mesesito = "MES."
+				} else {
+					mesesito = "MESES."
+				}
+
+				pdf.Cell(50, 5, tr(diastring2+"/"+mes2+"/"+aniostring2+"  A  "+diastring3+"/"+mes3+"/"+aniostring3+"  MONTO: "+ac.FormatMoney(v.Monto)+" PERIODO: "+v.PeriodoPago+" "+mesesito))
+			}
+			// pdf.Cell(50, 5, tr(espectacular.Status))
+			pdf.Ln(5)
+			pdf.Cell(50, 5, tr("MATERIAL: "+v.Material.Nombre+"."))
+			pdf.SetXY(193, 181)
+			pdf.SetTextColor(168, 170, 173)
+			pdf.SetFont("Helvetica", "", 9)
+			pdf.Cell(0, 4, tr("La Soledad #115, Fracc. Colinas de la Soledad"))
+			pdf.SetXY(193, 184)
+			pdf.Cell(0, 4, tr("San Felipe del Agua, Oaxaca, Oax. C.P. 68044"))
+			pdf.SetXY(193, 187)
+			pdf.Cell(0, 4, tr("Tel. (951) 50382-020, publihome@hotmail.com"))
+
+			pdf.ImageOptions(`Recursos\Imagenes\googlemapslogo2.png`, 218, 162, 20, 0, false, opt, 0, tr(`https://maps.google.com/?q=`+v.Latitud+`,`+v.Longitud))
+			pdf.SetTextColor(39, 88, 138)
+			pdf.SetFont("Helvetica", "B", 16)
+			pdf.SetXY(202, 175)
+			pdf.CellFormat(50, 5, tr(v.Latitud+" , "+v.Longitud), "", 1, "C", false, 0, tr(`https://maps.google.com/?q=`+v.Latitud+`,`+v.Longitud))
+
+		}
+
+		fileee := `Recursos\Archivos\Fichas` + "EspectacularesDisponibles" + `.pdf`
+		err4 := pdf.OutputFileAndClose(fileee)
+		if err4 != nil {
+			fmt.Println(err4)
+		} else {
+			htmlcode += fmt.Sprintf(`<script>Descargar('%v');</script>`, "EspectacularesDisponibles")
+		}
+
+		break
+	case "rentados": //-------------------------------------------------------------------
+		break
+	}
+
+	ctx.HTML(htmlcode)
+}
+
+// ImprimirVallas -> imprime el catalogo de vallas
+func ImprimirVallas(ctx iris.Context) {
+	info := ctx.PostValue("data")
+	switch info {
+	case "disponibles":
+		break
+	case "rentados":
+		break
+	}
+	ctx.HTML(info)
+
+}
+
+// ImprimirVallasM -> imprime el catalogo de vallas moviles
+func ImprimirVallasM(ctx iris.Context) {
+	info := ctx.PostValue("data")
+	switch info {
+	case "disponibles":
+		break
+	case "rentados":
+		break
+	}
+	ctx.HTML(info)
+
+}
+
+//EditarEspectacular -> Envia la vista del espectacular a editar con los campos rellenados
+func EditarEspectacular(ctx iris.Context) {
+	id := ctx.URLParam("id")
+
+	var espectacular admonmodel.EspectacularMongo
+
+	espectacular = admonmodel.ObtenerEspectacularPorID(id)
+
+	var usuario indexmodel.MongoUser
+	var autorizado bool
+	autorizado2, _ := sessioncontroller.Sess.Start(ctx).GetBoolean("Autorizado")
+
+	if autorizado2 == false {
+		usuario.Key = ctx.PostValue("pass")
+		usuario.Usuario = ctx.PostValue("usuario")
+		autorizado, usuario = indexmodel.VerificarUsuario(usuario)
+		if autorizado {
+			sessioncontroller.Sess.Start(ctx).Set("Autorizado", true)
+			sessioncontroller.Sess.Start(ctx).Set("UserID", usuario.ID.Hex())
+		}
+	}
+
+	if autorizado || autorizado2 {
+		userOn := indexmodel.GetUserOn(sessioncontroller.Sess.Start(ctx).GetString("UserID"))
+		ctx.ViewData("Usuario", userOn)
+
+		ctx.ViewData("Espectacular", espectacular)
+		if err := ctx.View("EditarEspectacular.html"); err != nil {
+			ctx.Application().Logger().Infof(err.Error())
+		}
+	} else {
+		ctx.Redirect("/login", iris.StatusSeeOther)
+	}
+
 }

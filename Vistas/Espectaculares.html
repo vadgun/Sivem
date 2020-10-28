@@ -60,11 +60,13 @@
                     {{$value.Municipio}}
                 </td>
                 <td>
-                    <button class="btn btn-success" title="Editar espectacular"
-                        onclick="EditarEspectacular('{{$value.ID.Hex}}');">
+                    
+
+                    <a href="/editarespectacular?id={{$value.ID.Hex}}" class="btn btn-success" title="Editar espectacular">
                         <img src="Recursos/Generales/Plugins/icons/build/svg/pencilwhite.svg" height="15"
                             alt="Editar Espectacular" />
-                    </button>
+                    </a>
+
                     <button class="btn btn-danger" title="Eliminar espectacular"
                         onclick="EliminarEspectacular('{{$value.ID.Hex}}');">
                         <img src="Recursos/Generales/Plugins/icons/build/svg/trashcanwhite.svg" height="15"

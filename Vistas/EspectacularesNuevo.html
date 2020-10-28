@@ -165,23 +165,24 @@
                                     </div>
                                 </div>
                                 <br>
+                                {{if .Usuario.Admin}}
                                 <h6 class="border-bottoms-c"> Datos del propietario (Casa, Terreno o Azotea): </h6>
                                 <div class="form-group row">
                                     <label for="nombreprop" class="col-sm-2 col-form-label negrita"> Propietario:
                                     </label>
                                     <div class="col-sm-4">
                                         <input type="text" class="form-control" id="nombreprop" name="nombreprop"
-                                            value="" required>
+                                            value="" >
                                     </div>
                                     <label for="celular" class="col-sm-1 col-form-label negrita"> Celular: </label>
                                     <div class="col-sm-2">
                                         <input type="text" class="form-control" id="celular" name="celular" value=""
-                                            required>
+                                            >
                                     </div>
                                     <label for="telefono" class="col-sm-1 col-form-label negrita"> Teléfono: </label>
                                     <div class="col-sm-2">
                                         <input type="tel" class="form-control" id="telefono" name="telefono" value=""
-                                            required>
+                                            >
                                     </div>
                                 </div>
 
@@ -191,17 +192,17 @@
                                     </label>
                                     <div class="col-sm-3">
                                         <input type="date" class="form-control" id="iniciocontrato"
-                                            name="iniciocontrato" value="" required>
+                                            name="iniciocontrato" value="" >
                                     </div>
                                     <label for="fincontrato" class="col-sm-1 col-form-label negrita"> Fin: </label>
                                     <div class="col-sm-3">
                                         <input type="date" class="form-control" id="fincontrato" name="fincontrato"
-                                            value="" required>
+                                            value="" >
                                     </div>
                                     <label for="monto" class="col-sm-1 col-form-label negrita"> Monto: </label>
                                     <div class="col-sm-3">
                                         <input type="text" class="form-control" id="monto" name="monto" value=""
-                                            required step="any">
+                                             step="any">
                                     </div>
                                 </div>
 
@@ -209,11 +210,11 @@
                                     <label for="folio" class="col-sm-1 col-form-label negrita"> Folio: </label>
                                     <div class="col-sm-2">
                                         <input type="text" class="form-control" id="folio" name="folio" value=""
-                                            required>
+                                            >
                                     </div>
                                     <label for="tipopago" class="col-sm-2 col-form-label negrita"> Tipo pago: </label>
                                     <div class="col-sm-4">
-                                        <select class="form-control" id="tipopago" name="tipopago" value="" required>
+                                        <select class="form-control" id="tipopago" name="tipopago" value="" >
                                             <option value="">Sel. Tipo de pago</option>
                                             <option value="efectivo">Efectivo</option>
                                             <option value="transferencia">Transferencia</option>
@@ -226,7 +227,7 @@
                                     <label for="pago" class="col-sm-1 col-form-label negrita"> Pago: </label>
                                     <div class="col-sm-2">
                                         <select class="form-control" id="periodopago" name="periodopago" value=""
-                                            required>
+                                            >
                                             <option value="">Periodo</option>
                                             <option value="1">1 Mes</option>
                                             <option value="2">2 Meses</option>
@@ -243,6 +244,7 @@
                                         </select>
                                     </div>
                                 </div>
+                                {{end}}
 
 
 

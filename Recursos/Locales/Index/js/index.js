@@ -380,7 +380,7 @@ function CalculaPrecio(){
     inputancho = document.getElementById("ancho");
     inputalto = document.getElementById("alto");
     area = inputancho.value * inputalto.value
-    inputprecio.value = preciomaterial * area;
+    inputprecio.value = parseFloat(preciomaterial * area).toFixed(2);
     instalacion = document.getElementById("instalacion");
     costoimpreso = document.getElementById("costoimpreso");
 
@@ -411,3 +411,91 @@ function CalculaPrecio(){
   }
 
 }
+
+function Catalogo(data){
+
+  container = document.getElementById("catalogocontainer");
+
+  switch (data) {
+    case "espectaculares":
+      container.innerHTML = `
+      <a href="Javascript:ImprimirEspectaculares('disponibles');" class="btn btn-info" role="button"> Espectaculares Disponibles</a>
+      <a href="Javascript:ImprimirEspectaculares('rentados');" class="btn btn-info" role="button">Espectaculares Ocupados</a>`
+      break;
+    case "vallas":
+      container.innerHTML = `
+      <a href="Javascript:ImprimirVallas('disponibles');" class="btn btn-warning" role="button"> Vallas Disponibles</a>
+      <a href="Javascript:ImprimirVallas('rentados');" class="btn btn-warning" role="button">Vallas Ocupadas</a>`
+      break;
+    case "vallasM":
+      container.innerHTML = `
+      <a href="Javascript:ImprimirVallasM('disponibles');" class="btn btn-dark" role="button"> Vallas Móviles Disponibles</a>
+      <a href="Javascript:ImprimirVallasM('rentados');" class="btn btn-dark" role="button">Vallas Móviles Ocupadas</a>`
+      break;
+  }
+
+}
+
+function ImprimirEspectaculares(data){
+  
+  $.ajax({
+    url: '/imprimirespectaculares',
+    data: { data: data },
+    type: 'POST',
+    dataType: 'html',
+    success: function(result) {
+        console.log("Operacion Realizada con Exito");
+        $("#answer").html(result);
+    },
+    error: function(xhr, status) {
+        console.log("Error en la consulta")
+    },
+    complete: function(xhr, status) {
+        console.log("Catalogo de espectaculaes "+ data +" completado")
+        
+    }
+  });
+
+
+}
+
+function ImprimirVallas(data){
+  $.ajax({
+    url: '/imprimirvallas',
+    data: { data: data },
+    type: 'POST',
+    dataType: 'html',
+    success: function(result) {
+        console.log("Operacion Realizada con Exito");
+        $("#answer").html(result);
+    },
+    error: function(xhr, status) {
+        console.log("Error en la consulta")
+    },
+    complete: function(xhr, status) {
+        console.log("Catalogo de vallas "+ data +" completado")
+        
+    }
+  });
+}
+
+function ImprimirVallasM(data){
+  $.ajax({
+    url: '/imprimirvallasm',
+    data: { data: data },
+    type: 'POST',
+    dataType: 'html',
+    success: function(result) {
+        console.log("Operacion Realizada con Exito");
+        $("#answer").html(result);
+    },
+    error: function(xhr, status) {
+        console.log("Error en la consulta")
+    },
+    complete: function(xhr, status) {
+        console.log("Catalogo de vallas M "+ data +" completado")
+        
+    }
+  });
+}
+

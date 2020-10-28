@@ -1,6 +1,22 @@
 {{template "headTemplate"}}
 {{template "navbartemplate" .}}
-        Catalogos
+
+<h1 class="text-center">Catálogos</h1>
+<hr>
+<div class="text-center container">
+    <a href="Javascript:Catalogo('espectaculares');" class="btn btn-info" role="button">Espectaculares</a>
+    <a href="Javascript:Catalogo('vallas');" class="btn btn-warning" role="button">Vallas</a>
+    <a href="Javascript:Catalogo('vallasM');" class="btn btn-dark" role="button">Vallas Móviles</a>
+</div>
+<br>
+<div class="text-center container" id="catalogocontainer">
+
+
+
+</div>
+
+<div id="answer"></div>
+
+
 <script>catalogosit.classList.add("selected");</script>
-   
 {{template "footerTemplate"}}

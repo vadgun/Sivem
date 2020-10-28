@@ -429,3 +429,41 @@ func EliminarMaterialMongo(id string) bool {
 
 	return eliminado
 }
+
+//ExtraeEspectacularesDisponibles -> Extrae los Espectaculares unicamente disponibles
+func ExtraeEspectacularesDisponibles() []EspectacularMongo {
+	var espectaculares []EspectacularMongo
+	session, err := mgo.Dial(conexiones.MONGO_SERVER)
+	defer session.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	c := session.DB(conexiones.MONGO_DB).C(conexiones.MONGO_DB_ES)
+	err1 := c.Find(bson.M{"Disponible": true}).All(&espectaculares)
+	if err1 != nil {
+		fmt.Println(err1)
+	}
+
+	return espectaculares
+
+}
+
+//ExtraeEspectacularesRentados -> Extrae los Espectaculares unicamente rentados
+func ExtraeEspectacularesRentados() []EspectacularMongo {
+	var espectaculares []EspectacularMongo
+	session, err := mgo.Dial(conexiones.MONGO_SERVER)
+	defer session.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	c := session.DB(conexiones.MONGO_DB).C(conexiones.MONGO_DB_ES)
+	err1 := c.Find(bson.M{"Disponible": true, "Rentado": true}).All(&espectaculares)
+	if err1 != nil {
+		fmt.Println(err1)
+	}
+
+	return espectaculares
+
+}

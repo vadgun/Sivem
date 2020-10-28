@@ -40,6 +40,7 @@ func main() {
 	app.Post("/imagenesespectacular", admoncontroller.ObtenerImagenes)
 	app.Post("/eliminarespectacular", admoncontroller.EliminarEspectacular)
 	app.Post("/generarfichadecliente", admoncontroller.GenerarFichaDeCliente)
+	app.Get("/editarespectacular", admoncontroller.EditarEspectacular)
 
 	app.Get("/ventas", admoncontroller.Ventas)
 
@@ -71,6 +72,11 @@ func main() {
 	app.Post("/obtenermaterial", admoncontroller.ObtenerMaterial)
 	app.Post("/editarmaterial", admoncontroller.EditandoMaterial)
 	app.Post("/eliminarmaterial", admoncontroller.EliminarMaterial)
+
+	//C A T A L O G O S
+	app.Post("/imprimirespectaculares", admoncontroller.ImprimirEspectaculares)
+	app.Post("/imprimirvallas", admoncontroller.ImprimirVallas)
+	app.Post("/imprimirvallasm", admoncontroller.ImprimirVallasM)
 
 	app.Run(iris.Addr(":8080"))
 
